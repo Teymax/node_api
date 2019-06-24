@@ -12,8 +12,10 @@ const models = require('./models');
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
+
+app.post('/register');
 
 const port = process.env.PORT || 9000;
 
