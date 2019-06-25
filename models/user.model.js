@@ -12,7 +12,8 @@ module.exports = (sequelize, DataTypes) => {
         isEmail: { msg: 'Invalid email' }
       }
     },
-    password: DataTypes.STRING
+    password: DataTypes.STRING,
+    refresh_token: DataTypes.STRING,
   });
 
   Model.beforeSave(async user => {
@@ -24,10 +25,11 @@ module.exports = (sequelize, DataTypes) => {
       if (err) throwError(err.message, true);
       user.password = hash;
     }
-  })
+  });
+
 
   Model.prototype.comparePassword = async function (pw) {
-    let err, pass
+    let err, pass;
     if(!this.password) throwError('password not set');
 
     [err, pass] = await to(bcryptjs.compare(pw, this.password));
@@ -36,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
     if(!pass) throwError('invalid password');
 
     return this;
-  }
+  };
 
   return Model;
 };

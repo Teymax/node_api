@@ -12,6 +12,8 @@ const models = require('./models');
 
 // import user routes
 const userRoutes = require('./routes/user.routes');
+//import vehicle routes
+const vehicleRoutes = require('./routes/vehicle.routes');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -20,6 +22,8 @@ app.use(passport.initialize());
 
 // register user routes
 app.use('/user', userRoutes);
+//register vehicle routes
+app.use('/vehicle', vehicleRoutes);
 
 const port = process.env.PORT || 9000;
 
