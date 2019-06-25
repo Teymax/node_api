@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start:dev": "cross-env NODE_ENV=development node start",
-    "start:prod": "cross-env NODE_ENV=production node start"
+    "start:prod": "cross-env NODE_ENV=production node start",
+    "test": "cross-env NODE_ENV=test nyc mocha --require @babel/register tests/**/*.spec.js --exit"
   },
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.4.4",
@@ -25,6 +26,11 @@
   "devDependencies": {
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
-    "@babel/register": "^7.4.4"
+    "@babel/register": "^7.4.4",
+    "babel-plugin-istanbul": "^5.1.4",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1"
   }
 }
