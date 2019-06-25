@@ -1,5 +1,5 @@
 <template>
-  <v-app class="root-container">
+  <v-app class="root-container" :class="onHomePage ? 'home-with-image' : ''">
     <page-header></page-header>
     <router-view></router-view>
   </v-app>
@@ -13,16 +13,17 @@ export default {
   components: {
     PageHeader
   },
-  data() {
-    return {
-      //
-    };
+  computed: {
+    // we show background image only on home page
+    onHomePage() {
+      return this.$route.name.indexOf("Home") !== -1
+    }
   }
 };
 </script>
 <style lang="scss">
-.application--wrap {
-  background: url("./assets/home-bg.png");
-  background-size: cover;
+.home-with-image {
+  background-image: url("./assets/home-bg.png") !important;
+  background-size: cover !important;
 }
 </style>

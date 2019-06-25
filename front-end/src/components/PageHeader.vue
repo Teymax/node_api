@@ -1,22 +1,19 @@
 <template>
-  <!-- <v-container>
-    <v-layout>
-      <v-flex>
-          <v-icon mr-5>menu</v-icon>
-          <h2 class="company-name" d-inline-block>AptoTrac</h2>
-      </v-flex>
-    </v-layout>
-  </v-container> -->
-  <div class="page-header">
+  <div class="page-header" :class="!onHomePage ? 'header-colorized' : ''">
     <div class="container header-container">
       <div class="nav-block">
-        <v-icon>menu</v-icon>
+        <v-icon color="white" class="icon-nav">menu</v-icon>
         <h2 class="company-name" d-inline-block>AptoTrac</h2>
       </div>
 
       <div class="user-block">
-        <v-icon color--white>menu</v-icon>
-        <h2 class="company-name" d-inline-block>AptoTrac</h2>
+        <div class="user-photo">
+
+        </div>
+
+        <span class="user-name" d-inline-block>John Daniels</span>
+
+        <v-icon color="white" class="icon-expand" primary>expand_more</v-icon>
       </div>
     </div>
   </div>
@@ -24,12 +21,22 @@
 
 <script>
 export default {
-  name: "PageHeader "
+  name: "PageHeader",
+  computed: {
+    // changes background color of header. It should blue on all pages instead of home page
+    onHomePage() {
+      return this.$route.name.indexOf("Home") !== -1
+    }
+  }
 };
 </script>
 
 <style lang="scss">
 @import "../css/variables";
+
+.header-colorized {
+  background-color: #051D3E;
+}
 
 .page-header {
   .company-name {
@@ -47,15 +54,43 @@ export default {
 
   .header-container {
     justify-content: space-between;
+    padding: 15px 24px;
   }
 
   .nav-block {
     display: flex;
+    align-items: center;
   }
 
   .v-icon {
-    margin-right: 5px;
     color: $text-primary;
   }
+
+  .icon-nav {
+    margin-right: 5px;
+  }
+
+  .user-block {
+    display: flex;
+    align-items: center;
+  }
+
+  .user-name {
+    color: $text-primary;
+    margin-right: 10px;
+  }
+
+  .user-photo {
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    border-radius: 100%;
+    margin-right: 10px;
+  }
+
+  .icon-expand {
+    
+  }
+
 }
 </style>
