@@ -56,3 +56,4 @@ app.listen(port, () => {
   logger.info(`Server start on port ${port}`)
 });
 
+module.exports = app;

@@ -8,10 +8,10 @@ const expiration = process.env.JWT_EXPIRATION;
 const create = async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   const { body } = req;
-  if (!body.username && !body.email) {
-    return error(res, 'Please enter an email and username to register');
+  if (!body.username || !body.email) {
+    return error(res, 'Please enter an email and username to register', 400);
   } else if (!body.password) {
-    return error(res, 'Please enter an password to register');
+    return error(res, 'Please enter an password to register', 400);
   } else {
     let err, user;
     // place for auth service request
