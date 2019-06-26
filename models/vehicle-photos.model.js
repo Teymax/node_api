@@ -8,5 +8,11 @@ module.exports = (sequelize, DataTypes) => {
         second_500px: DataTypes.STRING,
         second_64px: DataTypes.STRING,
     });
+    Model.associate = function (models) {
+        Model.belongsTo(models.vehicles,{
+            foreignKey: 'vehicle_id',
+            onDelete: 'CASCADE'
+        })
+    };
     return Model;
 };
