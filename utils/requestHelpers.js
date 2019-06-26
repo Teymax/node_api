@@ -11,7 +11,7 @@ module.exports.to = async promise => {
 };
 
 // configure format for error response
-module.exports.ReE = function (res, err, code) {
+module.exports.error = function (res, err, code) {
   if(typeof err == 'object' && typeof err.message != 'undefined'){
     err = err.message;
   }
@@ -20,7 +20,7 @@ module.exports.ReE = function (res, err, code) {
 };
 
 // configure format for success response
-module.exports.ReS = function (res, data, code) {
+module.exports.success = function (res, data, code) {
   let send_data = {success:true};
   if(typeof data == 'object'){
     send_data = Object.assign(data, send_data);
@@ -30,7 +30,7 @@ module.exports.ReS = function (res, data, code) {
 };
 
 // throw error helper
-module.exports.TE = (err_message, log) => {
+module.exports.throwError = (err_message, log) => {
   if (log) logger.error(err_message);
   throw new Error(err_message);
 }
