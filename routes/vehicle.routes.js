@@ -1,8 +1,9 @@
 import express from 'express';
 const router = express.Router();
 const VehicleController = require('../controllers/vehicle.controller');
-import passport from 'passport';
+const passport = require('passport');
+require('../middleware/passport')(passport);
 
-router.get('/vehicles', /*passport.authenticate('jwt', {session: false},*/ VehicleController.getVehicles);
+router.get('/list', passport.authenticate('jwt', {session:false}), VehicleController.getVehicles);
 
 module.exports = router;
