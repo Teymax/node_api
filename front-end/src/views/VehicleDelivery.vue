@@ -36,9 +36,9 @@
           </v-date-picker>
         </v-menu>
 
+    <!-- v-model="selectValue" -->
         <v-select
           class="table-select"
-          v-model="selectValue"
           :items="selectData"
           max-height="1"
           width="10"
@@ -225,7 +225,7 @@ export default {
       return this.headers.map(item => item.text);
     },
     selectValue() {
-
+      return ""
     },
     tableSearch() {
       return '';

@@ -8,24 +8,42 @@
 
       <div class="user-block">
         <div class="user-photo">
-
+          
         </div>
 
         <span class="user-name" d-inline-block>John Daniels</span>
 
-        <v-icon color="white" class="icon-expand" primary>expand_more</v-icon>
+        <v-icon @click="logout" color="white" class="icon-expand" primary>expand_more</v-icon>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import actionTypes from "../store/action-types";
+import { mapActions } from "vuex";
+
 export default {
   name: "PageHeader",
   computed: {
     // changes background color of header. It should blue on all pages instead of home page
     onHomePage() {
-      return this.$route.name.indexOf("Home") !== -1
+      if(Object(this.$route) === this.$route && typeof this.$route.name === "string") {
+        return this.$route.name.indexOf("Home") !== -1
+      }
+    }
+  },
+  methods: {
+    // ...mapActions({ logoutAction: actionTypes.LOGOUT }),   
+
+    logout() {
+      // console.warn(this.logoutAction);
+      localStorage.removeItem("access-token");
+      this.$router.push("/login");
+
+      // this.logoutAction.then(response => {
+      //   this.$router.push("/login");
+      // })
     }
   }
 };
@@ -88,8 +106,8 @@ export default {
     margin-right: 10px;
   }
 
-  .icon-expand {
-    
+  .icon-expand:hover {
+    cursor: pointer;
   }
 
 }
