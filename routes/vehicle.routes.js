@@ -1,8 +1,10 @@
 import express from 'express';
 const router = express.Router();
 const VehicleController = require('../controllers/vehicle.controller');
-import passport from 'passport';
+const passport = require('passport');
+require('../middleware/passport')(passport);
 
-router.get('/vehicles', /*passport.authenticate('jwt', {session: false},*/ VehicleController.getVehicles);
+//todo: redirects after successfull auth strategy
+router.get('/vehicles', /*passport.authenticate('jwt', {failureFlash: 'Invalid credentials'},*/ VehicleController.getVehicles);
 
 module.exports = router;

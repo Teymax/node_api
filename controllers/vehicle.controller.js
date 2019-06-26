@@ -1,4 +1,4 @@
-const { to, error, success } = require('../utils/requestHelpers');
+const { throwError, to, error, success } = require('../utils/requestHelpers');
 const authService = require('../services/auth.service');
 const jwt = require('jsonwebtoken');
 const { vehicles } = require('../models');
@@ -12,4 +12,5 @@ exports.getVehicles = async (req, res) => {
                 vehicles: vehiclesInfo,
             }, 200);
         })
+        .catch(err => throwError(err.message, true))
 };
