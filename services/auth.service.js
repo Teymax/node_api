@@ -1,4 +1,5 @@
 import { user as User } from '../models';
+const { user } = require('../models');
 const { to, throwError } = require('../utils/requestHelpers');
 const { JWT_ENCRYPTION, JWT_EXPIRATION } = process.env;
 const jwt = require('jsonwebtoken');
@@ -6,11 +7,16 @@ const jwt = require('jsonwebtoken');
 const generateTokens = ({ id, email }) => {
   const access_token = jwt.sign({user_id: id}, JWT_ENCRYPTION, {expiresIn: 3600});
   const refresh_token = jwt.sign({user_id: id, user_email: email}, JWT_ENCRYPTION, { expiresIn: JWT_EXPIRATION});
+  user.findOne({ where: {email: email} }).then((user)=> {
+    user.refresh_token = refresh_token;
+    user.save();
+  });
   return {
     access_token,
     refresh_token
   };
-}
+
+};
 
 const verifyToken = token => {
   try {
