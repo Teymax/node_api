@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     password: DataTypes.STRING,
-    refresh_token: DataTypes.STRING,
+    refresh_token: DataTypes.STRING
   });
 
   Model.beforeSave(async user => {

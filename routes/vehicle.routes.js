@@ -4,7 +4,6 @@ const VehicleController = require('../controllers/vehicle.controller');
 const passport = require('passport');
 require('../middleware/passport')(passport);
 
-//todo: redirects after successfull auth strategy
-router.get('/vehicles', /*passport.authenticate('jwt', {failureFlash: 'Invalid credentials'},*/ VehicleController.getVehicles);
+router.get('/list', passport.authenticate('jwt', {session:false}), VehicleController.getVehicles);
 
 module.exports = router;
