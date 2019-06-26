@@ -36,7 +36,7 @@
           </v-date-picker>
         </v-menu>
 
-    <!-- v-model="selectValue" -->
+        <!-- v-model="selectValue" -->
         <v-select
           class="table-select"
           :items="selectData"
@@ -47,7 +47,13 @@
         <v-text-field v-model="search" append-icon="search" class="table-search" label="Search..."></v-text-field>
       </v-card-title>
 
-      <v-data-table :headers="headers" :items="activities" :search="search" class="elevation-1" ref="table">
+      <v-data-table
+        :headers="headers"
+        :items="activities"
+        :search="search"
+        class="elevation-1"
+        ref="table"
+      >
         <template v-slot:items="props">
           <td class="text-xs-right photo-cell">
             <img alt="Car photo">
@@ -158,30 +164,30 @@ export default {
         {
           photo: "",
           icon: "",
-          date: "02/11/19",
+          date: "12/05/19",
           time: "11:03:38",
           lot_number: "14170",
-          type: "SUV",
-          color: "white",
-          make: "Reno",
-          model: "Captur",
-          licence_plate: "9CA:185",
-          location: "GATE 1",
+          type: "other",
+          color: "black",
+          make: "Ford",
+          model: "Escort",
+          licence_plate: "1CA:185",
+          location: "GATE 2",
           towing_company: "California Towing"
         },
         {
           photo: "",
           icon: "",
-          date: "02/11/19",
-          time: "11:03:38",
+          date: "17/11/19",
+          time: "12:33:38",
           lot_number: "14170",
           type: "SUV",
-          color: "white",
-          make: "Reno",
-          model: "Captur",
-          licence_plate: "9CA:185",
+          color: "red",
+          make: "GMC",
+          model: "Sierra",
+          licence_plate: "3CA:285",
           location: "GATE 1",
-          towing_company: "California Towing"
+          towing_company: "Keith's Towing"
         },
         {
           photo: "",
@@ -196,23 +202,51 @@ export default {
           licence_plate: "2CA:183",
           location: "Detail Center C",
           towing_company: "Marvin's Towing"
+        },
+        {
+          photo: "",
+          icon: "",
+          date: "17/11/19",
+          time: "12:33:38",
+          lot_number: "14170",
+          type: "SUV",
+          color: "red",
+          make: "GMC",
+          model: "Sierra",
+          licence_plate: "3CA:285",
+          location: "GATE 1",
+          towing_company: "Keith's Towing"
+        },
+        {
+          photo: "",
+          icon: "",
+          date: "02/11/19",
+          time: "11:03:38",
+          lot_number: "14170",
+          type: "SUV",
+          color: "white",
+          make: "Reno",
+          model: "Captur",
+          licence_plate: "9CA:185",
+          location: "GATE 1",
+          towing_company: "California Towing"
         }
       ]
-    }
+    };
   },
   methods: {
     formatDate(date) {
-      if(!date) return null;
+      if (!date) return null;
 
-      const [year, month, day] = date.split('-')
+      const [year, month, day] = date.split("-");
 
-      return `${month}/${day}/${year.slice(0, 2)}`
+      return `${month}/${day}/${year.slice(0, 2)}`;
     },
     saveDate() {
       this.$refs.menu.save(this.date);
-      
+
       if (this.formattedDate) {
-        this.search = this.formattedDate
+        this.search = this.formattedDate;
       }
 
       // this.$refs.table.search =  this.formattedDate;
@@ -225,13 +259,13 @@ export default {
       return this.headers.map(item => item.text);
     },
     selectValue() {
-      return ""
+      return "";
     },
     tableSearch() {
-      return '';
+      return "";
     },
     formattedDate() {
-      let dateCopy = this.date; 
+      let dateCopy = this.date;
       return this.formatDate(dateCopy);
     }
   }
@@ -242,7 +276,6 @@ export default {
 @import "../css/variables";
 
 .vehicle-delivery-container {
-
   // .page-header {
   //   font-size: 2.2rem;
   //   font-weight: bold;
