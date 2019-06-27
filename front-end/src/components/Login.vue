@@ -1,89 +1,81 @@
 <template>
   <div class="login-page container">
-    <div class="tabs">
-      <button @click="tab = 'login'" type="button" class="default-button mr-3 tab">Login</button>
-      <button @click="tab = 'register'" type="button" class="default-button tab">Register</button>
-    </div>
+    <v-card>
+      <v-tabs background-color="white" color="deep-purple accent-4">
+        <div class="tabs-container">
+          <v-tab>Login</v-tab>
+          <v-tab>Register</v-tab>
+        </div>
 
-    <form class="login-form form" v-if="tab === 'login'">
-      <label for="username-email" class="email-label login-label">
-        <input
-          v-model="email"
-          id="username-email"
-          class="default-input"
-          placeholder="Email"
-          type="email"
-        >
-      </label>
+        <v-tab-item>
+          <v-container fluid grid-list-sm>
+            <v-layout wrap>
+              <v-flex fluid>
+                <v-form class="login-form form" ref="form" v-model="valid">
+                  <v-text-field v-model="email1" :rules="emailRules" label="E-mail" required></v-text-field>
 
-      <label for="username-password" class="password-label login-label">
-        <input
-          v-model="password"
-          id="username-password"
-          class="default-input"
-          placeholder="Password"
-          type="password"
-        >
-      </label>
+                  <v-text-field
+                    v-model="password1"
+                    :append-icon="passwordVisible1 ? 'visibility' : 'visibility_off'"
+                    :rules="passwordRules"
+                    :type="passwordVisible1 ? 'text' : 'password'"
+                    name="login-password"
+                    label="Password"
+                    hint="At least 6 characters"
+                    @click:append="passwordVisible1 = !passwordVisible1"
+                  ></v-text-field>
 
-      <!-- <div class="buttons-container"> -->
+                  <v-btn :disabled="!valid" color="success" class="mt-3" @click="loginHandler">Login</v-btn>
+                </v-form>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-tab-item>
 
-      <button @click="loginHandler" class="default-button login-btn" type="button">Login</button>
+        <v-tab-item>
+          <v-container fluid grid-list-sm>
+            <v-layout wrap>
+              <v-flex fluid>
+                <v-form class="login-form form" ref="form" v-model="valid2">
+                  <v-text-field v-model="username" :rules="nameRules" label="User name" required></v-text-field>
 
-      <!-- <button class="default-button login-btn login-btn__margin-right" type="button">Login</button>
+                  <v-text-field v-model="email2" :rules="emailRules" label="E-mail" required></v-text-field>
 
-      <button @click="registerHandler" class="default-button login-btn" type="button">Register</button>-->
+                  <v-text-field
+                    v-model="password2"
+                    :append-icon="passwordVisible2 ? 'visibility' : 'visibility_off'"
+                    :rules="passwordRules"
+                    :type="passwordVisible2 ? 'text' : 'password'"
+                    name="login-password"
+                    label="Password"
+                    hint="At least 6 characters"
+                    @click:append="passwordVisible2 = !passwordVisible2"
+                  ></v-text-field>
 
-      <!-- </div> -->
-    </form>
+                  <v-text-field
+                    v-model="confirmPassword"
+                    :append-icon="passwordVisible3 ? 'visibility' : 'visibility_off'"
+                    :rules="confirmPasswordRules"
+                    :type="passwordVisible3 ? 'text' : 'password'"
+                    name="login-password-confirm"
+                    label="Password"
+                    hint="At least 6 characters"
+                    @click:append="passwordVisible3 = !passwordVisible3"
+                  ></v-text-field>
 
-    <form class="register-form form" v-if="tab === 'register'">
-      <label for="username-input-2" class="username-label login-label">
-        <input
-          v-model="username"
-          id="username-input-2"
-          class="default-input"
-          placeholder="Username"
-          type="text"
-        >
-      </label>
-
-      <label for="username-email-2" class="email-label login-label">
-        <input
-          v-model="email"
-          id="username-email-2"
-          class="default-input"
-          placeholder="Email"
-          type="email"
-        >
-      </label>
-
-      <label for="username-password-2" class="password-label login-label">
-        <input
-          v-model="password"
-          id="username-password-2"
-          class="default-input"
-          placeholder="Password"
-          type="password"
-        >
-      </label>
-
-      <label for="confirm-password-2" class="password-label login-label">
-        <input
-          v-model="confirmPassword"
-          id="confirm-password-2"
-          class="default-input"
-          placeholder="Confirm password"
-          type="password"
-        >
-      </label>
-
-      <button class="default-button" type="button" @click="registerHandler">Register</button>
-    </form>
-
-    <div class="messages-container mt-2">
-      <p v-for="(item, index) in validation" :key="index" class="error-text">{{ item }}</p>
-    </div>
+                  <v-btn
+                    :disabled="!valid2"
+                    color="success"
+                    class="mt-3"
+                    @click="registerHandler"
+                  >Register</v-btn>
+                </v-form>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-tab-item>
+      </v-tabs>
+    </v-card>
   </div>
 </template>
 
@@ -94,12 +86,35 @@ import actionTypes from "../store/action-types";
 export default {
   data() {
     return {
-      tab: "login",
+      tab: "null",
       username: "",
-      password: "",
+      password1: "",
+      password2: "",
+      passwordVisible1: false,
+      passwordVisible2: false,
+      passwordVisible3: false,
       confirmPassword: "",
-      email: "",
-      validation: []
+      email1: "",
+      email2: "",
+      valid: true,
+      valid2: true,
+      nameRules: [
+        v => !!v || "Name is required",
+        v => (v && v.length <= 10) || "Name must be less than 10 characters"
+      ],
+      emailRules: [
+        v => !!v || "E-mail is required",
+        v => /.+@.+\..+/.test(v) || "E-mail must be valid"
+      ],
+      passwordRules: [
+        v => !!v || "Password is required",
+        v => (v && v.length >= 6) || "Password must be longer than 6 characters"
+      ],
+      confirmPasswordRules: [
+        v => !!v || "Password is required",
+        v => (v && v === this.password2) || "Confrirm password correctly"
+      ],
+      lazy: false
     };
   },
   computed: {},
@@ -109,39 +124,46 @@ export default {
       login: actionTypes.LOGIN
     }),
 
-    validate() {
-      this.validation = [];
+    // loginHandler() {
+    //   // console.log(this.validate());
+    //   this.login({
+    //     email: this.email1,
+    //     password: this.password1
+    //   }).then(response => {
+    //     console.warn(response);
+    //     if (
+    //       Object(response) === response &&
+    //       response.data &&
+    //       response.data.success
+    //     ) {
+    //       // this.$router.push("/");
+    //     }
+    //   });
 
-      if (this.password !== this.confirmPassword) {
-        this.validation.push("confirm password");
-      }
-
-      return this.validation.length > 0 ? true : false;
-    },
-
-    loginHandler() {
+    async loginHandler() {
       // console.log(this.validate());
-        this.login({
-          email: this.email,
-          password: this.password
-        })
-        .then(response => {
-          if(response.data && response.data.success) {
-            this.$router.push("/");
-          }
-        })
-        
+      let result = await this.login({
+        email: this.email1,
+        password: this.password1
+      })
+      console.warn(result);
     },
 
     registerHandler() {
-      // console.log(this.validate());
-      // if (this.validate()) {
-        this.register({
-          username: this.username,
-          email: this.email,
-          password: this.password
-        });
-      // }
+      this.register({
+        username: this.username,
+        email: this.email2,
+        password: this.password2
+      }).then(response => {
+        console.warn(response.data.message);
+      });
+
+    },
+
+    // pasted
+
+    validate() {
+      return this.$refs.form.validate();
     }
   }
 };
@@ -154,6 +176,7 @@ export default {
   display: flex;
   align-items: center;
   flex-direction: column;
+  justify-content: center;
 }
 
 .login-page {
@@ -179,21 +202,28 @@ export default {
     flex-direction: column;
   }
 
-  .login-label {
-    margin-bottom: 1rem;
-  }
-
-  .buttons-container {
+  .tabs-container {
+    width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
   }
 
-  .login-btn {
-    // flex: 1 1 0;
-  }
+  // .login-label {
+  //   margin-bottom: 1rem;
+  // }
 
-  .login-btn__margin-right {
-    margin-right: 1rem;
-  }
+  // .buttons-container {
+  //   display: flex;
+  //   justify-content: space-between;
+  // }
+
+  // .login-btn {
+  //   // flex: 1 1 0;
+
+  // }
+
+  // .login-btn__margin-right {
+  //   margin-right: 1rem;
+  // }
 }
 </style>

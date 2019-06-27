@@ -5,7 +5,6 @@ export default {
   async [actionTypes.REGISTER]({ commit }, credentials) {
       try {
           let response = await API.register(credentials);
-          // console.warn(response);
           return response;
       } catch(e) {
           console.error(e);
@@ -16,7 +15,6 @@ export default {
     try {
         let response = await API.login(credentials);
         localStorage.setItem("access-token", response.data.access_token)
-        console.warn(response);
         return response;
     } catch(e) {
         localStorage.removeItem("access-token");
@@ -31,4 +29,4 @@ export default {
         console.error(e);
     }
   }
-};
+}
