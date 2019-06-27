@@ -239,9 +239,10 @@ export default {
       return `${month}/${day}/${year.slice(0, 2)}`;
     },
     formatDateForApi(date) {
-      return( ("00" + (date.getMonth() + 1)).slice(-2) + "/" + 
-        ("00" + date.getDate()).slice(-2) + "/" + 
-        date.getFullYear() + " " + 
+      return(  
+        date.getFullYear() + "-" +
+        ("00" + (date.getMonth() + 1)).slice(-2) + "-" + 
+        ("00" + date.getDate()).slice(-2) + " " + 
         ("00" + date.getHours()).slice(-2) + ":" + 
         ("00" + date.getMinutes()).slice(-2) + ":" + 
         ("00" + date.getSeconds()).slice(-2)
@@ -275,7 +276,8 @@ export default {
     }
   },
   created() {
-    let date = this.formatDateForApi(new Date());
+    // let date = this.formatDateForApi(new Date());
+    // let date = this.formatDateForApi(new Date());
     let response = this.getVehicleData(date);
     console.warn(response);
   }
