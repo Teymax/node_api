@@ -12,8 +12,10 @@ const create = async (req, res) => {
   } else {
     let err, user;
     // place for auth service request
-    [err, user] = await to(authService.register(body));
+    [err] = await to(authService.register(body));
     if (err) return error(res, err.message, 400);
+    [err, user] = await to(authService.login(body));
+    console.log(user);
     return success(res, {message:'Successfully created new user.', user: user}, 201);
   }
 };
