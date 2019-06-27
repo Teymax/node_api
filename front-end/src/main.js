@@ -5,7 +5,10 @@ import App from "./App.vue";
 import router from "./router/router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
+import VeeValidate from 'vee-validate';
 import "@mdi/font/css/materialdesignicons.css";
+ 
+Vue.use(VeeValidate);
 
 Vue.config.productionTip = false;
 

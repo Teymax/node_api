@@ -16,7 +16,9 @@ export default {
   computed: {
     // we show background image only on home page
     onHomePage() {
-      return this.$route.name.indexOf("Home") !== -1
+      if(Object(this.$route) === this.$route && typeof this.$route.name === "string") {
+        return this.$route.name.indexOf("Home") !== -1
+      }
     }
   }
 };
