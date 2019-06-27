@@ -26,11 +26,11 @@ module.exports.success = function (res, data, code) {
     send_data = Object.assign(data, send_data);
   }
   if(typeof code !== 'undefined') res.statusCode = code;
-  return res.json(send_data)
+  return res.json(send_data);
 };
 
 // throw error helper
 module.exports.throwError = (err_message, log) => {
   if (log) logger.error(err_message);
   throw new Error(err_message);
-}
+};
