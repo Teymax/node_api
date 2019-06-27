@@ -53,7 +53,7 @@ export default class Api {
 
   static getVehicleData(date) {
     return new Promise((resolve, reject) => {
-      api.post('/vehicle/list?date=', credentials, this.getAuthHeader())
+      api.get(`/vehicle/list?date=${date}`, this.getAuthHeader())
         .then(response => {
           resolve(response)
         })

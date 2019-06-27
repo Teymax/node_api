@@ -28,5 +28,13 @@ export default {
     } catch(e) {
         console.error(e);
     }
-  }
+  },
+
+  async [actionTypes.GET_VEHICLE_DATA]({ commit }, date) {
+    try {
+      API.getVehicleData(date);
+    } catch(e) {
+        console.error(e);
+    }
+  },
 }

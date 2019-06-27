@@ -145,8 +145,17 @@ export default {
       let result = await this.login({
         email: this.email1,
         password: this.password1
+      }).then(response => {
+        console.warn(response);
+        if (
+          Object(response) === response &&
+          response.data &&
+          response.data.success
+        ) {
+          this.$router.push("/");
+        }
       })
-      console.warn(result);
+      
     },
 
     registerHandler() {
@@ -155,7 +164,7 @@ export default {
         email: this.email2,
         password: this.password2
       }).then(response => {
-        console.warn(response.data.message);
+        
       });
 
     },
