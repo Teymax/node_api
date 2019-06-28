@@ -4,7 +4,7 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('vehicles', [
       {
-        date: '2019-06-17 00:00:00',
+        date: new Date('2019-06-17'),
         time: '07:30:00',
         lot_number: '',
         license_plate: '8GDB424',
