@@ -17,7 +17,7 @@ export default class Api {
   static generateVehicleQuery(params = {}) {
     const { start_date= "", end_date = "", search_field = "", search_param = "" } = params;
 
-    return `/start_date=${start_date ? "?start_date=" + start_date : ""}&end_date=${end_date ? end_date : ""}&search_field=${search_field ? search_field : ""}&search_param=${search_param ? search_param : ""}`;    
+    return `?start_date=${start_date ? start_date : ""}&end_date=${end_date ? end_date : ""}&search_field=${search_field ? search_field : ""}&search_param=${search_param ? search_param : ""}`;    
   }
 
   static login(credentials) {
@@ -25,10 +25,8 @@ export default class Api {
       api.post('/user/login', credentials)
         .then(response => {
           resolve(response)
-          console.warn('then', response);
         })
         .catch(err => {
-          console.log(err, 'Error')
           // console.log(err.name, 'Error')
           reject(err)
         })
@@ -48,19 +46,9 @@ export default class Api {
     })
   }
 
-  // static logout() {
-  //   return new Promise((resolve, reject) => {
-  //     api.post('/user/register', credentials)
-  //       .then(response => {
-  //         resolve(response)
-  //       })
-  //       .catch(err => {
-  //         reject(console.error(err))
-  //       });
-  //   })
-  // }
+  static get_vehicle_data(paramsInput) {
+    let params = paramsInput ? paramsInput : {}
 
-  static get_vehicle_data(params) {
     console.warn(arguments);
     return new Promise((resolve, reject) => {
       // let query = `/${start_date ? "?start_date=" + start_date : ""}${end_date ? "&end_date=" + end_date : ""}${search_field ? "&search_field=" + search_field : ""}${search_param ? "&search_param=" + search_param : ""}`;

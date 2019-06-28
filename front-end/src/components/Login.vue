@@ -124,29 +124,11 @@ export default {
       login: actionTypes.LOGIN
     }),
 
-    // login_handler() {
-    //   // console.log(this.validate());
-    //   this.login({
-    //     email: this.email1,
-    //     password: this.password1
-    //   }).then(response => {
-    //     console.warn(response);
-    //     if (
-    //       Object(response) === response &&
-    //       response.data &&
-    //       response.data.success
-    //     ) {
-    //       // this.$router.push("/");
-    //     }
-    //   });
-
     async login_handler() {
-      // console.log(this.validate());
       let result = await this.login({
         email: this.email1,
         password: this.password1
       }).then(response => {
-        console.warn(response);
         if (
           Object(response) === response &&
           response.data &&

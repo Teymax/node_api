@@ -3,5 +3,7 @@ node_modules
 package-lock.json
 .idea
 /logs/error.log
+.nyc_output
+/config/config.json
 .history
 /.history

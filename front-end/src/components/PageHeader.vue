@@ -33,17 +33,11 @@ export default {
       }
     }
   },
-  methods: {
-    // ...mapActions({ logoutAction: actionTypes.LOGOUT }),   
+  methods: { 
 
     logout() {
-      // console.warn(this.logoutAction);
       localStorage.removeItem("access-token");
       this.$router.push("/login");
-
-      // this.logoutAction.then(response => {
-      //   this.$router.push("/login");
-      // })
     }
   }
 };

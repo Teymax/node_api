@@ -37,7 +37,7 @@ new Vue({
           clearTimeout(timer);
         }
 
-        timer = setTimeout(on_complete, 300);
+        timer = setTimeout(on_complete, 500);
       };
     },
   },
