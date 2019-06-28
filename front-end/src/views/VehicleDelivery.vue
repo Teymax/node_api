@@ -76,6 +76,9 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+import actionTypes from '../store/action-types';
+
 export default {
   name: "VehicleDelivery",
   data() {
@@ -84,17 +87,6 @@ export default {
       menu: false,
       search: "",
       headers: [
-        // {
-        //   text: "Dessert (100g serving)",
-        //   align: "left",
-        //   sortable: false,
-        //   value: "name"
-        // },
-        // { text: "Calories", value: "calories" },
-        // { text: "Fat (g)", value: "fat" },
-        // { text: "Carbs (g)", value: "carbs" },
-        // { text: "Protein (g)", value: "protein" },
-        // { text: "Iron (%)", value: "iron" }
         {
           text: "DATE",
           value: "date",
@@ -147,100 +139,114 @@ export default {
         }
       ],
       activities: [
-        {
-          photo: "",
-          icon: "",
-          date: "02/11/19",
-          time: "11:03:38",
-          lot_number: "14170",
-          type: "SUV",
-          color: "white",
-          make: "Reno",
-          model: "Captur",
-          licence_plate: "9CA:185",
-          location: "GATE 1",
-          towing_company: "California Towing"
-        },
-        {
-          photo: "",
-          icon: "",
-          date: "12/05/19",
-          time: "11:03:38",
-          lot_number: "14170",
-          type: "other",
-          color: "black",
-          make: "Ford",
-          model: "Escort",
-          licence_plate: "1CA:185",
-          location: "GATE 2",
-          towing_company: "California Towing"
-        },
-        {
-          photo: "",
-          icon: "",
-          date: "17/11/19",
-          time: "12:33:38",
-          lot_number: "14170",
-          type: "SUV",
-          color: "red",
-          make: "GMC",
-          model: "Sierra",
-          licence_plate: "3CA:285",
-          location: "GATE 1",
-          towing_company: "Keith's Towing"
-        },
-        {
-          photo: "",
-          icon: "",
-          date: "03/05/18",
-          time: "06:33:08",
-          lot_number: "14170",
-          type: "Sedan",
-          color: "purple",
-          make: "Toyota",
-          model: "Supra",
-          licence_plate: "2CA:183",
-          location: "Detail Center C",
-          towing_company: "Marvin's Towing"
-        },
-        {
-          photo: "",
-          icon: "",
-          date: "17/11/19",
-          time: "12:33:38",
-          lot_number: "14170",
-          type: "SUV",
-          color: "red",
-          make: "GMC",
-          model: "Sierra",
-          licence_plate: "3CA:285",
-          location: "GATE 1",
-          towing_company: "Keith's Towing"
-        },
-        {
-          photo: "",
-          icon: "",
-          date: "02/11/19",
-          time: "11:03:38",
-          lot_number: "14170",
-          type: "SUV",
-          color: "white",
-          make: "Reno",
-          model: "Captur",
-          licence_plate: "9CA:185",
-          location: "GATE 1",
-          towing_company: "California Towing"
-        }
+        // {
+        //   photo: "",
+        //   icon: "",
+        //   date: "02/11/19",
+        //   time: "11:03:38",
+        //   lot_number: "14170",
+        //   type: "SUV",
+        //   color: "white",
+        //   make: "Reno",
+        //   model: "Captur",
+        //   licence_plate: "9CA:185",
+        //   location: "GATE 1",
+        //   towing_company: "California Towing"
+        // },
+        // {
+        //   photo: "",
+        //   icon: "",
+        //   date: "12/05/19",
+        //   time: "11:03:38",
+        //   lot_number: "14170",
+        //   type: "other",
+        //   color: "black",
+        //   make: "Ford",
+        //   model: "Escort",
+        //   licence_plate: "1CA:185",
+        //   location: "GATE 2",
+        //   towing_company: "California Towing"
+        // },
+        // {
+        //   photo: "",
+        //   icon: "",
+        //   date: "17/11/19",
+        //   time: "12:33:38",
+        //   lot_number: "14170",
+        //   type: "SUV",
+        //   color: "red",
+        //   make: "GMC",
+        //   model: "Sierra",
+        //   licence_plate: "3CA:285",
+        //   location: "GATE 1",
+        //   towing_company: "Keith's Towing"
+        // },
+        // {
+        //   photo: "",
+        //   icon: "",
+        //   date: "03/05/18",
+        //   time: "06:33:08",
+        //   lot_number: "14170",
+        //   type: "Sedan",
+        //   color: "purple",
+        //   make: "Toyota",
+        //   model: "Supra",
+        //   licence_plate: "2CA:183",
+        //   location: "Detail Center C",
+        //   towing_company: "Marvin's Towing"
+        // },
+        // {
+        //   photo: "",
+        //   icon: "",
+        //   date: "17/11/19",
+        //   time: "12:33:38",
+        //   lot_number: "14170",
+        //   type: "SUV",
+        //   color: "red",
+        //   make: "GMC",
+        //   model: "Sierra",
+        //   licence_plate: "3CA:285",
+        //   location: "GATE 1",
+        //   towing_company: "Keith's Towing"
+        // },
+        // {
+        //   photo: "",
+        //   icon: "",
+        //   date: "02/11/19",
+        //   time: "11:03:38",
+        //   lot_number: "14170",
+        //   type: "SUV",
+        //   color: "white",
+        //   make: "Reno",
+        //   model: "Captur",
+        //   licence_plate: "9CA:185",
+        //   location: "GATE 1",
+        //   towing_company: "California Towing"
+        // }
       ]
     };
   },
   methods: {
+    ...mapActions({
+      getVehicleData: actionTypes.GET_VEHICLE_DATA
+    }),
+
     formatDate(date) {
       if (!date) return null;
 
       const [year, month, day] = date.split("-");
 
       return `${month}/${day}/${year.slice(0, 2)}`;
+    },
+    formatDateForApi(date) {
+      return(  
+        date.getFullYear() + "-" +
+        ("00" + (date.getMonth() + 1)).slice(-2) + "-" + 
+        ("00" + date.getDate()).slice(-2) + " " + 
+        ("00" + date.getHours()).slice(-2) + ":" + 
+        ("00" + date.getMinutes()).slice(-2) + ":" + 
+        ("00" + date.getSeconds()).slice(-2)
+      )
     },
     saveDate() {
       this.$refs.menu.save(this.date);
@@ -268,6 +274,12 @@ export default {
       let dateCopy = this.date;
       return this.formatDate(dateCopy);
     }
+  },
+  created() {
+    // let date = this.formatDateForApi(new Date());
+    // let date = this.formatDateForApi(new Date());
+    let response = this.getVehicleData(date);
+    console.warn(response);
   }
 };
 </script>
