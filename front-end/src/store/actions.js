@@ -3,38 +3,38 @@ import actionTypes from './action-types';
 
 export default {
   async [actionTypes.REGISTER]({ commit }, credentials) {
-      try {
-          let response = await API.register(credentials);
-          return response;
-      } catch(e) {
-          console.error(e);
-      }
+    try {
+      let response = await API.register(credentials);
+      return response;
+    } catch (e) {
+      console.error(e);
+    }
   },
 
   async [actionTypes.LOGIN]({ commit }, credentials) {
     try {
-        let response = await API.login(credentials);
-        localStorage.setItem("access-token", response.data.access_token)
-        return response;
-    } catch(e) {
-        localStorage.removeItem("access-token");
-        console.error(e);
+      let response = await API.login(credentials);
+      localStorage.setItem("access-token", response.data.access_token)
+      return response;
+    } catch (e) {
+      localStorage.removeItem("access-token");
+      console.error(e);
     }
   },
 
   async [actionTypes.LOGOUT]({ commit }) {
     try {
       localStorage.removeItem("access-token");
-    } catch(e) {
-        console.error(e);
+    } catch (e) {
+      console.error(e);
     }
   },
 
-  async [actionTypes.GET_VEHICLE_DATA]({ commit }, date) {
+  async [actionTypes.GET_VEHICLE_DATA]({ commit }, params) {
     try {
-      API.getVehicleData(date);
-    } catch(e) {
-        console.error(e);
+      return API.get_vehicle_data(params);
+    } catch (e) {
+      console.error(e);
     }
   },
 }

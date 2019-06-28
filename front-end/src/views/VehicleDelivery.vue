@@ -6,7 +6,6 @@
       <v-card-title>
         Activity
         <v-spacer></v-spacer>
-        <!-- <v-date-picker></v-date-picker> -->
 
         <v-menu
           class="date-menu"
@@ -22,35 +21,38 @@
           <template class="date-slot" v-slot:activator="{ on }">
             <v-text-field
               class="date-text-field"
-              v-model="formattedDate"
+              v-model="formatted_date"
               label="mm/dd/yyyy"
               prepend-icon="event"
               readonly
               v-on="on"
             ></v-text-field>
           </template>
-          <v-date-picker class="date-picker" v-model="date" no-title scrollable>
+
+          <v-date-picker class="date-picker" v-model="dates" no-title scrollable multiple>
             <v-spacer></v-spacer>
             <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-            <v-btn text color="primary" @click="saveDate">OK</v-btn>
+            <v-btn text color="primary" @click="save_date">OK</v-btn>
           </v-date-picker>
+
         </v-menu>
 
-        <!-- v-model="selectValue" -->
         <v-select
           class="table-select"
-          :items="selectData"
+          :items="select_data"
           max-height="1"
           width="10"
           label="Search field"
+          v-model="search_field"
         ></v-select>
-        <v-text-field v-model="search" append-icon="search" class="table-search" label="Search..."></v-text-field>
+
+        <v-text-field v-model="search_phraze" append-icon="search" class="table-search" label="Search..." @input="search_vehicles"></v-text-field>
       </v-card-title>
 
       <v-data-table
         :headers="headers"
         :items="activities"
-        :search="search"
+        :search="search_on_front"
         class="elevation-1"
         ref="table"
       >
@@ -78,25 +80,26 @@
 <script>
 import { mapActions } from "vuex";
 import actionTypes from '../store/action-types';
+import { VDaterange } from "vuetify-daterange-picker"
+import "vuetify-daterange-picker/dist/vuetify-daterange-picker.css";
 
 export default {
   name: "VehicleDelivery",
+  components: {
+    VDaterange
+  },
   data() {
     return {
       date: "",
       menu: false,
-      search: "",
+      search_on_front: "",
+      search_field: "lot_number",
+      search_phraze: "",
+      start_date: "",
+      end_date: "",
+      dates: [],
+      datesGetter: [],
       headers: [
-        {
-          text: "DATE",
-          value: "date",
-          align: "center"
-        },
-        {
-          text: "TIME",
-          value: "time",
-          align: "center"
-        },
         {
           text: "LOT#",
           value: "lot_number",
@@ -125,6 +128,17 @@ export default {
         {
           text: "LP",
           value: "licence_plate",
+          align: "center"
+        },
+
+        {
+          text: "DATE",
+          value: "date",
+          align: "center"
+        },
+        {
+          text: "TIME",
+          value: "time",
           align: "center"
         },
         {
@@ -228,17 +242,23 @@ export default {
   },
   methods: {
     ...mapActions({
-      getVehicleData: actionTypes.GET_VEHICLE_DATA
+      /** 
+       * function get_vehicle_data
+       * optional params { start_date, end_date, search_field, search_param }
+      */
+     
+      get_vehicle_data: actionTypes.GET_VEHICLE_DATA
     }),
 
-    formatDate(date) {
+    format_date(date) {
       if (!date) return null;
 
       const [year, month, day] = date.split("-");
 
       return `${month}/${day}/${year.slice(0, 2)}`;
     },
-    formatDateForApi(date) {
+
+    format_date_for_api(date) {
       return(  
         date.getFullYear() + "-" +
         ("00" + (date.getMonth() + 1)).slice(-2) + "-" + 
@@ -248,38 +268,88 @@ export default {
         ("00" + date.getSeconds()).slice(-2)
       )
     },
-    saveDate() {
+
+    debounce(f) {
+      let timer = null;
+
+      return function (...args) {
+        const on_complete = () => {
+          f.apply(this, args);
+          timer = null;
+        }
+
+        if (timer) {
+          clearTimeout(timer);
+        }
+
+        timer = setTimeout(on_complete, 300);
+      };
+    },
+
+    search_vehicles() {
+      let params = {
+        start_date: this.dates_computed[0], 
+        end_date: this.dates_computed[1], 
+        search_field: this.search_field, 
+        search_param: this.search_phraze
+      };
+
+      this.$root.debounce(() => {
+        this.get_vehicle_data(params)
+          .then(response => {
+            // console.warn('search response', response.data.vehicles);
+            this.activities = response.data.vehicles; 
+          })
+          .catch(err => {
+            console.error(err);
+          });
+      })()
+    },
+
+    save_date() {
       this.$refs.menu.save(this.date);
 
-      if (this.formattedDate) {
-        this.search = this.formattedDate;
+      if (this.formatted_date) {
+        this.search = this.formatted_date;
       }
-
-      // this.$refs.table.search =  this.formattedDate;
-      // this.$refs.table.filter;
-      // console.log("TCL: saveDate -> this.$refs.table.filter", this.$refs.table.filter)
     }
   },
   computed: {
-    selectData() {
+    select_data() {
       return this.headers.map(item => item.text);
     },
-    selectValue() {
-      return "";
+    formatted_date() {
+      let date_copy = this.date;
+      return this.format_date(date_copy);
     },
-    tableSearch() {
-      return "";
-    },
-    formattedDate() {
-      let dateCopy = this.date;
-      return this.formatDate(dateCopy);
+    dates_computed: {
+      // get() {
+      //   return this.dates.length > 2 ? this.dates.slice(this.dates.length - 2) : this.dates;
+      // },
+      // set(input) {
+      //   this.dates = this.dates.length > 2 ? this.dates.slice(this.dates.length - 2) : this.dates;
+      //   this.dates.push(input);
+      //   console.log(input);
+      //   console.log(this.dates);
+      // }
+
+      get() {
+        return this.dates.length > 2 ? this.dates.slice(this.dates.length - 2) : this.dates;
+      }
     }
   },
+  watch: {
+    // dates() {
+    //   this.dates.splice(this.dates.length - 2);
+    //   console.log(this.dates);
+    // }
+  },
+
   created() {
-    // let date = this.formatDateForApi(new Date());
-    // let date = this.formatDateForApi(new Date());
-    let response = this.getVehicleData();
-    console.warn(response);
+    this.get_vehicle_data()
+      .then(response => { 
+        this.activities.push(...response.data.vehicles); 
+      })
   }
 };
 </script>

@@ -16,5 +16,30 @@ new Vue({
   router,
   store,
   vuetify,
+  methods: {
+    /**
+     * takes function and cals it not earlier than 300ms
+     * 
+     * @param {function} f - function to be wrapped with debounce functiom
+     * returns {function}
+     */
+
+    debounce(f) {
+      let timer = null;
+
+      return function (...args) {
+        const on_complete = () => {
+          f.apply(this, args);
+          timer = null;
+        }
+
+        if (timer) {
+          clearTimeout(timer);
+        }
+
+        timer = setTimeout(on_complete, 300);
+      };
+    },
+  },
   render: h => h(App)
 }).$mount("#app");

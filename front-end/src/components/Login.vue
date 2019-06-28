@@ -12,20 +12,20 @@
             <v-layout wrap>
               <v-flex fluid>
                 <v-form class="login-form form" ref="form" v-model="valid">
-                  <v-text-field v-model="email1" :rules="emailRules" label="E-mail" required></v-text-field>
+                  <v-text-field v-model="email1" :rules="email_rules" label="E-mail" required></v-text-field>
 
                   <v-text-field
                     v-model="password1"
-                    :append-icon="passwordVisible1 ? 'visibility' : 'visibility_off'"
-                    :rules="passwordRules"
-                    :type="passwordVisible1 ? 'text' : 'password'"
+                    :append-icon="password_visible_1 ? 'visibility' : 'visibility_off'"
+                    :rules="password_rules"
+                    :type="password_visible_1 ? 'text' : 'password'"
                     name="login-password"
                     label="Password"
                     hint="At least 6 characters"
-                    @click:append="passwordVisible1 = !passwordVisible1"
+                    @click:append="password_visible_1 = !password_visible_1"
                   ></v-text-field>
 
-                  <v-btn :disabled="!valid" color="success" class="mt-3" @click="loginHandler">Login</v-btn>
+                  <v-btn :disabled="!valid" color="success" class="mt-3" @click="login_handler">Login</v-btn>
                 </v-form>
               </v-flex>
             </v-layout>
@@ -37,37 +37,37 @@
             <v-layout wrap>
               <v-flex fluid>
                 <v-form class="login-form form" ref="form" v-model="valid2">
-                  <v-text-field v-model="username" :rules="nameRules" label="User name" required></v-text-field>
+                  <v-text-field v-model="username" :rules="name_rules" label="User name" required></v-text-field>
 
-                  <v-text-field v-model="email2" :rules="emailRules" label="E-mail" required></v-text-field>
+                  <v-text-field v-model="email2" :rules="email_rules" label="E-mail" required></v-text-field>
 
                   <v-text-field
                     v-model="password2"
-                    :append-icon="passwordVisible2 ? 'visibility' : 'visibility_off'"
-                    :rules="passwordRules"
-                    :type="passwordVisible2 ? 'text' : 'password'"
+                    :append-icon="password_visible_2 ? 'visibility' : 'visibility_off'"
+                    :rules="password_rules"
+                    :type="password_visible_2 ? 'text' : 'password'"
                     name="login-password"
                     label="Password"
                     hint="At least 6 characters"
-                    @click:append="passwordVisible2 = !passwordVisible2"
+                    @click:append="password_visible_2 = !password_visible_2"
                   ></v-text-field>
 
                   <v-text-field
-                    v-model="confirmPassword"
-                    :append-icon="passwordVisible3 ? 'visibility' : 'visibility_off'"
-                    :rules="confirmPasswordRules"
-                    :type="passwordVisible3 ? 'text' : 'password'"
+                    v-model="confirm_password"
+                    :append-icon="password_visible_3 ? 'visibility' : 'visibility_off'"
+                    :rules="confirm_password_rules"
+                    :type="password_visible_3 ? 'text' : 'password'"
                     name="login-password-confirm"
-                    label="Password"
+                    label="Password confirmation"
                     hint="At least 6 characters"
-                    @click:append="passwordVisible3 = !passwordVisible3"
+                    @click:append="password_visible_3 = !password_visible_3"
                   ></v-text-field>
 
                   <v-btn
                     :disabled="!valid2"
                     color="success"
                     class="mt-3"
-                    @click="registerHandler"
+                    @click="register_handler"
                   >Register</v-btn>
                 </v-form>
               </v-flex>
@@ -90,27 +90,27 @@ export default {
       username: "",
       password1: "",
       password2: "",
-      passwordVisible1: false,
-      passwordVisible2: false,
-      passwordVisible3: false,
-      confirmPassword: "",
+      password_visible_1: false,
+      password_visible_2: false,
+      password_visible_3: false,
+      confirm_password: "",
       email1: "",
       email2: "",
       valid: true,
       valid2: true,
-      nameRules: [
+      name_rules: [
         v => !!v || "Name is required",
         v => (v && v.length <= 10) || "Name must be less than 10 characters"
       ],
-      emailRules: [
+      email_rules: [
         v => !!v || "E-mail is required",
         v => /.+@.+\..+/.test(v) || "E-mail must be valid"
       ],
-      passwordRules: [
+      password_rules: [
         v => !!v || "Password is required",
         v => (v && v.length >= 6) || "Password must be longer than 6 characters"
       ],
-      confirmPasswordRules: [
+      confirm_password_rules: [
         v => !!v || "Password is required",
         v => (v && v === this.password2) || "Confrirm password correctly"
       ],
@@ -124,7 +124,7 @@ export default {
       login: actionTypes.LOGIN
     }),
 
-    // loginHandler() {
+    // login_handler() {
     //   // console.log(this.validate());
     //   this.login({
     //     email: this.email1,
@@ -140,7 +140,7 @@ export default {
     //     }
     //   });
 
-    async loginHandler() {
+    async login_handler() {
       // console.log(this.validate());
       let result = await this.login({
         email: this.email1,
@@ -158,7 +158,7 @@ export default {
       
     },
 
-    registerHandler() {
+    register_handler() {
       this.register({
         username: this.username,
         email: this.email2,
@@ -169,7 +169,6 @@ export default {
 
     },
 
-    // pasted
 
     validate() {
       return this.$refs.form.validate();

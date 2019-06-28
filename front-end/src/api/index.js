@@ -1,7 +1,7 @@
 import api from './axiosInstance';
 
 export default class Api {
-  static getAuthHeader() {
+  static get_auth_header() {
     const token = localStorage.getItem("access-token");
 
     return { 
@@ -9,6 +9,15 @@ export default class Api {
         Authorization: `Bearer ${token ? token : ""}`
       } 
     }
+  }
+
+  // static get_vehicle_data(start_date, end_date, search_field, search_param) {
+    // let query = `/${start_date ? "?start_date=" + start_date : ""}${end_date ? "&end_date=" + end_date : ""}${search_field ? "&search_field=" + search_field : ""}${search_param ? "&search_param=" + search_param : ""}`;
+
+  static generateVehicleQuery(params = {}) {
+    const { start_date= "", end_date = "", search_field = "", search_param = "" } = params;
+
+    return `/start_date=${start_date ? "?start_date=" + start_date : ""}&end_date=${end_date ? end_date : ""}&search_field=${search_field ? search_field : ""}&search_param=${search_param ? search_param : ""}`;    
   }
 
   static login(credentials) {
@@ -51,17 +60,15 @@ export default class Api {
   //   })
   // }
 
-  static getVehicleData(start_date, end_date, search_field, search_param) {
-    // http://localhost:9000/vehicle/list?start_date=2019-06-02 03:00:00&end_date=2019-07-01 00:00:00&search_field=type&search_param=123
-
+  static get_vehicle_data(params) {
+    console.warn(arguments);
     return new Promise((resolve, reject) => {
-      // let query = `/start_date=${start_date ? start_date : ""}&end_date=${end_date ? end_date : ""}&search_field=${search_field ? search_field : ""}&search_param=${search_param ? search_param : ""}`;
-      let query = `/${start_date ? "?start_date=" + start_date : ""}
-                   ${end_date ? "&end_date=" + end_date : ""}
-                   ${search_field ? "&search_field=" + search_field : ""}
-                   ${search_param ? "&search_param=" + search_param : ""}`;
-    
-      api.get(`/vehicle/list${query}`, this.getAuthHeader())
+      // let query = `/${start_date ? "?start_date=" + start_date : ""}${end_date ? "&end_date=" + end_date : ""}${search_field ? "&search_field=" + search_field : ""}${search_param ? "&search_param=" + search_param : ""}`;
+      // let query = `/${search_field ? "search_field=" + search_field : ""}${search_param ? "&search_param=" + search_param : ""}`;
+
+      let query = this.generateVehicleQuery(params);
+
+      api.get(`/vehicle/list${query}`, this.get_auth_header())
         .then(response => {
           resolve(response)
         })
@@ -70,10 +77,5 @@ export default class Api {
         });
     })
   }
+
 }
-
-// fetch("http://localhost:9000/vehicle/list?date=2019-06-19 24:00:00", { 
-//     headers: { "access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkI…0NTN9.yNS52p8c23AAJ4iyKQUPTEgUakV46wPDZUet9Xza_kk" } 
-//   }).then(response => response.json()).then(response => { console.warn(response) });
-
-// fetch("http://localhost:9000/vehicle/list?date=2019-06-19 24:00:00", { headers: { "access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkI…0NTN9.yNS52p8c23AAJ4iyKQUPTEgUakV46wPDZUet9Xza_kk" } }).then(response => response.json()).then(response => { console.warn(response) });
