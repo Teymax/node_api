@@ -4,4 +4,4 @@ package-lock.json
 .idea
 /logs/error.log
 .nyc_output
-/seeders
+/config/config.json
