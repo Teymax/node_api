@@ -51,9 +51,17 @@ export default class Api {
   //   })
   // }
 
-  static getVehicleData(date) {
+  static getVehicleData(start_date, end_date, search_field, search_param) {
+    // http://localhost:9000/vehicle/list?start_date=2019-06-02 03:00:00&end_date=2019-07-01 00:00:00&search_field=type&search_param=123
+
     return new Promise((resolve, reject) => {
-      api.get(`/vehicle/list?date=${date}`, this.getAuthHeader())
+      // let query = `/start_date=${start_date ? start_date : ""}&end_date=${end_date ? end_date : ""}&search_field=${search_field ? search_field : ""}&search_param=${search_param ? search_param : ""}`;
+      let query = `/${start_date ? "?start_date=" + start_date : ""}
+                   ${end_date ? "&end_date=" + end_date : ""}
+                   ${search_field ? "&search_field=" + search_field : ""}
+                   ${search_param ? "&search_param=" + search_param : ""}`;
+    
+      api.get(`/vehicle/list${query}`, this.getAuthHeader())
         .then(response => {
           resolve(response)
         })

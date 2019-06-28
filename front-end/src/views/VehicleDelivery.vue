@@ -278,7 +278,7 @@ export default {
   created() {
     // let date = this.formatDateForApi(new Date());
     // let date = this.formatDateForApi(new Date());
-    let response = this.getVehicleData(date);
+    let response = this.getVehicleData();
     console.warn(response);
   }
 };
