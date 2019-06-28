@@ -9,7 +9,11 @@ let db = {};
 const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
   host: DB_HOST,
   dialect: DB_DIALECT,
-  port: DB_PORT
+  port: DB_PORT,
+  dialectOptions: {
+    useUTC: false
+  },
+  timezone: process.env.TIMEZONE
 });
 
 fs

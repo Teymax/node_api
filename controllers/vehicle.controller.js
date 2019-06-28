@@ -1,65 +1,29 @@
-const { throwError, to, error, success } = require('../utils/requestHelpers');
-const authService = require('../services/auth.service');
-const jwt = require('jsonwebtoken');
-const { vehicles } = require('../models');
+const { to, error, success } = require('../utils/requestHelpers');
+import { vehicles as Vehicles } from '../models';
+const Op = require('sequelize').Op;
 
 exports.getVehicles = async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
-    let start_date = req.query.start_date;
-    let end_date = req.query.end_date;
-    let search_field = req.query.search_field;
-    let search_param = req.query.search_param;
-
-    if (!(start_date) && !(end_date) && !(search_field) && !(search_param)) await to(vehicles.findAll().then(
-        vehiclesInfo => {
-            return success(res, {
-                vehicles: vehiclesInfo,
-            }, 200);
-        })
-        .catch(err => throwError(err.message, true)));
-    if (start_date && !(end_date) && !(search_field) && !(search_param)) await findByStartDate(start_date, res);
-    if (start_date && end_date && !(search_field) && !(search_param)) await findByDate(start_date, end_date, res);
-    if (start_date && !(end_date) && search_field && search_param) await findByStartDateParams(start_date, search_field, search_param, res);
-    if (start_date && end_date && search_field && search_param) await findByDateParams(start_date, end_date, search_field, search_param, res);
-    else throwError("no date selected", true);
-}
-
-const findByStartDate = async (start_date, res) => {
-    await to(vehicles.findAll({where: {date: start_date} }).then(
-        vehiclesInfo => {
-            return success(res, {
-                vehicles: vehiclesInfo,
-            }, 200);
-        })
-        .catch(err => throwError(err.message, true)))
-};
-
-const findByDate = async (start_date, end_date, res) => {
-    await to(vehicles.findAll({where: {date: start_date, end_date} }).then(
-        vehiclesInfo => {
-            return success(res, {
-                vehicles: vehiclesInfo,
-            }, 200);
-        })
-        .catch(err => throwError(err.message, true)))
-};
-
-const findByStartDateParams = async (start_date, search_field, search_param, res) => {
-    await to(vehicles.findAll({where: {date: start_date, [search_field]: search_param} }).then(
-        vehiclesInfo => {
-            return success(res, {
-                vehicles: vehiclesInfo,
-            }, 200);
-        })
-        .catch(err => throwError(err.message, true)));
-};
-
-const findByDateParams = async (start_date, end_date, search_field, search_param, res) => {
-    await to(vehicles.findAll({where: {date: [start_date, end_date], [search_field]: search_param} }).then(
-        vehiclesInfo => {
-            return success(res, {
-                vehicles: vehiclesInfo,
-            }, 200);
-        })
-        .catch(err => throwError(err.message, true)))
+    const { start_date, end_date, search_field, search_param } = req.query;
+    let err, vehicles;
+    let params = {
+      where: {}
+    };
+    if (start_date) {
+      params.where['date'] = end_date ? {[Op.between]: [start_date, end_date]} : {[Op.gte]: start_date};
+    }
+    if (search_field && search_param) {
+      if (params.where.date) {
+        params.where = Object.assign({}, params.where, {
+          [Op.and]: {[search_field]: search_param ? { [Op.like]: `%${search_param}%` } : ''}
+        });
+      } else {
+        params.where = {
+          [search_field]: search_param ? { [Op.like]: `%${search_param}%` } : ''
+        };
+      }
+    }
+    [err, vehicles] = await to(Vehicles.findAll(params));
+    if (err) return error(res, err.message, 400);
+    return success(res, {vehicles: vehicles});
 };
