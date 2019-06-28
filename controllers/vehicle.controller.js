@@ -24,6 +24,6 @@ exports.getVehicles = async (req, res) => {
       }
     }
     [err, vehicles] = await to(Vehicles.findAll(params));
-    if (err) return error(res, err.message, 400)
+    if (err) return error(res, err.message, 400);
     return success(res, {vehicles: vehicles});
-}
+};
