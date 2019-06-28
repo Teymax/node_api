@@ -10,7 +10,7 @@ exports.getVehicles = async (req, res) => {
     let search_field = req.query.search_field;
     let search_param = req.query.search_param;
 
-    if (start_date && !(end_date) && !(search_field) && !(search_param)) await to(vehicles.findAll().then(
+    if (!(start_date) && !(end_date) && !(search_field) && !(search_param)) await to(vehicles.findAll().then(
         vehiclesInfo => {
             return success(res, {
                 vehicles: vehiclesInfo,
@@ -21,11 +21,11 @@ exports.getVehicles = async (req, res) => {
     if (start_date && end_date && !(search_field) && !(search_param)) await findByDate(start_date, end_date, res);
     if (start_date && !(end_date) && search_field && search_param) await findByStartDateParams(start_date, search_field, search_param, res);
     if (start_date && end_date && search_field && search_param) await findByDateParams(start_date, end_date, search_field, search_param, res);
-    //else throwError("no date selected", true);
+    else throwError("no date selected", true);
 }
 
 const findByStartDate = async (start_date, res) => {
-    await to(vehicles.findAll({where: {date: start_date}}).then(
+    await to(vehicles.findAll({where: {date: start_date} }).then(
         vehiclesInfo => {
             return success(res, {
                 vehicles: vehiclesInfo,
@@ -35,7 +35,7 @@ const findByStartDate = async (start_date, res) => {
 };
 
 const findByDate = async (start_date, end_date, res) => {
-    await to(vehicles.findAll({where: {date: {"$between": [start_date, end_date]}}}).then(
+    await to(vehicles.findAll({where: {date: start_date, end_date} }).then(
         vehiclesInfo => {
             return success(res, {
                 vehicles: vehiclesInfo,
@@ -55,7 +55,7 @@ const findByStartDateParams = async (start_date, search_field, search_param, res
 };
 
 const findByDateParams = async (start_date, end_date, search_field, search_param, res) => {
-    await to(vehicles.findAll({where: {date: {"$between": [start_date, end_date]}, [search_field]: search_param} }).then(
+    await to(vehicles.findAll({where: {date: [start_date, end_date], [search_field]: search_param} }).then(
         vehiclesInfo => {
             return success(res, {
                 vehicles: vehiclesInfo,
