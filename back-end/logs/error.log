@@ -1,0 +1,175 @@
+{"message":"User is not defined","level":"error"}
+{"message":"User.findOne is not a function","level":"error"}
+{"message":"User.find is not a function","level":"error"}
+{"message":"User.first is not a function","level":"error"}
+{"message":"User.findOne is not a function","level":"error"}
+{"message":"Cannot read property 'findOne' of undefined","level":"error"}
+{"message":"Cannot read property 'findOne' of undefined","level":"error"}
+{"message":"User is not defined","level":"error"}
+{"message":"User.findOne is not a function","level":"error"}
+{"message":"Model is not defined","level":"error"}
+{"message":"Cannot read property 'findOne' of undefined","level":"error"}
+{"message":"User.findOne is not a function","level":"error"}
+{"message":"User.findOne is not a function","level":"error"}
+{"message":"Cannot read property 'findOne' of undefined","level":"error"}
+{"message":"Cannot read property 'findOne' of undefined","level":"error"}
+{"message":"Unknown column 'refresh_token' in 'field list'","level":"error"}
+{"message":"Cannot read property 'comparePassword' of null","level":"error"}
+{"message":"Expected \"payload\" to be a plain object.","level":"error"}
+{"message":"Cannot read property 'getAll' of undefined","level":"error"}
+{"message":"Cannot read property 'findAll' of undefined","level":"error"}
+{"message":"Cannot read property 'findAll' of undefined","level":"error"}
+{"message":"Cannot read property 'findAll' of undefined","level":"error"}
+{"message":"err is not defined","level":"error"}
+{"message":"err is not defined","level":"error"}
+{"message":"err is not defined","level":"error"}
+{"message":"err is not defined","level":"error"}
+{"message":"res.setHeader is not a function","level":"error"}
+{"message":"Cannot read property 'body' of null","level":"error"}
+{"message":"Cannot create property 'statusCode' on boolean 'false'","level":"error"}
+{"message":"Cannot create property 'statusCode' on boolean 'false'","level":"error"}
+{"message":"Cannot create property 'statusCode' on boolean 'false'","level":"error"}
+{"message":"res.setHeader is not a function","level":"error"}
+{"message":"res.json is not a function","level":"error"}
+{"message":"Converting circular structure to JSON\n    --> starting at object with constructor 'Socket'\n    |     property 'parser' -> object with constructor 'HTTPParser'\n    --- property 'socket' closes the circle","level":"error"}
+{"message":"WHERE parameter \"date\" has invalid \"undefined\" value","level":"error"}
+{"message":"WHERE parameter \"date\" has invalid \"undefined\" value","level":"error"}
+{"message":"Cannot read property 'date' of undefined","level":"error"}
+{"message":"Cannot read property 'date' of undefined","level":"error"}
+{"message":"date is not defined","level":"error"}
+{"message":"date is not defined","level":"error"}
+{"message":"The argument passed to findAll must be an options object, use findByPk if you wish to pass a single primary key value","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"user is not defined","level":"error"}
+{"message":"user is not defined","level":"error"}
+{"message":"Cannot add foreign key constraint","level":"error"}
+{"message":"res.json is not a function","level":"error"}
+{"message":"res.json is not a function","level":"error"}
+{"message":"Cannot read property 'email' of undefined","level":"error"}
+{"message":"invalid password","level":"error"}
+{"message":"Cannot read property 'email' of undefined","level":"error"}
+{"message":"invalid password","level":"error"}
+{"message":"invalid password","level":"error"}
+{"message":"undefined is not iterable (cannot read property Symbol(Symbol.iterator))","level":"error"}
+{"message":"undefined is not iterable (cannot read property Symbol(Symbol.iterator))","level":"error"}
+{"message":"Cannot set property 'statusCode' of undefined","level":"error"}
+{"message":"undefined is not iterable (cannot read property Symbol(Symbol.iterator))","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"WHERE parameter \"date\" has invalid \"undefined\" value","level":"error"}
+{"message":"WHERE parameter \"date\" has invalid \"undefined\" value","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Unknown column 'vehicles.search_field' in 'where clause'","level":"error"}
+{"message":"Unknown column 'vehicles.search_field' in 'where clause'","level":"error"}
+{"message":"WHERE parameter \"date\" has invalid \"undefined\" value","level":"error"}
+{"message":"WHERE parameter \"date\" has invalid \"undefined\" value","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Unknown column 'vehicles.search_field' in 'where clause'","level":"error"}
+{"message":"Unknown column 'vehicles.search_field' in 'where clause'","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Unknown column 'vehicles.search_field' in 'where clause'","level":"error"}
+{"message":"Unknown column 'vehicles.search_field' in 'where clause'","level":"error"}
+{"message":"Unknown column 'vehicles.search_field' in 'where clause'","level":"error"}
+{"message":"Unknown column 'vehicles.search_field' in 'where clause'","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Unknown column 'vehicles.$search_field' in 'where clause'","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Unknown column 'vehicles.$search_field' in 'where clause'","level":"error"}
+{"message":"Unknown column 'vehicles.$search_field' in 'where clause'","level":"error"}
+{"message":"Unknown column 'vehicles.$search_field' in 'where clause'","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Unknown column 'vehicles.[Op.like]:{search_field}' in 'where clause'","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Unknown column 'vehicles.[Op.like]:{search_field}' in 'where clause'","level":"error"}
+{"message":"Unknown column 'vehicles.[Op.like]:{search_field}' in 'where clause'","level":"error"}
+{"message":"Unknown column 'vehicles.[Op.like]:{search_field}' in 'where clause'","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Unknown column 'vehicles.search_field' in 'where clause'","level":"error"}
+{"message":"Unknown column 'vehicles.search_field' in 'where clause'","level":"error"}
+{"message":"Unknown column 'vehicles.search_field' in 'where clause'","level":"error"}
+{"message":"Unknown column 'vehicles.search_field' in 'where clause'","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"err is not defined","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"res is not defined","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"Cannot set property 'statusCode' of undefined","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"res is not defined","level":"error"}
+{"message":"res is not defined","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"vehiclesInfo is not defined","level":"error"}
+{"message":"vehiclesInfo is not defined","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"Cannot set headers after they are sent to the client","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
+{"message":"no date selected","level":"error"}
