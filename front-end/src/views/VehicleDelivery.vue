@@ -86,23 +86,27 @@
         class="elevation-1"
         ref="table"
       >
-        <template v-slot:items="props">
-          <td class="text-xs-right photo-cell">
-            <img alt="Car photo">
-          </td>
-          <td class="text-xs-right">{{ props.item.date }}</td>
-          <td class="text-xs-right">{{ props.item.time }}</td>
-          <td class="text-xs-right">{{ props.item.lot_number }}</td>
-          <td class="text-xs-right">{{ props.item.type }}</td>
-          <td class="text-xs-right">{{ props.item.color }}</td>
-          <td class="text-xs-right">{{ props.item.make }}</td>
-          <td class="text-xs-right">{{ props.item.model }}</td>
-          <td class="text-xs-right">{{ props.item.licence_plate }}</td>
-          <td class="text-xs-right">{{ props.item.location }}</td>
-          <td class="text-xs-right">{{ props.item.towing_company }}</td>
+        <template v-slot:item="{ item }">
+          <tr>
+            <td class="text-xs-center photo-cell">
+              <img alt="Car photo" @click="call_gallery(item.lot_number)" src="https://picsum.photos/80/45?random"></v-btn>
+            </td>
+            <td class="text-xs-left">{{ item.lot_number }}</td>
+            <td class="text-xs-left">{{ item.type }}</td>
+            <td class="text-xs-left">{{ item.color }}</td>
+            <td class="text-xs-left">{{ item.make }}</td>
+            <td class="text-xs-left">{{ item.model }}</td>
+            <td class="text-xs-left">{{ item.year }}</td>
+            <td class="text-xs-left">{{ item.license_plate }}</td>
+            <td class="text-xs-left">{{ item.date }}</td>
+            <td class="text-xs-left">{{ item.time }}</td>
+            <td class="text-xs-left">{{ item.location }}</td>
+            <td class="text-xs-left">{{ item.towing_company }}</td>
+          </tr>
         </template>
       </v-data-table>
     </v-card>
+    <gallery-card :show_gallery="show_gallery" :lot_id="lot_id" @close_gallery="show_gallery = !show_gallery"></gallery-card>
   </div>
 </template>
 
@@ -113,11 +117,13 @@ import { VDaterange } from "vuetify-daterange-picker"
 import "vuetify-daterange-picker/dist/vuetify-daterange-picker.css";
 import { setTimeout, clearTimeout } from "timers";
 import moment from 'moment'
+import Gallery from '../components/Gallery'
 
 export default {
   name: "VehicleDelivery",
   components: {
-    VDaterange
+    VDaterange,
+    'gallery-card': Gallery
   },
   data() {
     return {
@@ -132,6 +138,11 @@ export default {
       dates: [],
       datesGetter: [],
       headers: [
+        {
+          text: "#",
+          value: "img",
+          align: "center"
+        },
         {
           text: "LOT#",
           value: "lot_number",
@@ -190,7 +201,9 @@ export default {
       ],
       api_timeout: null,
       activities: [],
-      yesterday: moment().subtract(1, 'days').format('YYYY-MM-DD')
+      yesterday: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+      show_gallery: false,
+      lot_id: ''
     };
   },
   methods: {
@@ -283,6 +296,10 @@ export default {
     get_default_data () {
       this.start_date = this.end_date = this.yesterday
       this.search_vehicles()
+    },
+    call_gallery (id) {
+      this.show_gallery = true
+      this.lot_id = id
     }
   },
   computed: {
