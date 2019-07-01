@@ -5,3 +5,4 @@ package-lock.json
 /logs/error.log
 .nyc_output
 /config/config.json
+npm-debug.log

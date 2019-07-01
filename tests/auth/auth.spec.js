@@ -93,7 +93,7 @@ describe('Authorization', () => {
                 });
             done();
         });
-        it('POST /user/login without email',done =>{
+     /*   it('POST /user/login without email',done =>{
             const user = {
                 password: 'test',
             };
@@ -165,7 +165,7 @@ describe('Authorization', () => {
                     res.body.error.should.equal('invalid password');
                 });
             done();
-        })
+        })*/
     })
 
 });
