@@ -18,20 +18,21 @@
           </template>
 
           <v-card light class="settings_bar pl-3" color="primary">
-            <v-list-item-avatar>
-              <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
-            </v-list-item-avatar>
-            <v-list-item-content>
-              <v-list-item-title>John Leider</v-list-item-title>
-            </v-list-item-content>
-
+            <v-layout row>
+              <v-flex xs12>
+                <v-list-item-avatar :size="60">
+                  <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+                </v-list-item-avatar>
+                <v-list-item-title>John Leider</v-list-item-title>
+              </v-flex>
+            </v-layout>
             <v-layout row wrap>
               <v-flex xs12>
                 <v-icon class>settings</v-icon>
                 <span @click="settingForm = true">Setting</span>
               </v-flex>
-              <v-flex xs12>
-                <v-icon class>logout</v-icon>
+              <v-flex xs12 @click="logout">
+                <v-icon>logout</v-icon>
                 <span>Log-out</span>
               </v-flex>
             </v-layout>
@@ -44,7 +45,7 @@
         </v-menu>
       </div>
     </div>
-    <v-dialog max-width="600px" v-model="settingForm" transition="dialog-bottom-transition">
+    <v-dialog max-width="480px" v-model="settingForm" transition="dialog-bottom-transition">
       <setting-form @closeSettings="settingForm = false"></setting-form>
     </v-dialog>
   </div>
