@@ -5,39 +5,68 @@
       <v-card-title>
         Activity
         <v-spacer></v-spacer>
-
         <v-menu
           class="date-menu"
-          ref="menu"
-          v-model="menu"
+          ref="start_date_menu"
+          v-model="start_menu"
           :close-on-content-click="false"
-          :return-value.sync="date"
+          :return-value.sync="start_date"
           transition="scale-transition"
           offset-y
           full-width
-          min-width="290px"
+          min-width="190px"
         >
           <template class="date-slot" v-slot:activator="{ on }">
             <v-text-field
               class="date-text-field"
-              v-model="date_interval"
-              label="yyyy-mm-dd"
+              v-model="start_date"
+              label="From"
               prepend-icon="event"
               readonly
               v-on="on"
-              :disabled="(dates.length >= 2)"
-              clearable
+            ></v-text-field>
+          </template>
+          <v-date-picker
+            class="date-picker"
+            v-model="start_date"
+            :max="new Date().toISOString()">
+            <v-spacer></v-spacer>
+            <v-btn text color="primary" @click="start_menu = false">Cancel</v-btn>
+            <v-btn text color="primary" @click="save_start_date">OK</v-btn>
+          </v-date-picker>
+        </v-menu>
+        <v-menu
+          class="date-menu"
+          ref="end_date_menu"
+          v-model="end_menu"
+          :close-on-content-click="false"
+          :return-value.sync="end_date"
+          transition="scale-transition"
+          offset-y
+          full-width
+          min-width="190px"
+        >
+          <template class="date-slot" v-slot:activator="{ on }">
+            <v-text-field
+              class="date-text-field"
+              v-model="end_date"
+              label="To"
+              prepend-icon="event"
+              readonly
+              v-on="on"
             ></v-text-field>
           </template>
 
-          <v-date-picker class="date-picker" v-model="dates" no-title scrollable multiple v-if="!(dates.length >= 2)">
+          <v-date-picker
+            class="date-picker"
+            v-model="end_date"
+            :min="new Date(start_date).toISOString()"
+            :max="new Date().toISOString()">
             <v-spacer></v-spacer>
-            <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-            <v-btn text color="primary" @click="save_date">OK</v-btn>
+            <v-btn text color="primary" @click="end_menu = false">Cancel</v-btn>
+            <v-btn text color="primary" @click="save_end_date">OK</v-btn>
           </v-date-picker>
-
         </v-menu>
-
         <v-select
           class="table-select"
           :items="select_data"
@@ -46,10 +75,8 @@
           label="Search field"
           v-model="search_field"
         ></v-select>
-
         <v-text-field v-model="search_phraze" append-icon="search" class="table-search mr-4" label="Search..." @input="search_vehicles"></v-text-field>
-
-        <v-btn small color="primary" class="mb-2" @click="clear_filters">Clear filters</v-btn>
+        <v-btn small color="primary" class="mb-2" @click="get_default_data">Clear filters</v-btn>
       </v-card-title>
 
       <v-data-table
@@ -59,23 +86,27 @@
         class="elevation-1"
         ref="table"
       >
-        <template v-slot:items="props">
-          <td class="text-xs-right photo-cell">
-            <img alt="Car photo">
-          </td>
-          <td class="text-xs-right">{{ props.item.date }}</td>
-          <td class="text-xs-right">{{ props.item.time }}</td>
-          <td class="text-xs-right">{{ props.item.lot_number }}</td>
-          <td class="text-xs-right">{{ props.item.type }}</td>
-          <td class="text-xs-right">{{ props.item.color }}</td>
-          <td class="text-xs-right">{{ props.item.make }}</td>
-          <td class="text-xs-right">{{ props.item.model }}</td>
-          <td class="text-xs-right">{{ props.item.licence_plate }}</td>
-          <td class="text-xs-right">{{ props.item.location }}</td>
-          <td class="text-xs-right">{{ props.item.towing_company }}</td>
+        <template v-slot:item="{ item }">
+          <tr>
+            <td class="text-xs-center photo-cell">
+              <img alt="Car photo" @click="call_gallery(item.lot_number)" src="https://picsum.photos/80/45?random"></v-btn>
+            </td>
+            <td class="text-xs-left">{{ item.lot_number }}</td>
+            <td class="text-xs-left">{{ item.type }}</td>
+            <td class="text-xs-left">{{ item.color }}</td>
+            <td class="text-xs-left">{{ item.make }}</td>
+            <td class="text-xs-left">{{ item.model }}</td>
+            <td class="text-xs-left">{{ item.year }}</td>
+            <td class="text-xs-left">{{ item.license_plate }}</td>
+            <td class="text-xs-left">{{ item.date }}</td>
+            <td class="text-xs-left">{{ item.time }}</td>
+            <td class="text-xs-left">{{ item.location }}</td>
+            <td class="text-xs-left">{{ item.towing_company }}</td>
+          </tr>
         </template>
       </v-data-table>
     </v-card>
+    <gallery-card :show_gallery="show_gallery" :lot_id="lot_id" @close_gallery="show_gallery = !show_gallery"></gallery-card>
   </div>
 </template>
 
@@ -85,24 +116,33 @@ import actionTypes from "../store/action-types";
 import { VDaterange } from "vuetify-daterange-picker"
 import "vuetify-daterange-picker/dist/vuetify-daterange-picker.css";
 import { setTimeout, clearTimeout } from "timers";
+import moment from 'moment'
+import Gallery from '../components/Gallery'
 
 export default {
   name: "VehicleDelivery",
   components: {
-    VDaterange
+    VDaterange,
+    'gallery-card': Gallery
   },
   data() {
     return {
       date: "",
-      menu: false,
+      start_menu: false,
+      end_menu: false,
       search_on_front: "",
-      search_field: "",
+      search_field: "LOT#",
       search_phraze: "",
       start_date: "",
       end_date: "",
       dates: [],
       datesGetter: [],
       headers: [
+        {
+          text: "#",
+          value: "img",
+          align: "center"
+        },
         {
           text: "LOT#",
           value: "lot_number",
@@ -160,16 +200,19 @@ export default {
         }
       ],
       api_timeout: null,
-      activities: []
+      activities: [],
+      yesterday: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+      show_gallery: false,
+      lot_id: ''
     };
   },
   methods: {
     ...mapActions({
-      /** 
+      /**
        * function get_vehicle_data
        * optional params { start_date, end_date, search_field, search_param }
       */
-     
+
       get_vehicle_data: actionTypes.GET_VEHICLE_DATA
     }),
 
@@ -181,12 +224,12 @@ export default {
     },
 
     format_date_for_api(date) {
-      return(  
+      return(
         date.getFullYear() + "-" +
-        ("00" + (date.getMonth() + 1)).slice(-2) + "-" + 
-        ("00" + date.getDate()).slice(-2) + " " + 
-        ("00" + date.getHours()).slice(-2) + ":" + 
-        ("00" + date.getMinutes()).slice(-2) + ":" + 
+        ("00" + (date.getMonth() + 1)).slice(-2) + "-" +
+        ("00" + date.getDate()).slice(-2) + " " +
+        ("00" + date.getHours()).slice(-2) + ":" +
+        ("00" + date.getMinutes()).slice(-2) + ":" +
         ("00" + date.getSeconds()).slice(-2)
       )
     },
@@ -195,22 +238,21 @@ export default {
       // validate response scheme
       if (Object(response) === response && Object(response.data) === response.data) {
         let vehicles = response.data.vehicles;
-        
+
         // we get data from api not in US format, so we had to format it
         vehicles.forEach(item => {
           let date = item.date.slice(0, item.date.indexOf("T"));
-          console.log(date);
           item.date = this.format_date(date);
         });
 
-        this.activities = vehicles; 
+        this.activities = vehicles;
       }
     },
 
     search_vehicles() {
       let computed_search_field;
 
-      // get correct field names for request from v-select UI 
+      // get correct field names for request from v-select UI
       this.headers.forEach(item => {
         if(item.text === this.search_field) {
           computed_search_field = item.value;
@@ -218,9 +260,9 @@ export default {
       })
 
       let params = {
-        start_date: this.dates_computed[0], 
-        end_date: this.dates_computed[1], 
-        search_field: computed_search_field, 
+        start_date: this.start_date,
+        end_date: this.end_date,
+        search_field: computed_search_field,
         search_param: this.search_phraze
       };
 
@@ -232,7 +274,7 @@ export default {
       this.api_timeout = setTimeout(() => {
         this.get_vehicle_data(params)
           .then(response => {
-            this.get_vehicle_data_handler(response); 
+            this.get_vehicle_data_handler(response);
           })
           .catch(err => {
             console.error(err);
@@ -241,15 +283,23 @@ export default {
 
     },
 
-    save_date() {
-      this.$refs.menu.save(this.date);
-
+    save_end_date() {
+      this.$refs.end_date_menu.save(this.end_date);
       this.search_vehicles();
     },
-
-    clear_filters() {
-      this.start_date = this.end_date = this.search_phraze = this.search_field = "";
-      this.dates = [];
+    save_start_date() {
+      this.$refs.start_date_menu.save(this.start_date);
+      this.$refs.end_date_menu.save(this.end_date);
+      this.end_date = this.start_date
+      this.search_vehicles();
+    },
+    get_default_data () {
+      this.start_date = this.end_date = this.yesterday
+      this.search_vehicles()
+    },
+    call_gallery (id) {
+      this.show_gallery = true
+      this.lot_id = id
     }
   },
   computed: {
@@ -257,26 +307,10 @@ export default {
       // here we get field names for rendering in v-select component
       return this.headers.map(item => item.text).filter(item => item.toLowerCase() !== "date");
     },
-
-    date_interval() {
-      // get last dates for rendering in date text input
-      if (this.dates.length === 1) {
-        return this.dates[0];
-      } else if(this.dates.length === 2) {
-        return this.dates[0] + " - " + this.dates[1]
-      }
-      
-      return "";
-    },
-
-    dates_computed() {
-      return this.dates.length >= 2 ? this.dates : ["", ""]
-    }
   },
-  
+
   created() {
-    this.get_vehicle_data()
-      .then(response => { this.get_vehicle_data_handler(response) })
+    this.get_default_data()
   }
 };
 </script>
@@ -333,7 +367,7 @@ export default {
   .date-text-field {
     position: relative;
     flex: initial;
-    width: 250px;
+    width: 150px;
     margin-right: 1.5rem;
   }
 

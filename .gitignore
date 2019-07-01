@@ -4,4 +4,10 @@ package-lock.json
 .idea
 /logs/error.log
 .nyc_output
+<<<<<<< HEAD
 /config/config.json
+=======
+/config/config.json
+.history
+/.history
+>>>>>>> 1f9f0f7f3775eabbdae91318ed7aa4f901b0d7aa
