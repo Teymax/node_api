@@ -1,0 +1,6 @@
+export default {
+  REGISTER: "REGISTER",
+  LOGIN: "LOGIN",
+  LOGOUT: "LOGOUT",
+  GET_VEHICLE_DATA: "GET_VEHICLE_DATA"
+};
