@@ -28,27 +28,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
 
-  Model.beforeUpdate(async user => {
-    if (user.changed('password')){
-      let salt, hash, err;
-      [err, salt] = await to(bcryptjs.genSalt(10));
-      if (err) throwError(err.message, true);
-      [err, hash] = await to(bcryptjs.hash(user.password, salt));
-      if (err) throwError(err.message, true);
-      user.password = hash;
-    }
-  });
-
-
   Model.prototype.comparePassword = async function (pw) {
     let err, pass;
-    if(!this.password) throwError('password not set');
-
+    if(!this.password) throwError('password not set', true);
     [err, pass] = await to(bcryptjs.compare(pw, this.password));
-    if(err) throwError(err);
-
-    if(!pass) throwError('invalid password');
-
+    if(err) throwError(err.message, true);
+    if(!pass) throwError('invalid password', true);
     return this;
   };
 

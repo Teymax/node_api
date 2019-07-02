@@ -18,7 +18,7 @@ const create = async (req, res) => {
     [err] = await to(authService.register(body));
     if (err) return error(res, err.message, 400);
     [err, user] = await to(authService.login(body));
-    console.log(user);
+    if (err) return error(res, err.message, 400);
     return success(res, {message:'Successfully created new user.', user: user}, 201);
   }
 };
@@ -38,16 +38,16 @@ const logout = async (req, res) => {
 };
 
 const update = async (req, res) => {
-  if (!req.body.old_password) throwError('Please enter an old password to change settings');
-  if (!req.body.new_password || !req.body.confirm_password) throwError('Please enter new password 2 times to change it');
+  if (!req.body.old_password) return error(res, 'Please enter an old password to change settings', 400);
+  if (!req.body.new_password || !req.body.confirm_password) return error(res, 'Please enter new password 2 times to change it', 400);
   let err, user;
   [err, user] = await to(User.findOne({where: {email: req.body.email} }));
-  if (err) throwError(err.message);
+  if (err) return error(res, err.message, 400);
   [err, user] = await to(user.comparePassword(req.body.old_password));
-  if (err) throwError(err.message);
-  [err, user] = await to(User.update({ email: req.body.email, password: req.body.new_password, refresh_token: req.body.refresh_token}, {returning: true, where: {email: req.body.email} }));
-  if(err) throwError(err.message);
-  return success(res, user);
+  if (err) return error(res, err.message, 400);
+  [err, user] = await to(user.update({ password: req.body.new_password}));
+  if(err) return error(res, err.message, 400);
+  return success(res, {user: user});
 };
 
 exports.create = create;
