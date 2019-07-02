@@ -17,30 +17,21 @@
             </v-btn>
           </template>
 
-          <v-card light class="settings_bar pl-3" color="primary">
-            <v-layout row>
-              <v-flex xs12>
+          <v-card dark light class="settings_bar pl-3 mt-5" color="primary">
+              <v-layout row class="pb-4">
                 <v-list-item-avatar :size="60">
                   <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
                 </v-list-item-avatar>
-                <v-list-item-title>John Leider</v-list-item-title>
-              </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-              <v-flex xs12>
-                <v-icon class>settings</v-icon>
-                <span @click="settingForm = true">Setting</span>
-              </v-flex>
-              <v-flex xs12 @click="logout">
-                <v-icon>logout</v-icon>
-                <span>Log-out</span>
-              </v-flex>
-            </v-layout>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <!-- <v-btn text @click="menu = false">Cancel</v-btn>
-              <v-btn color="primary" text @click="menu = false">Save</v-btn>-->
-            </v-card-actions>
+                <v-list-item-title class="settings_bar-user_name">John <br> Leider</v-list-item-title>
+              </v-layout>
+              <div class="settings_bar-par" xs12 @click="settingForm = true">
+                <v-icon class="settings_bar-par_icon">settings</v-icon>
+                <span class="settings_bar-par-text">Setting</span>
+              </div>
+              <div class="settings_bar-par" xs12 @click="logout">
+                <v-icon class="settings_bar-par_icon">logout</v-icon>
+                <span class="settings_bar-par-text">Log-out</span>
+              </div>
           </v-card>
         </v-menu>
       </div>
@@ -146,6 +137,30 @@ export default {
   }
 }
 .settings_bar {
-  background: rgba(5, 29, 62, 0.92);
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  .settings_bar-user_name {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 24px;
+    color: #FFFFFF;
+  }
+  .settings_bar-par-text {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    color: #FFFFFF;
+    cursor: pointer;
+  }
+  .settings_bar-par {
+    padding-bottom: 16px;
+  }
+  .settings_bar-par_icon {
+    padding-right: 10px;
+  }
 }
 </style>

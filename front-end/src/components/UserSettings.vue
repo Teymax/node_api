@@ -20,7 +20,7 @@
           <v-toolbar-title class="modal_setting-title pt-4 pb-4">Change password</v-toolbar-title>
         </v-flex>
         <v-layout row wrap>
-          <v-flex xs12 sm4 class="pt-3 pb-xs3">
+          <v-flex xs12 sm4 class="py-3 pl-2">
             <p class="change_password_lable">Old password</p>
           </v-flex>
           <v-flex xs12 sm8>
@@ -37,7 +37,7 @@
               solo
             ></v-text-field>
           </v-flex>
-          <v-flex xs12 sm4 class="pt-3">
+          <v-flex xs12 sm4 class="py-3 pl-2">
             <p class="change_password_lable">New password</p>
           </v-flex>
           <v-flex xs12 sm8>
@@ -54,7 +54,7 @@
               solo
             ></v-text-field>
           </v-flex>
-          <v-flex xs12 sm4 class="pt-3">
+          <v-flex xs12 sm4 class="py-3 pl-2">
             <p class="change_password_lable">Confirm</p>
           </v-flex>
           <v-flex xs12 sm8>
@@ -86,7 +86,9 @@ export default {
     show1: false,
     show2: false,
     show3: false,
-    password: "Password",
+    password1: "Password1",
+    password2: "Password2",
+    password3: "Password3",
     rules: {
       required: value => !!value || "Required.",
       min: v => v.length >= 8 || "Min 8 characters",
@@ -103,7 +105,7 @@ export default {
 
 <style lang="scss">
 .modal_setting-wrap {
-  padding: 0 32px;
+  padding: 30px 32px;
 }
 .modal_setting-title {
   font-size: 24px;
