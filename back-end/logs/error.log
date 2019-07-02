@@ -173,3 +173,14 @@
 {"message":"no date selected","level":"error"}
 {"message":"no date selected","level":"error"}
 {"message":"no date selected","level":"error"}
+{"message":"Field 'email' doesn't have a default value","level":"error"}
+{"message":"user.upsert is not a function","level":"error"}
+{"message":"Missing where attribute in the options parameter","level":"error"}
+{"message":"Missing where attribute in the options parameter","level":"error"}
+{"message":"Field 'email' doesn't have a default value","level":"error"}
+{"message":"invalid password","level":"error"}
+{"message":"invalid password","level":"error"}
+{"message":"invalid password","level":"error"}
+{"message":"invalid password","level":"error"}
+{"message":"Missing where attribute in the options parameter","level":"error"}
+{"message":"Missing where attribute in the options parameter","level":"error"}

@@ -3,6 +3,7 @@ import bcryptjs from 'bcryptjs'
 
 module.exports = (sequelize, DataTypes) => {
   let Model = sequelize.define('user', {
+    //user_image: DataTypes.STRING,
     username: DataTypes.STRING,
     email: {
       type: DataTypes.STRING,
@@ -17,6 +18,17 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Model.beforeSave(async user => {
+    if (user.changed('password')){
+      let salt, hash, err;
+      [err, salt] = await to(bcryptjs.genSalt(10));
+      if (err) throwError(err.message, true);
+      [err, hash] = await to(bcryptjs.hash(user.password, salt));
+      if (err) throwError(err.message, true);
+      user.password = hash;
+    }
+  });
+
+  Model.beforeUpdate(async user => {
     if (user.changed('password')){
       let salt, hash, err;
       [err, salt] = await to(bcryptjs.genSalt(10));
