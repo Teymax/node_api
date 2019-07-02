@@ -45,7 +45,7 @@
         </v-menu>
       </div>
     </div>
-    <v-dialog max-width="480px" v-model="settingForm" transition="dialog-bottom-transition">
+    <v-dialog max-width="450px" v-model="settingForm" transition="dialog-bottom-transition">
       <setting-form @closeSettings="settingForm = false"></setting-form>
     </v-dialog>
   </div>
