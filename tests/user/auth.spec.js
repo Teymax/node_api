@@ -64,23 +64,23 @@ describe('Authorization', () => {
           done()
 				});
 		});
-		// it('POST /user/register with correct data', done => {
-		// 	const user = {
-		// 		username: 'test',
-		// 		email: 'test@gmail.com',
-		// 		password: 'test'
-		// 	};
-		// 	chai.request(app)
-		// 		.post('/user/register')
-		// 		.send(user)
-		// 		.end((err, res) => {
-    //       console.log(res)
-    //       res.should.have.status(201);
-		// 			res.body.success.should.equal(true);
-		// 			res.body.user.should.be.a('object')
-    //       done()
-		// 		});
-		// })
+		it('POST /user/register with correct data', done => {
+			const user = {
+				username: 'test',
+				email: 'test@gmail.com',
+				password: 'test'
+			};
+			chai.request(app)
+				.post('/user/register')
+				.send(user)
+				.end((err, res) => {
+          console.log(res)
+          res.should.have.status(201);
+					res.body.success.should.equal(true);
+					res.body.user.should.be.a('object')
+          done()
+				});
+		})
 	});
 
 	describe('Login', () => {
@@ -140,7 +140,7 @@ describe('Authorization', () => {
 		it('POST /user/login with incorrect password', done => {
 			const user = {
 				email: 'test@gmail.com',
-				password: 'test'
+				password: 'test23'
 			};
 			chai.request(app)
 				.post('/user/login')
@@ -148,7 +148,7 @@ describe('Authorization', () => {
 				.end((err, res) => {
           res.should.have.status(400);
 					res.body.success.should.equal(false);
-					res.body.error.should.equal('Not registered')
+					res.body.error.should.equal('invalid password');
           done()
 				});
 		});
@@ -163,7 +163,9 @@ describe('Authorization', () => {
 				.end((err, res) => {
 					res.should.have.status(200);
 					res.body.success.should.equal(false);
-					res.body.user.should.be.a('object')
+					res.body.user.should.be.a('object');
+					res.body.user.should.include.keys("access_token");
+					res.body.user.should.include.keys("refresh_token");
 				});
 			done()
 		})
