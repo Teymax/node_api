@@ -41,7 +41,7 @@ const login = async userInfo => {
   if (!user) throwError('Not registered');
   [err, user] = await to(user.comparePassword(userInfo.password));
   if (err) throwError(err.message);
-  const tokens = generateTokens({id: user.id, email: user.email})
+  const tokens = generateTokens({id: user.id, email: user.email});
   return Object.assign({
     username: user.username,
     email: user.email

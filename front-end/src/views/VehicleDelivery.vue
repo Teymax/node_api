@@ -29,10 +29,8 @@
           <v-date-picker
             class="date-picker"
             v-model="start_date"
+            @input="save_start_date"
             :max="new Date().toISOString()">
-            <v-spacer></v-spacer>
-            <v-btn text color="primary" @click="start_menu = false">Cancel</v-btn>
-            <v-btn text color="primary" @click="save_start_date">OK</v-btn>
           </v-date-picker>
         </v-menu>
         <v-menu
@@ -61,10 +59,8 @@
             class="date-picker"
             v-model="end_date"
             :min="new Date(start_date).toISOString()"
+            @input="save_end_date"
             :max="new Date().toISOString()">
-            <v-spacer></v-spacer>
-            <v-btn text color="primary" @click="end_menu = false">Cancel</v-btn>
-            <v-btn text color="primary" @click="save_end_date">OK</v-btn>
           </v-date-picker>
         </v-menu>
         <v-select
@@ -74,13 +70,16 @@
           width="10"
           label="Search field"
           v-model="search_field"
+          @input="$refs.search_input.focus()"
+          @change="clear_search_field"
         ></v-select>
-        <v-text-field v-model="search_phraze" append-icon="search" class="table-search mr-4" label="Search..." @input="search_vehicles"></v-text-field>
+        <v-text-field v-model="search_phraze" ref="search_input" append-icon="search" class="table-search mr-4" label="Search..." @input="search_vehicles"></v-text-field>
         <v-btn small color="primary" class="mb-2" @click="get_default_data">Clear filters</v-btn>
       </v-card-title>
 
       <v-data-table
-        :headers="headers"
+        :headers="headers_table"
+        :items-per-page="50"
         :items="activities"
         :search="search_on_front"
         class="elevation-1"
@@ -91,19 +90,25 @@
             <td class="text-xs-center photo-cell">
               <img alt="Car photo" @click="call_gallery(item.lot_number)" src="https://picsum.photos/80/45?random"></v-btn>
             </td>
+            <td class="text-xs-left">{{ item.date }}</td>
+            <td class="text-xs-left">{{ item.time }}</td>
+            <td class="text-xs-left">{{ item.location }}</td>
             <td class="text-xs-left">{{ item.lot_number }}</td>
+            <td class="text-xs-left">{{ item.license_plate }}</td>
             <td class="text-xs-left">{{ item.type }}</td>
             <td class="text-xs-left">{{ item.color }}</td>
             <td class="text-xs-left">{{ item.make }}</td>
             <td class="text-xs-left">{{ item.model }}</td>
             <td class="text-xs-left">{{ item.year }}</td>
-            <td class="text-xs-left">{{ item.license_plate }}</td>
-            <td class="text-xs-left">{{ item.date }}</td>
-            <td class="text-xs-left">{{ item.time }}</td>
-            <td class="text-xs-left">{{ item.location }}</td>
             <td class="text-xs-left">{{ item.towing_company }}</td>
           </tr>
         </template>
+        <!-- <template v-slot:footer="{ items }">
+          <div class="table-footer">
+            <v-select width="10" class="" :items="rows_per_page_items" v-model="rows_amount"></v-select>
+
+          </div>
+        </template> -->
       </v-data-table>
     </v-card>
     <gallery-card :show_gallery="show_gallery" :lot_id="lot_id" @close_gallery="show_gallery = !show_gallery"></gallery-card>
@@ -137,6 +142,70 @@ export default {
       end_date: "",
       dates: [],
       datesGetter: [],
+      rows_per_page_items: [50, 100, 150],
+      rows_amount: 50,
+      headers_table: [
+        {
+          text: "",
+          value: "img",
+          align: "center"
+        },
+        {
+          text: "DATE",
+          value: "date",
+          align: "center"
+        },
+        {
+          text: "TIME",
+          value: "time",
+          align: "center"
+        },
+        {
+          text: "LOCATION",
+          value: "location",
+          align: "center"
+        },
+        {
+          text: "LOT#",
+          value: "lot_number",
+          align: "center"
+        },
+        {
+          text: "LP",
+          value: "license_plate",
+          align: "center"
+        },
+        {
+          text: "TYPE",
+          value: "type",
+          align: "center"
+        },
+        {
+          text: "COLOR",
+          value: "color",
+          align: "center"
+        },
+        {
+          text: "MAKE",
+          value: "make",
+          align: "center"
+        },
+        {
+          text: "MODEL",
+          value: "model",
+          align: "center"
+        },
+        {
+          text: "Year",
+          value: "year",
+          align: "center"
+        },
+        {
+          text: "TOWING COMPANY",
+          value: "towing_company",
+          align: "center"
+        }
+      ],
       headers: [
         {
           text: "#",
@@ -201,7 +270,6 @@ export default {
       ],
       api_timeout: null,
       activities: [],
-      yesterday: moment().subtract(1, 'days').format('YYYY-MM-DD'),
       show_gallery: false,
       lot_id: ''
     };
@@ -283,20 +351,38 @@ export default {
 
     },
 
+    clear_search_field() {
+      this.search_phraze = "";
+    },
+
     save_end_date() {
       this.$refs.end_date_menu.save(this.end_date);
       this.search_vehicles();
+      this.end_menu = false;
     },
+
     save_start_date() {
+      if (this.start_date > this.end_date) {
+        this.start_date = this.end_date;
+      }
+      
       this.$refs.start_date_menu.save(this.start_date);
       this.$refs.end_date_menu.save(this.end_date);
-      this.end_date = this.start_date
+
+      // this.end_date = this.start_date;
+
       this.search_vehicles();
+      this.start_menu = false;
     },
+
     get_default_data () {
-      this.start_date = this.end_date = this.yesterday
+      this.start_date = this.end_date = moment().format('YYYY-MM-DD');
+      this.search_phraze = "";
+      this.search_field = "lot_number";
+      
       this.search_vehicles()
     },
+
     call_gallery (id) {
       this.show_gallery = true
       this.lot_id = id
@@ -306,7 +392,7 @@ export default {
     select_data() {
       // here we get field names for rendering in v-select component
       return this.headers.map(item => item.text).filter(item => item.toLowerCase() !== "date");
-    },
+    }
   },
 
   created() {
@@ -333,6 +419,12 @@ export default {
     box-sizing: border-box;
   }
 
+  .v-data-table th {
+    text-align: left !important;
+    font-weight: bold;
+    color: #333 !important;
+  }
+
   .table-select {
     .v-input__slot {
       background-color: $bg-third;
@@ -349,6 +441,15 @@ export default {
 
   .table-search {
     flex: inherit;
+  }
+
+  .table-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .footer-select {
+    width: 100px;
   }
 
   .table-search {

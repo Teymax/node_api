@@ -6,6 +6,14 @@ import Login from "../components/Login";
 
 Vue.use(Router);
 
+function guard (to, from, next) {
+  if(!localStorage.getItem("access_token")) {
+    next("/login")
+  } else {
+    next();
+  }
+}
+
 const router = new Router({
   mode: "history",
   base: process.env.BASE_URL,
@@ -19,13 +27,7 @@ const router = new Router({
       path: "/vehicle-delivery",
       name: "Vehicle Delivery",
       component: VehicleDelivery,
-      beforeEnter: function (to, from, next) {
-        if(!localStorage.getItem("access-token")) {
-          next("/login")
-        } else {
-          next();
-        }
-      }
+      beforeEnter: guard
     },
     {
       path: "/login",

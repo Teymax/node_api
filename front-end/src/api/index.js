@@ -2,7 +2,7 @@ import api from './axiosInstance';
 
 export default class Api {
   static get_auth_header() {
-    const token = localStorage.getItem("access-token");
+    const token = localStorage.getItem("access_token");
 
     return { 
       headers: {
@@ -27,10 +27,8 @@ export default class Api {
           resolve(response)
         })
         .catch(err => {
-          // console.log(err.name, 'Error')
           reject(err)
         })
-        .finally(err => { console.warn('finally', err) });
     })
   }
 
@@ -49,11 +47,7 @@ export default class Api {
   static get_vehicle_data(paramsInput) {
     let params = paramsInput ? paramsInput : {}
 
-    console.warn(arguments);
     return new Promise((resolve, reject) => {
-      // let query = `/${start_date ? "?start_date=" + start_date : ""}${end_date ? "&end_date=" + end_date : ""}${search_field ? "&search_field=" + search_field : ""}${search_param ? "&search_param=" + search_param : ""}`;
-      // let query = `/${search_field ? "search_field=" + search_field : ""}${search_param ? "&search_param=" + search_param : ""}`;
-
       let query = this.generateVehicleQuery(params);
 
       api.get(`/vehicle/list${query}`, this.get_auth_header())
@@ -66,4 +60,18 @@ export default class Api {
     })
   }
 
+  static save_user_settings(user_data) {
+    return new Promise((resolve, reject) => {
+      // let query = `/${start_date ? "?start_date=" + start_date : ""}${end_date ? "&end_date=" + end_date : ""}${search_field ? "&search_field=" + search_field : ""}${search_param ? "&search_param=" + search_param : ""}`;
+      // let query = `/${search_field ? "search_field=" + search_field : ""}${search_param ? "&search_param=" + search_param : ""}`;
+
+      api.post(``, user_data)
+        .then(response => {
+          resolve(response)
+        })
+        .catch(err => {
+          reject(err)
+        });
+    })
+  }
 }

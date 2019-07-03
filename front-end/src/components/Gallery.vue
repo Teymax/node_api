@@ -2,7 +2,7 @@
   <v-dialog v-model="display_gallery" persistent max-width="700px" transition="dialog-bottom-transition">
     <v-card>
       <v-toolbar dark flat color="primary">
-        <v-toolbar-title class="font-weight-medium">Info header</v-toolbar-title>
+        <v-toolbar-title class="font-weight-medium">Photos</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon dark @click="close_gallery">
           <v-icon>close</v-icon>

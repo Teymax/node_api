@@ -3,6 +3,7 @@ import bcryptjs from 'bcryptjs'
 
 module.exports = (sequelize, DataTypes) => {
   let Model = sequelize.define('user', {
+    //user_image: DataTypes.STRING,
     username: DataTypes.STRING,
     email: {
       type: DataTypes.STRING,
@@ -27,16 +28,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
 
-
   Model.prototype.comparePassword = async function (pw) {
     let err, pass;
-    if(!this.password) throwError('password not set');
-
+    if(!this.password) throwError('password not set', true);
     [err, pass] = await to(bcryptjs.compare(pw, this.password));
-    if(err) throwError(err);
-
-    if(!pass) throwError('invalid password');
-
+    if(err) throwError(err.message, true);
+    if(!pass) throwError('invalid password', true);
     return this;
   };
 

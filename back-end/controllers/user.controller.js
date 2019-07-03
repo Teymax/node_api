@@ -1,5 +1,8 @@
+import {user as User} from "../models";
+
 const { throwError, to, error, success } = require('../utils/requestHelpers');
 const authService = require('../services/auth.service');
+const { user } = require('../models');
 // import { user as User } from '../models';
 
 const create = async (req, res) => {
@@ -15,7 +18,7 @@ const create = async (req, res) => {
     [err] = await to(authService.register(body));
     if (err) return error(res, err.message, 400);
     [err, user] = await to(authService.login(body));
-    console.log(user);
+    if (err) return error(res, err.message, 400);
     return success(res, {message:'Successfully created new user.', user: user}, 201);
   }
 };
@@ -34,6 +37,20 @@ const logout = async (req, res) => {
   return success(res, {message: 'Successfull logout.'}, 200);
 };
 
+const update = async (req, res) => {
+  if (!req.body.old_password) return error(res, 'Please enter an old password to change settings', 400);
+  if (!req.body.new_password || !req.body.confirm_password) return error(res, 'Please enter new password 2 times to change it', 400);
+  let err, user;
+  [err, user] = await to(User.findOne({where: {email: req.body.email} }));
+  if (err) return error(res, err.message, 400);
+  [err, user] = await to(user.comparePassword(req.body.old_password));
+  if (err) return error(res, err.message, 400);
+  [err, user] = await to(user.update({ password: req.body.new_password}));
+  if(err) return error(res, err.message, 400);
+  return success(res, {user: user});
+};
+
 exports.create = create;
 exports.login = login;
 exports.logout = logout;
+exports.update = update;

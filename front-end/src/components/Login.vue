@@ -12,6 +12,8 @@
             <v-layout wrap>
               <v-flex fluid>
                 <v-form class="login-form form" ref="form" v-model="valid">
+                  <p class="red--text mt-1 mb-3" v-if="server_message_login">{{ server_message_login }}</p>
+
                   <v-text-field v-model="email1" :rules="email_rules" label="E-mail" required></v-text-field>
 
                   <v-text-field
@@ -36,7 +38,9 @@
           <v-container fluid grid-list-sm>
             <v-layout wrap>
               <v-flex fluid>
-                <v-form class="login-form form" ref="form" v-model="valid2">
+                <v-form class="register-form form" ref="form" v-model="valid2">
+                  <p class="red--text mt-1 mb-3">{{ server_message_registration }}</p>
+                                
                   <v-text-field v-model="username" :rules="name_rules" label="User name" required></v-text-field>
 
                   <v-text-field v-model="email2" :rules="email_rules" label="E-mail" required></v-text-field>
@@ -86,6 +90,8 @@ import actionTypes from "../store/action-types";
 export default {
   data() {
     return {
+      server_message_login: "",
+      server_message_registration: "",
       tab: "null",
       username: "",
       password1: "",
@@ -129,15 +135,16 @@ export default {
         email: this.email1,
         password: this.password1
       }).then(response => {
-        if (
-          Object(response) === response &&
-          response.data &&
-          response.data.success
-        ) {
+        if ( Object(response) === response && response.data && response.data.success ) {
           this.$router.push("/");
+        } else if( Object(response) === response 
+                  && Object(response.response) === response.response 
+                  && Object(response.response.data) === response.response.data ) {
+
+          this.server_message_login = response.response.data.error;
+          console.dir(this.server_message_login);
         }
       })
-      
     },
 
     register_handler() {
@@ -146,11 +153,14 @@ export default {
         email: this.email2,
         password: this.password2
       }).then(response => {
-        
+        if ( Object(response) === response && response.data && response.data.success ) {
+          this.$router.push("/");
+        } else if( Object(response) === response && !response.success ) {
+          this.server_message_registration = response;
+          console.dir(response);
+        }
       });
-
     },
-
 
     validate() {
       return this.$refs.form.validate();
