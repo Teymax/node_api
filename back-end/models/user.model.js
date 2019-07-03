@@ -3,7 +3,7 @@ import bcryptjs from 'bcryptjs'
 
 module.exports = (sequelize, DataTypes) => {
   let Model = sequelize.define('user', {
-    //user_image: DataTypes.STRING,
+    user_image: DataTypes.STRING,
     username: DataTypes.STRING,
     email: {
       type: DataTypes.STRING,

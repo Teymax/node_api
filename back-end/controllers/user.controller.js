@@ -39,7 +39,7 @@ const logout = async (req, res) => {
 
 const update = async (req, res) => {
   if (!req.body.old_password) return error(res, 'Please enter an old password to change settings', 400);
-  if (!req.body.new_password || !req.body.confirm_password) return error(res, 'Please enter new password 2 times to change it', 400);
+  if (!req.body.new_password) return error(res, 'Please enter new password to change it', 400);
   let err, user;
   [err, user] = await to(User.findOne({where: {email: req.body.email} }));
   if (err) return error(res, err.message, 400);

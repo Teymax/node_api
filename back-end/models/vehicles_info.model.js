@@ -1,7 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    let Vehicle = sequelize.define('vehicles', {
-        date: DataTypes.DATE,
-        time: DataTypes.TIME,
+    let Vehicle_info = sequelize.define('vehicle_info', {
         lot_number: DataTypes.STRING,
         license_plate: DataTypes.STRING,
         type: DataTypes.STRING,
@@ -9,18 +7,17 @@ module.exports = (sequelize, DataTypes) => {
         model: DataTypes.STRING,
         year: DataTypes.STRING,
         color: DataTypes.STRING,
-        location: DataTypes.STRING,
-        towing_company: DataTypes.STRING
+        last_seen: DataTypes.STRING
     });
-    Vehicle.associate = function (models) {
-        Vehicle.hasOne(models.vehicle_photos,{
+    Vehicle_info.associate = function (models) {
+        Vehicle_info.hasOne(models.vehicle_photos,{
             foreignKey: 'vehicle_id',
             as: 'vehicle_photos'
         });
-        Vehicle.hasMany(models.history,{
+        Vehicle_info.hasMany(models.vehicle_history,{
             foreignKey: 'vehicle_id',
-            as: 'history_date'
+            as: 'vehicle_history'
         })
     };
-    return Vehicle;
+    return Vehicle_info;
 };

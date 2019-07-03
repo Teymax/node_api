@@ -2,10 +2,8 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('vehicles', [
+    return queryInterface.bulkInsert('vehicle_infos', [
       {
-        date: '2019-06-17 00:00:00',
-        time: '11:03:38',
         lot_number: '14170',
         type: 'SUV',
         color: 'White',
@@ -13,14 +11,11 @@ module.exports = {
         model: 'Captur',
         year: '2012',
         license_plate: '9CAL185',
-        location: 'GATE 1',
-        towing_company: 'California Towing',
+        last_seen: '2019-06-18 11:03:38',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        date: '2019-06-17 00:00:00',
-        time: '11:03:38',
         lot_number: '11987',
         type: 'SUV',
         color: 'Black',
@@ -28,14 +23,11 @@ module.exports = {
         model: 'Land Cruiser Prado',
         year: '2018',
         license_plate: '4ACL185',
-        location: 'LOT B, A14',
-        towing_company: 'Keiths\'sTowing',
+        last_seen: '2019-06-17 11:03:38',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        date: '2019-06-17 00:00:00',
-        time: '11:05:38',
         lot_number: '10433',
         type: 'Sedan',
         color: 'Blue',
@@ -43,14 +35,11 @@ module.exports = {
         model: 'Focus',
         year: '2010',
         license_plate: '9CLA235',
-        location: 'Detail Center C',
-        towing_company: 'Seven Star Towing',
+        last_seen: '2019-06-17 11:05:38',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        date: '2019-06-17 00:00:00',
-        time: '11:05:38',
         lot_number: '16555',
         type: 'SUV',
         color: 'Silver',
@@ -58,14 +47,11 @@ module.exports = {
         model: 'Range Rover II',
         year: '2015',
         license_plate: '8FAL183',
-        location: 'LOT A, G27',
-        towing_company: 'Keith\'s Towing',
+        last_seen: '2019-06-17 11:05:38',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        date: '2019-06-17 00:00:00',
-        time: '11:07:38',
         lot_number: '11008',
         type: 'SUV',
         color: 'Black',
@@ -73,14 +59,11 @@ module.exports = {
         model: 'Tahoe IV',
         year: '2018',
         license_plate: '5JKL345',
-        location: 'GATE 1',
-        towing_company: 'Marvin\'s Towing',
+        last_seen: '2019-06-20 11:07:38',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        date: '2019-06-17 00:00:00',
-        time: '11:07:38',
         lot_number: '22754',
         type: 'Other',
         color: 'White',
@@ -88,14 +71,11 @@ module.exports = {
         model: 'Sierra',
         year: '2016',
         license_plate: '1KDF185',
-        location: 'LOT A, G27',
-        towing_company: 'Seven Star Towing',
+        last_seen: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        date: '2019-06-17 00:00:00',
-        time: '11:09:38',
         lot_number: '19876',
         type: 'Sedan',
         color: 'Blue',
@@ -103,14 +83,10 @@ module.exports = {
         model: 'Focus',
         year: '2018',
         license_plate: '5CBV135',
-        location: 'GATE 1',
-        towing_company: 'Seven Star Towing',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        date: '2019-06-17 00:00:00',
-        time: '11:09:38',
         lot_number: '11543',
         type: 'SUV',
         color: 'Silver',
@@ -118,14 +94,11 @@ module.exports = {
         model: 'Range Rover II',
         year: '2016',
         license_plate: '9CDE875',
-        location: 'GATE 1',
-        towing_company: 'Marvin\'s Towing',
+        last_seen: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        date: '2019-06-17 00:00:00',
-        time: '12:09:38',
         lot_number: '27654',
         type: 'SUV',
         color: 'White',
@@ -133,14 +106,10 @@ module.exports = {
         model: 'Captur',
         year: '2018',
         license_plate: '2CAL885',
-        location: 'LOT B, A14',
-        towing_company: 'California Towing',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        date: '2019-06-17 00:00:00',
-        time: '12:09:38',
         lot_number: '10984',
         type: 'Other',
         color: 'Black',
@@ -148,14 +117,11 @@ module.exports = {
         model: 'Sierra',
         year: '2014',
         license_plate: '5KAL875',
-        location: 'Detail Center C',
-        towing_company: 'Marvin\'s Towing',
+        last_seen: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        date: '2019-06-17 00:00:00',
-        time: '12:10:38',
         lot_number: '17623',
         type: 'SUV',
         color: 'White',
@@ -163,14 +129,10 @@ module.exports = {
         model: 'Captur',
         year: '2018',
         license_plate: '3CAL985',
-        location: 'LOT A, G27',
-        towing_company: 'Marvin\'s Towing',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        date: '2019-06-17 00:00:00',
-        time: '12:10:38',
         lot_number: '14170',
         type: 'SUV',
         color: 'White',
@@ -178,14 +140,11 @@ module.exports = {
         model: 'Captur',
         year: '2018',
         license_plate: '7JAL195',
-        location: 'GATE 1',
-        towing_company: 'Seven Star Towing',
+        last_seen: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        date: '2019-06-17 00:00:00',
-        time: '12:15:38',
         lot_number: '11229',
         type: 'Sedan',
         color: 'BLue',
@@ -193,14 +152,10 @@ module.exports = {
         model: 'Focus',
         year: '2010',
         license_plate: '1NBL145',
-        location: 'LOT A, G27',
-        towing_company: 'Keith\'s Towing',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        date: '2019-06-17 00:00:00',
-        time: '12:15:38',
         lot_number: '13332',
         type: 'SUV',
         color: 'Black',
@@ -208,14 +163,11 @@ module.exports = {
         model: 'Land Cruiser Prado',
         year: '2018',
         license_plate: '2CML342',
-        location: 'GATE 1',
-        towing_company: 'Keith\'s Towing',
+        last_seen: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        date: '2019-06-17 00:00:00',
-        time: '13:00:00',
         lot_number: '17623',
         type: 'SUV',
         color: 'Black',
@@ -223,14 +175,13 @@ module.exports = {
         model: 'Tahoe IV',
         year: '2018',
         license_plate: '9HTL225',
-        location: 'LOT A, G27',
-        towing_company: 'California Towing',
+        last_seen: new Date(),
         createdAt: new Date(),
         updatedAt: new Date()
       },
     ], {});
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('vehicles', null, {});
+    return queryInterface.bulkDelete('vehicle_infos', null, {});
   }
 };
