@@ -90,7 +90,7 @@ describe('Authorization', () => {
 				.end((err, res) => {
 					res.should.have.status(400);
 					res.body.success.should.equal(false);
-					res.body.error.should.equal("Please enter a password and password to login")
+					res.body.error.should.equal("Please enter a password and password to login");
 					done()
 				});
 		});
@@ -133,7 +133,7 @@ describe('Authorization', () => {
 				.end((err, res) => {
 					res.should.have.status(400);
 					res.body.success.should.equal(false);
-					res.body.error.should.equal('Not registered')
+					res.body.error.should.equal('Not registered');
 					done()
 				});
 		});
