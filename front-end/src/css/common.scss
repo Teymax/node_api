@@ -1,0 +1,41 @@
+@import "./reset.scss";
+
+html {
+  font-size: 16px;
+}
+
+a, a:hover {
+  text-decoration: none;
+}
+
+a:hover,
+button:hover,
+input:hover {
+  cursor: pointer;
+}
+
+.page-header-text {
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-bottom: 1.8rem;
+}
+
+.default-input {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid $border-primary;
+}
+
+.default-button {
+  padding: 10px 5px;
+  background-color: #1C74BB;
+  color: $text-primary;
+  border-radius: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+}
+
