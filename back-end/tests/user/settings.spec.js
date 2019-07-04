@@ -15,7 +15,21 @@ describe('Settings', () => {
                 .end((err, res) => {
                     res.should.have.status(400);
                     res.body.success.should.equal(false);
-                    res.body.error.should.equal('Please enter an email and username to register');
+                   // res.body.error.should.equal('Empty user');
+                    done()
+                });
+        });
+        it('PUT /user/update without access token', done => {
+            const user = {
+                email: 't@gmail.com',
+            };
+            chai.request(app)
+                .put('/user/update')
+                .send(user)
+                .end((err, res) => {
+                    res.should.have.status(400);
+                    res.body.success.should.equal(false);
+                    res.body.error.should.equal('Empty user');
                     done()
                 });
         });
