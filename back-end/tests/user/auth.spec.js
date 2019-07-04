@@ -64,23 +64,22 @@ describe('Authorization', () => {
 					done()
 				});
 		});
-		// it('POST /user/register with correct data', done => {
-		// 	const user = {
-		// 		username: 'test',
-		// 		email: 'test@gmail.com',
-		// 		password: 'test'
-		// 	};
-		// 	chai.request(app)
-		// 		.post('/user/register')
-		// 		.send(user)
-		// 		.end((err, res) => {
-		//       console.log(res)
-		//       res.should.have.status(201);
-		// 			res.body.success.should.equal(true);
-		// 			res.body.user.should.be.a('object')
-		//       done()
-		// 		});
-		// })
+		it('POST /user/register with correct data', done => {
+			const user = {
+				username: 'test',
+				email: 'test@gmail.com',
+				password: 'test'
+			};
+			chai.request(app)
+				.post('/user/register')
+				.send(user)
+				.end((err, res) => {
+		      res.should.have.status(201);
+					res.body.success.should.equal(true);
+					res.body.user.should.be.a('object');
+		      done()
+				});
+		})
 	});
 
 	describe('Login', () => {

@@ -39,7 +39,7 @@ const logout = async (req, res) => {
 const update = async (req, res)=> {
   console.log(req.body);
   let err, user;
-  if (!req.body.email) return error(res, "no user found!");
+  if (!req.body.email) return error(res, "no user found!", 400);
   [err, user] = await to(User.findOne({where: {email: req.body.email} }));
   if (err) return error(res, err.message, 400);
   if (req.file) {
