@@ -3,7 +3,6 @@ import {user as User} from "../models";
 const { throwError, to, error, success } = require('../utils/requestHelpers');
 const authService = require('../services/auth.service');
 const { user } = require('../models');
-// import { user as User } from '../models';
 
 const create = async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
@@ -37,16 +36,24 @@ const logout = async (req, res) => {
   return success(res, {message: 'Successfull logout.'}, 200);
 };
 
-const update = async (req, res) => {
-  if (!req.body.old_password) return error(res, 'Please enter an old password to change settings', 400);
-  if (!req.body.new_password) return error(res, 'Please enter new password to change it', 400);
+const update = async (req, res)=> {
+  console.log(req.body);
   let err, user;
   [err, user] = await to(User.findOne({where: {email: req.body.email} }));
   if (err) return error(res, err.message, 400);
-  [err, user] = await to(user.comparePassword(req.body.old_password));
-  if (err) return error(res, err.message, 400);
-  [err, user] = await to(user.update({ password: req.body.new_password}));
-  if(err) return error(res, err.message, 400);
+  if (req.file) {
+    let user_image = req.file.destination + req.file.filename;
+    [err, user] = await to(user.update({ user_image: `${user_image}`} ));
+    if(err) return error(res, err.message, 400);
+  }
+  if (req.body.new_password && !req.body.old_password) return error(res, "Enter old password to change it", 400);
+  if (req.body.new_password && req.body.old_password)
+  {
+    [err, user] = await to(user.comparePassword(req.body.old_password));
+    if (err) return error(res, err.message, 400);
+    [err, user] = await to(user.update({password: req.body.new_password}));
+    if (err) return error(res, err.message, 400);
+  }
   return success(res, {user: user});
 };
 
