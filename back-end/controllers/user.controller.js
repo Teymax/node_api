@@ -41,6 +41,7 @@ const user_info = async (req, res) => {
   if (!req.body.email) return error(res, "no user found!", 400);
   [err, user] = await to(User.findOne({where: {email: req.body.email} }));
   if (err) return error(res, err.message, 400);
+  if(!user) return error(res, "no user found!", 400);
   return success(res, {user: user});
 };
 
@@ -49,6 +50,7 @@ const update = async (req, res) => {
   if (!req.body.email) return error(res, "no user found!", 400);
   [err, user] = await to(User.findOne({where: {email: req.body.email} }));
   if (err) return error(res, err.message, 400);
+  if(!user) return error(res, "no user found!", 400);
   if (req.file) {
     let user_image = req.file.destination + req.file.filename;
     [err, user] = await to(user.update({ user_image: `${user_image}`} ));
