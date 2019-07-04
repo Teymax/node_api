@@ -328,13 +328,23 @@ export default {
 
     get_vehicle_data_handler(response) {
       // validate response scheme
-      if (Object(response) === response && Object(response.data) === response.data && response.data.vehicle !== undefined) {
-        let vehicles = response.data.vehicles;
+      console.warn(response.data);
 
+      if (Object(response) === response && Object(response.data) === response.data) {
+        let vehicles = response.data;
+
+        
         // we get data from api not in US format, so we had to format it
         vehicles.forEach(item => {
-          let date = item.date.slice(0, item.date.indexOf("T"));
-          item.date = this.format_date(date);
+          const history = item.history[0];
+          item.date = this.format_date(history.date.slice(0, history.date.indexOf("T")));
+          item.location = history.location;
+          item.towing_company = history.towing_company;
+          
+          // let date = item.date.slice(0, item.date.indexOf("T"));
+          // item.date = this.format_date(date);
+
+          console.log(history[0]);
         });
 
         this.activities = vehicles;
