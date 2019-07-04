@@ -14,3 +14,8 @@
 {"message":"Illegal arguments: undefined, string","level":"error"}
 {"message":"invalid password","level":"error"}
 {"message":"invalid password","level":"error"}
+{"message":"Unable to connect to SQL database: aptonomy","level":"error"}
+{"message":"connect ECONNREFUSED 127.0.0.1:3306","level":"error"}
+{"message":"connect ECONNREFUSED 127.0.0.1:3306","level":"error"}
+{"message":"invalid password","level":"error"}
+{"message":"invalid password","level":"error"}

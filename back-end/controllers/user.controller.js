@@ -61,8 +61,7 @@ const update = async (req, res) => {
       if(err) return error(res, err.message, 400);
   }
   if (req.body.new_password && !req.body.old_password) return error(res, "Enter old password to change it", 400);
-  if (req.body.new_password && req.body.old_password)
-  {
+  if (req.body.new_password && req.body.old_password) {
     [err, user] = await to(user.comparePassword(req.body.old_password));
     if (err) return error(res, err.message, 400);
     [err, user] = await to(user.update({password: req.body.new_password}));

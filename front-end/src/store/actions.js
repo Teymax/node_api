@@ -5,7 +5,6 @@ export default {
   async [actionTypes.REGISTER]({ commit }, credentials) {
     try {
       let response = await API.register(credentials);
-      
       commit(actionTypes.SAVE_USER_DATA, response.data.user);
       return response;
     } catch (e) {
@@ -45,9 +44,10 @@ export default {
 
   async [actionTypes.SAVE_USER_SETTINGS]({ commit }, params) {
     try {
-      let result = await API.save_user_settings(params);
-      commit(actionTypes.UPDATE_USERNAME, params.username);
-      return result;
+      const { data } = await API.save_user_settings(params);
+      console.log(data)
+      commit(actionTypes.UPDATE_USER_INFO, {email: data.user.email, user_image: data.user.user_image, username: data.user.username});
+      return data;
     } catch (e) {
       console.error(e);
       return e;

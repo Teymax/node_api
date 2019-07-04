@@ -45,7 +45,7 @@ if (process.env.NODE_ENV === 'development') {
   models.sequelize.sync();
 }
 
-app.use(express.static('static'));
+app.use('/media', express.static(path.join(__dirname, '/media')));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -53,9 +53,6 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
-
-
-// app.use('/static', express.static(path.join(__dirname, 'static')));
 // app.use(express.static('./media'));
 
 

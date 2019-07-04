@@ -17,12 +17,12 @@
             <v-list-item-avatar :size="75">
               <img :src="avatar" alt="John" />
             </v-list-item-avatar>
-            
+
             <v-layout  row class="file-input-container text-xs-center text-sm-center text-md-center text-lg-center">
             <!-- <img :src="image_url" height="150" v-if="image_url"/> -->
                 <div class="btn-container">
                   <v-text-field label="Select Image" readonly clearable class="file-input" v-model='image_name'></v-text-field>
-                  
+
                   <input
                   type="file"
                   style="display: none"
@@ -34,7 +34,7 @@
                   <v-btn v-if="image_name" @click="saveImage" class="file-btn" small color="primary ml-auto" text>Save avatar</v-btn>
                   <v-btn v-else @click='pick_file' class="file-btn" small color="primary ml-auto" text>Choose File</v-btn>
                 </div>
-            
+
             </v-layout>
           </v-layout>
 
@@ -57,10 +57,16 @@
 
         <v-flex xs12>
           <v-toolbar-title class="modal_setting-title pb-3">Change user name</v-toolbar-title>
-          
+
           <v-layout row>
-            <v-text-field ref="name_input" class="modal_setting-edit" v-model="username"></v-text-field>
-            <v-icon @click="focus_name_input" class="edit-icon pl-5">edit</v-icon>
+            <v-text-field
+              ref="name_input"
+              class="modal_setting-edit"
+              v-model="username"
+              :append-outer-icon="initial_username === new_username ? undefined : 'edit'"
+              @click:append-outer="saveUsername"
+            ></v-text-field>
+<!--            <v-icon @click="focus_name_input" class="edit-icon pl-5">edit</v-icon>-->
           </v-layout>
 
           <v-toolbar-title class="modal_setting-title pt-4 pb-4">Change password</v-toolbar-title>
@@ -94,7 +100,7 @@
             <v-text-field
               v-model="password2"
               :append-icon="show2 ? 'visibility' : 'visibility_off'"
-              :rules="new_password_rules" 
+              :rules="new_password_rules"
               :type="show2 ? 'text' : 'password'"
               name="password-1"
               label="Normal with hint text"
@@ -127,9 +133,9 @@
           <v-layout justify-center class="">
             <p class="red--text mt-1 mb-3" v-if="server_response">{{ server_response }}</p>
           </v-layout>
-          
+
           <div class="save-btn-container">
-            <v-btn @click="save_settings" :disabled="!valid" class="primary-btn" color="primary ml-auto" text>Save</v-btn>
+            <v-btn @click="savePassword" :disabled="!valid" class="primary-btn" color="primary ml-auto" text>Save</v-btn>
           </div>
         </v-layout>
       </v-card>
@@ -184,6 +190,24 @@ export default {
         value: this.image_file
       }])
     },
+    saveUsername () {
+      this.save_settings([{
+        name: 'username',
+        value: this.new_username
+      }])
+    },
+    savePassword () {
+      this.save_settings([
+        {
+          name: 'old_password',
+          value: this.password1
+        },
+        {
+          name: 'new_password',
+          value: this.confirm_password
+        }
+      ])
+    },
     save_settings(arrayOfData) {
       let payload = new FormData()
       payload.append('email', this.email)
@@ -191,8 +215,19 @@ export default {
         payload.append(item.name, item.value);
       })
       this.save_user_settings(payload).then(response => {
-        if(Object(response) === response && response.status === 200) {
+        if (response.success) {
           this.server_response = "Successfully changed";
+          if (arrayOfData.includes('user_image')) {
+            this.image_name = ''
+            this.image_file= ''
+            this.image_url = ''
+          } else if (arrayOfData.includes('new_password')) {
+            this.password1 = ''
+            this.password2 = ''
+            this.confirm_password = ''
+          } else {
+            this.new_username = this.initial_username
+          }
         }
       })
       .catch(response => {
@@ -200,11 +235,11 @@ export default {
         if(Object(response) === response && Object(response.data) === response.data) {
           this.server_response = response.response.data.error;
         } else if(Object(response) === response) {
-          this.server_response = response;          
+          this.server_response = response;
         }
       })
 
-      
+
       // this.$emit("close_settings");
     },
 
@@ -214,17 +249,17 @@ export default {
 
     on_file_picked (e) {
       const files = e.target.files;
-      
+
 			if(files[0] !== undefined) {
         this.image_name = files[0].name;
-        
+
 				if(this.image_name.lastIndexOf('.') <= 0) {
 					return
         }
-        
+
         const fr = new FileReader();
         fr.readAsDataURL(files[0]);
-        
+
 				fr.addEventListener('load', () => {
 					this.image_url = fr.result
 					this.image_file = files[0] // this is an image file that can be sent to server...
@@ -247,20 +282,20 @@ export default {
       user_image: state => state.user_data.user_image
     }),
     avatar () {
-      return this.image_url || this.user_image || `https://ui-avatars.com/api/?name=${this.initial_username}`
+      const dbImage = this.user_image ? `http://localhost:9000/${this.user_image}` : null
+      return this.image_url || dbImage || `https://ui-avatars.com/api/?name=${this.initial_username}`
     },
     username: {
       get() {
-        return this.new_username.length > 0 ? this.new_username : this.initial_username 
+        return this.new_username.length > 0 ? this.new_username : this.initial_username
       },
-      set(new_username) {
-        this.new_username = new_username;
+      set (value) {
+        this.new_username = value;
       }
     }
   },
-
-  mounted() {
-
+  created () {
+    this.new_username = this.initial_username
   }
 };
 </script>
