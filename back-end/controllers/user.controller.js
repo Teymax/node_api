@@ -36,16 +36,27 @@ const logout = async (req, res) => {
   return success(res, {message: 'Successfull logout.'}, 200);
 };
 
-const update = async (req, res)=> {
-  console.log(req.body);
+const user_info = async (req, res) => {
   let err, user;
-  if (!req.body.email) return error(res, "no user found!");
+  if (!req.body.email) return error(res, "no user found!", 400);
+  [err, user] = await to(User.findOne({where: {email: req.body.email} }));
+  if (err) return error(res, err.message, 400);
+  return success(res, {user: user});
+};
+
+const update = async (req, res) => {
+  let err, user;
+  if (!req.body.email) return error(res, "no user found!", 400);
   [err, user] = await to(User.findOne({where: {email: req.body.email} }));
   if (err) return error(res, err.message, 400);
   if (req.file) {
     let user_image = req.file.destination + req.file.filename;
     [err, user] = await to(user.update({ user_image: `${user_image}`} ));
     if(err) return error(res, err.message, 400);
+  }
+  if (req.body.username){
+      [err, user] = await to(user.update({username: req.body.username}));
+      if(err) return error(res, err.message, 400);
   }
   if (req.body.new_password && !req.body.old_password) return error(res, "Enter old password to change it", 400);
   if (req.body.new_password && req.body.old_password)
@@ -62,3 +73,4 @@ exports.create = create;
 exports.login = login;
 exports.logout = logout;
 exports.update = update;
+exports.user_info = user_info;
