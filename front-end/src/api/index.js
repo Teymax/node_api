@@ -1,6 +1,6 @@
 import api from './axiosInstance';
 
-export default class Api {
+class Api {
   static get_auth_header() {
     const token = localStorage.getItem("access_token");
 
@@ -44,8 +44,17 @@ export default class Api {
     })
   }
 
-  static get_vehicle_data(paramsInput) {
-    let params = paramsInput ? paramsInput : {}
+
+  /**
+   * 
+   * @param { {} } params_input - optional
+   * params_input: { start_date, end_date, search_field, search_param }
+   * if params aren't specified query would be: 
+   * /list?start_date=&end_date=&search_field=&search_param=
+   */
+
+  static get_vehicle_data(params_input) {
+    let params = params_input ? params_input : {}
 
     return new Promise((resolve, reject) => {
       let query = this.generateVehicleQuery(params);
@@ -65,7 +74,37 @@ export default class Api {
       // let query = `/${start_date ? "?start_date=" + start_date : ""}${end_date ? "&end_date=" + end_date : ""}${search_field ? "&search_field=" + search_field : ""}${search_param ? "&search_param=" + search_param : ""}`;
       // let query = `/${search_field ? "search_field=" + search_field : ""}${search_param ? "&search_param=" + search_param : ""}`;
 
-      api.post(``, user_data)
+      const token = localStorage.getItem("access_token");
+      api.put('/user/update', user_data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token ? token : ""}`
+        }
+      })
+        .then(response => {
+          resolve(response)
+        })
+        .catch(err => {
+          reject(err)
+        });
+    })
+  }
+
+  static get_refresh_token() {
+    return new Promise((resolve, reject) => {
+      api.get('')
+        .then(response => {
+          resolve(response)
+        })
+        .catch(err => {
+          reject(err)
+        });
+    })
+  }
+
+  static get_access_token() {
+    return new Promise((resolve, reject) => {
+      api.get('')
         .then(response => {
           resolve(response)
         })
@@ -75,3 +114,5 @@ export default class Api {
     })
   }
 }
+
+export default Api;
