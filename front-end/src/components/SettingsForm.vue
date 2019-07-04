@@ -15,7 +15,7 @@
         <v-flex xs12 class="avatar-container">
           <v-layout>
             <v-list-item-avatar :size="75">
-              <img :src="image_url ? image_url : 'https://cdn.vuetifyjs.com/images/john.jpg'" alt="John" />
+              <img :src="avatar" alt="John" />
             </v-list-item-avatar>
             
             <v-layout  row class="file-input-container text-xs-center text-sm-center text-md-center text-lg-center">
@@ -31,7 +31,8 @@
                   @change="on_file_picked"
                   >
 
-                  <v-btn @click='pick_file' class="file-btn" small color="primary ml-auto" text>Choose File</v-btn>
+                  <v-btn v-if="image_name" @click="saveImage" class="file-btn" small color="primary ml-auto" text>Save avatar</v-btn>
+                  <v-btn v-else @click='pick_file' class="file-btn" small color="primary ml-auto" text>Choose File</v-btn>
                 </div>
             
             </v-layout>
@@ -177,13 +178,18 @@ export default {
     close_settings() {
       this.$emit("close_settings");
     },
-
-    save_settings() {
+    saveImage () {
+      this.save_settings([{
+        name: 'user_image',
+        value: this.image_file
+      }])
+    },
+    save_settings(arrayOfData) {
       let payload = new FormData()
-      payload.append('user_image', this.image_file);
-      payload.append('email', this.email);
-      payload.append('old_password', this.password1);
-      payload.append('new_password', this.confirm_password);
+      payload.append('email', this.email)
+      arrayOfData.forEach(item => {
+        payload.append(item.name, item.value);
+      })
       this.save_user_settings(payload).then(response => {
         if(Object(response) === response && response.status === 200) {
           this.server_response = "Successfully changed";
@@ -237,8 +243,12 @@ export default {
   computed: {
     ...mapState({
       initial_username: state => state.user_data.username,
-      email: state => state.user_data.email
+      email: state => state.user_data.email,
+      user_image: state => state.user_data.user_image
     }),
+    avatar () {
+      return this.image_url || this.user_image || `https://ui-avatars.com/api/?name=${this.initial_username}`
+    },
     username: {
       get() {
         return this.new_username.length > 0 ? this.new_username : this.initial_username 

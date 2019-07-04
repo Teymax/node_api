@@ -44,7 +44,8 @@ const login = async userInfo => {
   const tokens = generateTokens({id: user.id, email: user.email});
   return Object.assign({
     username: user.username,
-    email: user.email
+    email: user.email,
+    user_image: user.user_image
   }, tokens);
 };
 
