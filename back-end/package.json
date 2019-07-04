@@ -5,7 +5,8 @@
     "start:dev": "cross-env NODE_ENV=development node start",
     "start:prod": "cross-env NODE_ENV=production node start",
     "test": "cross-env NODE_ENV=test nyc mocha --require @babel/register tests/**/*.spec.js --exit",
-    "migrate": "npx sequelize-cli db:seed:all"
+    "migrate": "npx sequelize-cli db:seed:all",
+    "undo:migrate": "npx sequelize-cli db:migrate:undo"
   },
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.4.4",
