@@ -33,6 +33,7 @@
             :max="new Date().toISOString()">
           </v-date-picker>
         </v-menu>
+
         <v-menu
           class="date-menu"
           ref="end_date_menu"
@@ -63,6 +64,7 @@
             :max="new Date().toISOString()">
           </v-date-picker>
         </v-menu>
+
         <v-select
           class="table-select"
           :items="select_data"
@@ -71,17 +73,22 @@
           label="Search field"
           v-model="search_field"
           @input="$refs.search_input.focus()"
-          @change="clear_search_field"
+          @change="clear_search_phraze"
         ></v-select>
         <v-text-field v-model="search_phraze" ref="search_input" append-icon="search" class="table-search mr-4" label="Search..." @input="search_vehicles"></v-text-field>
+        
         <v-btn small color="primary" class="mb-2" @click="get_default_data">Clear filters</v-btn>
       </v-card-title>
 
+<!-- :footer-props="{ 'rows-per-page-items': [50, 100, 150] }" -->
+<!-- :hide-default-footer="true" -->
+<!-- :items-per-page="50" -->
+
       <v-data-table
         :headers="headers_table"
-        :items-per-page="50"
-        :items="activities"
+        :items="activities_computed"
         :search="search_on_front"
+        :hide-default-footer="true"
         class="elevation-1"
         ref="table"
       >
@@ -103,12 +110,30 @@
             <td class="text-xs-left">{{ item.towing_company }}</td>
           </tr>
         </template>
-        <!-- <template v-slot:footer="{ items }">
+
+        <template v-slot:footer="{ table_footer_props }">
+
           <div class="table-footer">
-            <v-select width="10" class="" :items="rows_per_page_items" v-model="rows_amount"></v-select>
+            <span class="rows-amount-label mr">Rows per page:</span>
+            <div class="rows_select mr">
+              <v-select v-model="rows_amount" :items="items_per_page"></v-select>
+            </div>
+            <!-- <span class="mr rows-amount-label">{{ page_info }}</span> -->
+
+            <v-btn @click="change_active_page(-1)" icon class="v-btn v-btn--fab v-btn--flat v-btn--icon v-btn--round v-btn--text theme--light v-size--default">
+              <v-icon class="">chevron_left</v-icon>
+            </v-btn>
+
+            <span class="rows-amount-label">{{ page_info }}</span>
+
+            <v-btn @click="change_active_page(1)" icon class="v-btn v-btn--fab v-btn--flat v-btn--icon v-btn--round v-btn--text theme--light v-size--default">
+              <v-icon class="">chevron_right</v-icon>
+            </v-btn>
 
           </div>
-        </template> -->
+
+        </template>
+
       </v-data-table>
     </v-card>
     <gallery-card :show_gallery="show_gallery" :lot_id="lot_id" @close_gallery="show_gallery = !show_gallery"></gallery-card>
@@ -138,12 +163,15 @@ export default {
       search_on_front: "",
       search_field: "LOT#",
       search_phraze: "",
-      start_date: "",
-      end_date: "",
+      start_date: new Date().toISOString(),
+      end_date: new Date().toISOString(),
       dates: [],
       datesGetter: [],
-      rows_per_page_items: [50, 100, 150],
+      items_per_page: [2, 50, 100, 150],
       rows_amount: 50,
+      active_page: 1,
+      table_footer_props: {
+      },
       headers_table: [
         {
           text: "",
@@ -208,11 +236,6 @@ export default {
       ],
       headers: [
         {
-          text: "#",
-          value: "img",
-          align: "center"
-        },
-        {
           text: "LOT#",
           value: "lot_number",
           align: "center"
@@ -270,8 +293,9 @@ export default {
       ],
       api_timeout: null,
       activities: [],
+      activities_computed: [],
       show_gallery: false,
-      lot_id: ''
+      lot_id: ""
     };
   },
   methods: {
@@ -304,7 +328,7 @@ export default {
 
     get_vehicle_data_handler(response) {
       // validate response scheme
-      if (Object(response) === response && Object(response.data) === response.data) {
+      if (Object(response) === response && Object(response.data) === response.data && response.data.vehicle !== undefined) {
         let vehicles = response.data.vehicles;
 
         // we get data from api not in US format, so we had to format it
@@ -351,7 +375,7 @@ export default {
 
     },
 
-    clear_search_field() {
+    clear_search_phraze() {
       this.search_phraze = "";
     },
 
@@ -362,14 +386,14 @@ export default {
     },
 
     save_start_date() {
-      if (this.start_date > this.end_date) {
-        this.start_date = this.end_date;
-      }
+      // if (this.start_date > this.end_date) {
+      //   this.start_date = this.end_date;
+      // }
       
       this.$refs.start_date_menu.save(this.start_date);
       this.$refs.end_date_menu.save(this.end_date);
 
-      // this.end_date = this.start_date;
+      this.end_date = this.start_date;
 
       this.search_vehicles();
       this.start_menu = false;
@@ -378,25 +402,62 @@ export default {
     get_default_data () {
       this.start_date = this.end_date = moment().format('YYYY-MM-DD');
       this.search_phraze = "";
-      this.search_field = "lot_number";
       
-      this.search_vehicles()
+      this.search_vehicles();
+
+      this.search_field = "LOT#";
     },
 
     call_gallery (id) {
       this.show_gallery = true
       this.lot_id = id
+    },
+
+    change_items_for_render() {
+      this.activities_computed = this.activities.slice((this.active_page - 1) * this.rows_amount, this.active_page * this.rows_amount);
+    },
+
+    change_active_page(value) {
+      let new_page = this.active_page + value;
+      let pages_amount = Math.ceil(this.activities.length / this.rows_amount);
+
+      if(new_page >= 1 && new_page <= pages_amount) {
+        this.active_page = new_page;
+        this.change_items_for_render();
+      }
     }
   },
   computed: {
     select_data() {
       // here we get field names for rendering in v-select component
       return this.headers.map(item => item.text).filter(item => item.toLowerCase() !== "date");
+    },
+
+    page_info() {      
+      // return pagination info
+
+      let pages_amount = Math.ceil(this.activities.length / this.rows_amount);
+      let active_page_computed = pages_amount === 0 ? 0 : this.active_page;
+
+      return `${active_page_computed} of ${pages_amount}`;
+    }
+  },
+
+  watch: {
+    // if activities array is changed we run the following func
+    activities() {
+      this.change_items_for_render();
+    },
+
+    rows_amount() {
+      this.active_page = 1;
+      this.change_items_for_render();
     }
   },
 
   created() {
-    this.get_default_data()
+    this.get_default_data();
+    window.vm = this;
   }
 };
 </script>
@@ -492,6 +553,21 @@ export default {
     .mdi-close {
       margin-right: 47px;
       z-index: 1;
+    }
+  }
+
+  .table-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.87);
+
+    .mr {
+      margin-right: 3rem;
+    }
+
+    .rows_select {
+      max-width: 50px;
     }
   }
 }

@@ -45,9 +45,34 @@ export default {
 
   async [actionTypes.SAVE_USER_SETTINGS]({ commit }, params) {
     try {
-      return API.save_user_settings(params);
+      let result = await API.save_user_settings(params);
+      commit(actionTypes.UPDATE_USERNAME, params.username);
+      return result;
     } catch (e) {
       console.error(e);
+      return e;
+    }
+  },
+
+  async [actionTypes.GET_REFRESH_TOKEN]({ commit }) {
+    try {
+      let result = await API.get_refresh_token();
+      commit(actionTypes.GET_REFRESH_TOKEN);
+      return result;
+    } catch (e) {
+      console.error(e);
+      return e;
+    }
+  },
+
+  async [actionTypes.GET_ACCESS_TOKEN]({ commit }) {
+    try {
+      let result = await API.get_access_token();
+      commit(actionTypes.GET_ACCESS_TOKEN);
+      return result;
+    } catch (e) {
+      console.error(e);
+      return e;
     }
   }
 }

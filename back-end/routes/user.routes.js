@@ -20,6 +20,7 @@ const upload = multer({storage: storage});
 router.post('/register', UserController.create);
 router.post('/login', UserController.login);
 router.post('/logout', UserController.logout);
+router.post('/info', passport.authenticate('jwt', {session:false}), upload.single('user_image'), UserController.user_info);
 router.put('/update', passport.authenticate('jwt', {session:false}), upload.single('user_image'), UserController.update);
 
 module.exports = router;
