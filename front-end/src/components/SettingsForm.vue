@@ -31,7 +31,7 @@
                   @change="on_file_picked"
                   >
 
-                  <v-btn v-if="image_name" @click="saveImage" class="file-btn" small color="primary ml-auto" text>Save avatar</v-btn>
+                  <v-btn v-if="image_name" @click="save_image" class="file-btn" small color="primary ml-auto" text>Save avatar</v-btn>
                   <v-btn v-else @click='pick_file' class="file-btn" small color="primary ml-auto" text>Choose File</v-btn>
                 </div>
 
@@ -59,15 +59,20 @@
           <v-toolbar-title class="modal_setting-title pb-3">Change user name</v-toolbar-title>
 
           <v-layout row>
+            <!-- :append-outer-icon="initial_username === new_username ? undefined : 'edit'" -->
+
             <v-text-field
               ref="name_input"
               class="modal_setting-edit"
               v-model="username"
-              :append-outer-icon="initial_username === new_username ? undefined : 'edit'"
-              @click:append-outer="saveUsername"
+              @click:append-outer="save_username"
             ></v-text-field>
 <!--            <v-icon @click="focus_name_input" class="edit-icon pl-5">edit</v-icon>-->
           </v-layout>
+
+          <div v-if="initial_username !== new_username" class="save-btn-container">
+            <v-btn @click="save_username" class="primary-btn" color="primary ml-auto" text>Save username</v-btn>
+          </div>
 
           <v-toolbar-title class="modal_setting-title pt-4 pb-4">Change password</v-toolbar-title>
         </v-flex>
@@ -81,13 +86,14 @@
             <v-text-field
               v-model="password1"
               :append-icon="show1 ? 'visibility' : 'visibility_off'"
-              :rules="[rules.required, rules.min]"
+              :rules="[rules.required]"
               :type="show1 ? 'text' : 'password'"
               name="password-1"
               label="Normal with hint text"
               hint="At least 8 characters"
               counter
               @click:append="show1 = !show1"
+              required
               solo
             ></v-text-field>
           </v-flex>
@@ -100,13 +106,14 @@
             <v-text-field
               v-model="password2"
               :append-icon="show2 ? 'visibility' : 'visibility_off'"
-              :rules="new_password_rules"
+              :rules="[rules.required, rules.min]"
               :type="show2 ? 'text' : 'password'"
               name="password-1"
               label="Normal with hint text"
-              hint="At least 8 characters"
+              hint="At least 6 characters"
               counter
               @click:append="show2 = !show2"
+              required
               solo
             ></v-text-field>
           </v-flex>
@@ -123,9 +130,10 @@
               :type="show3 ? 'text' : 'password'"
               name="password-2"
               label="Normal with hint text"
-              hint="At least 8 characters"
+              hint="At least 6 characters"
               counter
               @click:append="show3 = !show3"
+              required
               solo
             ></v-text-field>
           </v-flex>
@@ -135,7 +143,7 @@
           </v-layout>
 
           <div class="save-btn-container">
-            <v-btn @click="savePassword" :disabled="!valid" class="primary-btn" color="primary ml-auto" text>Save</v-btn>
+            <v-btn @click="save_password" :disabled="!valid" class="primary-btn" color="primary ml-auto" text>Save password</v-btn>
           </div>
         </v-layout>
       </v-card>
@@ -147,6 +155,10 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import actionTypes from "../store/action-types";
+import api from "../api/axiosInstance";
+
+const { defaults: { baseURL }  } = api;
+
 
 export default {
   name: "settings-form",
@@ -161,13 +173,10 @@ export default {
       valid: false,
       rules: {
         required: value => !!value || "Password is required",
-        min: v => v.length >= 8 || "Min 8 characters"
+        min: v => v.length >= 6 || "Min 6 characters"
       },
-      new_password_rules: [
-        // v => (!!v && this.password1) || "Password is required"
-      ],
       confirm_password_rules: [
-        // v => !!v || "Confirm password",
+        v => !!v || "Confirm password",
         v => (v === this.password2) || "Confrirm password correctly",
       ],
       new_username: "",
@@ -184,19 +193,22 @@ export default {
     close_settings() {
       this.$emit("close_settings");
     },
-    saveImage () {
+
+    save_image () {
       this.save_settings([{
         name: 'user_image',
         value: this.image_file
       }])
     },
-    saveUsername () {
+
+    save_username () {
       this.save_settings([{
         name: 'username',
         value: this.new_username
       }])
     },
-    savePassword () {
+    
+    save_password () {
       this.save_settings([
         {
           name: 'old_password',
@@ -208,20 +220,23 @@ export default {
         }
       ])
     },
-    save_settings(arrayOfData) {
-      let payload = new FormData()
-      payload.append('email', this.email)
-      arrayOfData.forEach(item => {
+
+    save_settings(array_of_data) {
+      let payload = new FormData();
+      payload.append('email', this.email);
+
+      array_of_data.forEach(item => {
         payload.append(item.name, item.value);
       })
+
       this.save_user_settings(payload).then(response => {
         if (response.success) {
           this.server_response = "Successfully changed";
-          if (arrayOfData.includes('user_image')) {
+          if (array_of_data.includes('user_image')) {
             this.image_name = ''
             this.image_file= ''
             this.image_url = ''
-          } else if (arrayOfData.includes('new_password')) {
+          } else if (array_of_data.includes('new_password')) {
             this.password1 = ''
             this.password2 = ''
             this.confirm_password = ''
@@ -282,7 +297,7 @@ export default {
       user_image: state => state.user_data.user_image
     }),
     avatar () {
-      const dbImage = this.user_image ? `http://localhost:9000/${this.user_image}` : null
+      const dbImage = this.user_image ? `${baseURL}/${this.user_image}` : null
       return this.image_url || dbImage || `https://ui-avatars.com/api/?name=${this.initial_username}`
     },
     username: {
@@ -399,6 +414,14 @@ export default {
     justify-content: flex-end;
     padding-top: 10px;
   }
+
+  // .error--text {
+  //   color: #ff5252 !important;
+  //   caret-color: #ff5252 !important;
+  // }
+
+  // // .v-messages__message message-transition-enter-to
+
 }
 
 </style>

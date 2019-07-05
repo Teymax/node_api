@@ -19,11 +19,10 @@
                   <v-text-field
                     v-model="password1"
                     :append-icon="password_visible_1 ? 'visibility' : 'visibility_off'"
-                    :rules="password_rules"
+                    :rules="password_rules_1"
                     :type="password_visible_1 ? 'text' : 'password'"
                     name="login-password"
                     label="Password"
-                    hint="At least 6 characters"
                     @click:append="password_visible_1 = !password_visible_1"
                   ></v-text-field>
 
@@ -105,12 +104,14 @@ export default {
       valid: true,
       valid2: true,
       name_rules: [
-        v => !!v || "Name is required",
-        v => (v && v.length <= 10) || "Name must be less than 10 characters"
+        v => !!v || "Name is required"
       ],
       email_rules: [
         v => !!v || "E-mail is required",
         v => /.+@.+\..+/.test(v) || "E-mail must be valid"
+      ],
+      password_rules_1: [
+        v => !!v || "Password is required"
       ],
       password_rules: [
         v => !!v || "Password is required",
@@ -118,7 +119,7 @@ export default {
       ],
       confirm_password_rules: [
         v => !!v || "Password is required",
-        v => (v && v === this.password2) || "Confrirm password correctly"
+        v => (v === this.password2) || "Confrirm password correctly"
       ],
       lazy: false
     };
@@ -142,7 +143,6 @@ export default {
                   && Object(response.response.data) === response.response.data ) {
 
           this.server_message_login = response.response.data.error;
-          console.dir(this.server_message_login);
         }
       })
     },
@@ -157,7 +157,6 @@ export default {
           this.$router.push("/");
         } else if( Object(response) === response && !response.success ) {
           this.server_message_registration = response;
-          console.dir(response);
         }
       });
     },
