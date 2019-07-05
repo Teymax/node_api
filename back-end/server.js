@@ -9,6 +9,7 @@ require('dotenv').config();
 const { DB_NAME } = process.env;
 const app = express();
 const models = require('./models');
+const path = require('path');
 
 // import user routes
 const userRoutes = require('./routes/user.routes');
@@ -44,12 +45,15 @@ if (process.env.NODE_ENV === 'development') {
   models.sequelize.sync();
 }
 
+app.use('/media', express.static(path.join(__dirname, '/media')));
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   let err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
+// app.use(express.static('./media'));
 
 
 app.listen(port, () => {

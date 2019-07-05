@@ -8,31 +8,40 @@ exports.getVehicles = async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     const {start_date, end_date, search_field, search_param} = req.query;
     let err, vehicles, histories, photos;
-    if (search_field !== 'location' && search_field !== 'towing_company') {
-        console.log('not location or company');
+    let last_date = new Date(end_date); // Today!
+    last_date.setDate(last_date.getDate() + 1);
+    if (search_field !== 'location' && search_field !== 'towing_company' && search_field !== '' && search_param !== '') {
+        console.log(['not location or company']);
         [err, vehicles] = await to(Vehicle_info.findAll({
             where: {
-                'last_seen': {[Op.between]: [start_date, end_date]},
-                [search_field]: search_param ? {[Op.like]: `%${search_param}%`} : ''
+                'last_seen': {[Op.between]: [start_date, last_date]},
+                [search_field]: search_param ? {[Op.like]: `${search_param}`} : ''
             }
         }));
         if (err) return error(res, err.message, 400);
-    } else {
+    }
+    if (search_field === '' || search_param === '') {
+        console.log(['null']);
         [err, vehicles] = await to(Vehicle_info.findAll({
             where: {
-                'last_seen': {[Op.between]: [start_date, end_date]},
+                'last_seen': {[Op.between]: [start_date, last_date]},
             }
         }));
         if (err) return error(res, err.message, 400);
     }
     if (search_field === 'location' || search_field === 'towing_company') {
-        console.log('location or company');
-        console.log(vehicles.map((item) => item.id));
+        console.log(['location or company']);
+        [err, vehicles] = await to(Vehicle_info.findAll({
+            where: {
+                'last_seen': {[Op.between]: [start_date, last_date]},
+            }
+        }));
+        if (err) return error(res, err.message, 400);
         [err, histories] = await to(Vehicle_history.findAll({
             where: {
                 'vehicle_id': {[Op.in]: vehicles.map((item) => item.id)},
                 'date': {[Op.in]: vehicles.map((item) => item.last_seen)},
-                [search_field]: search_param ? {[Op.like]: `%${search_param}%`} : ''
+                [search_field]: search_param ? {[Op.like]: `${search_param}`} : ''
             }
         }));
     } else {

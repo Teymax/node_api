@@ -7,8 +7,9 @@
       </div>
 
       <div class="user-block">
-        <div class="user-photo"></div>
-
+        <div class="user-photo">
+          <img :src="avatar" alt="">
+        </div>
         <span class="user-name" d-inline-block>{{ initial_username }}</span>
         <v-menu bottom left>
           <template v-slot:activator="{ on }">
@@ -20,7 +21,7 @@
           <v-card dark light class="settings_bar pl-3 mt-5" color="primary">
               <v-layout row class="pb-4">
                 <v-list-item-avatar :size="60">
-                  <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+                  <img :src="avatar" alt="John" />
                 </v-list-item-avatar>
                 <v-list-item-title class="settings_bar-user_name">{{ initial_username }}</v-list-item-title>
               </v-layout>
@@ -99,9 +100,13 @@ export default {
   }),
   computed: {
     ...mapState({
-      initial_username: state => state.user_data.username
+      initial_username: state => state.user_data.username,
+      user_image: state => state.user_data.user_image
     }),
-
+    avatar () {
+      const databaseImage = this.user_image ? `http://localhost:9000/${this.user_image}` : ''
+      return databaseImage || `https://ui-avatars.com/api/?name=${this.initial_username}`
+    },
     // changes background color of header. It should blue on all pages instead of home page
     on_home_page() {
       if (
@@ -186,6 +191,11 @@ export default {
     background: #fff;
     border-radius: 100%;
     margin-right: 10px;
+  }
+
+  .user-photo img {
+    width: 100%;
+    border-radius: 50%;
   }
 
   .icon-expand:hover {

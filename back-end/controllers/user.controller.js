@@ -41,6 +41,7 @@ const user_info = async (req, res) => {
   if (!req.body.email) return error(res, "no user found!", 400);
   [err, user] = await to(User.findOne({where: {email: req.body.email} }));
   if (err) return error(res, err.message, 400);
+  if(!user) return error(res, "no user found!", 400);
   return success(res, {user: user});
 };
 
@@ -49,8 +50,11 @@ const update = async (req, res) => {
   if (!req.body.email) return error(res, "no user found!", 400);
   [err, user] = await to(User.findOne({where: {email: req.body.email} }));
   if (err) return error(res, err.message, 400);
+  if(!user) return error(res, "no user found!", 400);
   if (req.file) {
+    console.log(req.file);
     let user_image = req.file.destination + req.file.filename;
+    console.log(`${user_image}`);
     [err, user] = await to(user.update({ user_image: `${user_image}`} ));
     if(err) return error(res, err.message, 400);
   }
@@ -59,8 +63,7 @@ const update = async (req, res) => {
       if(err) return error(res, err.message, 400);
   }
   if (req.body.new_password && !req.body.old_password) return error(res, "Enter old password to change it", 400);
-  if (req.body.new_password && req.body.old_password)
-  {
+  if (req.body.new_password && req.body.old_password) {
     [err, user] = await to(user.comparePassword(req.body.old_password));
     if (err) return error(res, err.message, 400);
     [err, user] = await to(user.update({password: req.body.new_password}));

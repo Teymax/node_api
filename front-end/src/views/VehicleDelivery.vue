@@ -76,7 +76,7 @@
           @change="clear_search_phraze"
         ></v-select>
         <v-text-field v-model="search_phraze" ref="search_input" append-icon="search" class="table-search mr-4" label="Search..." @input="search_vehicles"></v-text-field>
-        
+
         <v-btn small color="primary" class="mb-2" @click="get_default_data">Clear filters</v-btn>
       </v-card-title>
 
@@ -167,7 +167,7 @@ export default {
       end_date: new Date().toISOString(),
       dates: [],
       datesGetter: [],
-      items_per_page: [2, 50, 100, 150],
+      items_per_page: [50, 100, 150],
       rows_amount: 50,
       active_page: 1,
       table_footer_props: {
@@ -328,13 +328,23 @@ export default {
 
     get_vehicle_data_handler(response) {
       // validate response scheme
-      if (Object(response) === response && Object(response.data) === response.data && response.data.vehicle !== undefined) {
-        let vehicles = response.data.vehicles;
+      console.warn(response.data);
+
+      if (Object(response) === response && Object(response.data) === response.data) {
+        let vehicles = response.data;
+
 
         // we get data from api not in US format, so we had to format it
         vehicles.forEach(item => {
-          let date = item.date.slice(0, item.date.indexOf("T"));
-          item.date = this.format_date(date);
+          const history = item.history[0];
+          item.date = this.format_date(history.date.slice(0, history.date.indexOf("T")));
+          item.location = history.location;
+          item.towing_company = history.towing_company;
+
+          // let date = item.date.slice(0, item.date.indexOf("T"));
+          // item.date = this.format_date(date);
+
+          console.log(history[0]);
         });
 
         this.activities = vehicles;
@@ -389,7 +399,7 @@ export default {
       // if (this.start_date > this.end_date) {
       //   this.start_date = this.end_date;
       // }
-      
+
       this.$refs.start_date_menu.save(this.start_date);
       this.$refs.end_date_menu.save(this.end_date);
 
@@ -402,7 +412,7 @@ export default {
     get_default_data () {
       this.start_date = this.end_date = moment().format('YYYY-MM-DD');
       this.search_phraze = "";
-      
+
       this.search_vehicles();
 
       this.search_field = "LOT#";
@@ -433,7 +443,7 @@ export default {
       return this.headers.map(item => item.text).filter(item => item.toLowerCase() !== "date");
     },
 
-    page_info() {      
+    page_info() {
       // return pagination info
 
       let pages_amount = Math.ceil(this.activities.length / this.rows_amount);

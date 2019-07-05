@@ -8,6 +8,7 @@
 <script>
 import PageHeader from "./components/PageHeader";
 import { mapState } from "vuex";
+import { isIP } from 'net';
 
 export default {
   name: "App",
@@ -16,7 +17,7 @@ export default {
   },
   computed: {
     // currently is_logged_in on login returns false, it isn't recalculated reactively
-    // ...mapState({is_logged_in: state => state.user_data.access_token }),
+    ...mapState({is_logged_in: state => state.user_data.access_token }),
     // we show background image only on home page
     on_home_page() {
       if(Object(this.$route) === this.$route && typeof this.$route.name === "string") {
@@ -25,7 +26,7 @@ export default {
     },
     show_header() {
       // need to refactor in future with mapState
-      return this.$route.path.indexOf("login") === -1
+      return this.$route.path.indexOf("login") === -1 && this.is_logged_in
     }
   }
 };

@@ -3,6 +3,9 @@ module.exports = (sequelize, DataTypes) => {
         date: DataTypes.DATE,
         location: DataTypes.STRING,
         towing_company: DataTypes.STRING
+    },{
+        charset: 'utf8',
+        collate: 'utf8_unicode_ci'
     });
     Vehicle_history.associate = function (models) {
         Vehicle_history.belongsTo(models.vehicle_info,{
