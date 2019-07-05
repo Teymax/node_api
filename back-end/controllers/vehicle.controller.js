@@ -18,7 +18,7 @@ exports.getVehicles = async (req, res) => {
         }));
         if (err) return error(res, err.message, 400);
     }
-    if (search_field === '' && search_param === '') {
+    if (search_field === '' || search_param === '') {
         console.log(['null']);
         [err, vehicles] = await to(Vehicle_info.findAll({
             where: {
