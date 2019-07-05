@@ -15,6 +15,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     password: DataTypes.STRING,
     refresh_token: DataTypes.STRING
+  },{
+    charset: 'utf8',
+        collate: 'utf8_unicode_ci'
   });
 
   Model.beforeSave(async user => {
