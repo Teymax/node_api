@@ -52,7 +52,9 @@ const update = async (req, res) => {
   if (err) return error(res, err.message, 400);
   if(!user) return error(res, "no user found!", 400);
   if (req.file) {
+    console.log(req.file);
     let user_image = req.file.destination + req.file.filename;
+    console.log(`${user_image}`);
     [err, user] = await to(user.update({ user_image: `${user_image}`} ));
     if(err) return error(res, err.message, 400);
   }

@@ -19,3 +19,7 @@
 {"message":"connect ECONNREFUSED 127.0.0.1:3306","level":"error"}
 {"message":"invalid password","level":"error"}
 {"message":"invalid password","level":"error"}
+{"message":"Cannot read property 'map' of undefined","level":"error"}
+{"message":"Cannot read property 'map' of undefined","level":"error"}
+{"message":"Cannot read property 'map' of undefined","level":"error"}
+{"message":"Cannot read property 'map' of undefined","level":"error"}

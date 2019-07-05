@@ -8,12 +8,28 @@ exports.getVehicles = async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     const {start_date, end_date, search_field, search_param} = req.query;
     let err, vehicles, histories, photos;
-    if (search_field !== 'location' && search_field !== 'towing_company') {
+    if (search_field !== 'location' && search_field !== 'towing_company' && search_field !== '' && search_param !== '') {
         console.log('not location or company');
         [err, vehicles] = await to(Vehicle_info.findAll({
             where: {
                 'last_seen': {[Op.between]: [start_date, end_date]},
                 [search_field]: search_param ? {[Op.like]: `%${search_param}%`} : ''
+            }
+        }));
+        if (err) return error(res, err.message, 400);
+    } else {
+        [err, vehicles] = await to(Vehicle_info.findAll({
+            where: {
+                'last_seen': {[Op.between]: [start_date, end_date]},
+            }
+        }));
+        if (err) return error(res, err.message, 400);
+    }
+    if (search_field === '' && search_param === '') {
+        console.log('null');
+        [err, vehicles] = await to(Vehicle_info.findAll({
+            where: {
+                'last_seen': {[Op.between]: [start_date, end_date]},
             }
         }));
         if (err) return error(res, err.message, 400);
