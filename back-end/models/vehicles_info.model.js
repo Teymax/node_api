@@ -8,6 +8,9 @@ module.exports = (sequelize, DataTypes) => {
         year: DataTypes.STRING,
         color: DataTypes.STRING,
         last_seen: DataTypes.STRING
+    },{
+        charset: 'utf8',
+        collate: 'utf8_unicode_ci'
     });
     Vehicle_info.associate = function (models) {
         Vehicle_info.hasOne(models.vehicle_photos,{

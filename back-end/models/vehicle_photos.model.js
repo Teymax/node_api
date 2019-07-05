@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
         cam2_4k: DataTypes.STRING,
         cam3_4k: DataTypes.STRING,
         cam4_4k: DataTypes.STRING
+    },{
+        charset: 'utf8',
+        collate: 'utf8_unicode_ci'
     });
     Model.associate = function (models) {
         Model.belongsTo(models.vehicle_info,{
