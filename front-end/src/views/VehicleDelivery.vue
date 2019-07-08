@@ -575,7 +575,7 @@ export default {
     color: rgba(0, 0, 0, 0.87);
 
     .mr {
-      margin-right: 3rem;
+      margin-right: 2.5rem;
     }
 
     .rows_select {

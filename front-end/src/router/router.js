@@ -3,7 +3,8 @@ import Router from "vue-router";
 import Home from "../views/Home";
 import VehicleDelivery from "../views/VehicleDelivery";
 import Login from "../components/Login";
-import InventoryReports from "../views/InventoryReports";
+import SoldInYard from "../components/SoldInYard";
+import YardAudit from "../components/YardAudit";
 
 Vue.use(Router);
 
@@ -36,9 +37,15 @@ const router = new Router({
       component: Login
     },
     {
-      path: "/inventory-reports",
-      name: "Inventory Reports",
-      component: InventoryReports,
+      path: "/sold-in-yard",
+      name: "Sold in Yard",
+      component: SoldInYard,
+      beforeEnter: guard
+    },
+    {
+      path: "/yard-audit",
+      name: "Yard Audit",
+      component: YardAudit,
       beforeEnter: guard
     }
   ]
