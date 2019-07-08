@@ -176,25 +176,6 @@ export default {
             },
             activities_computed: {}
           }
-        },
-
-        location_confirmed: {
-          title: "Row Location Confirmed",
-          active: false,
-          rows_amount: 50,
-          active_page: 1,
-          content: {
-            activities: {
-              img: "",
-              lot_number: "",
-              website: "",
-              yard: "",
-              date_sold: "",
-              days_in_yard: "",
-              holding_fees: ""
-            },
-            activities_computed: {}
-          }
         }
       },
 
@@ -215,25 +196,10 @@ export default {
           align: "center"
         },
         {
-          text: "YARD",
-          value: "yard",
+          text: "ACTUAL_ROW",
+          value: "actual_row",
           align: "center"
-        },
-        {
-          text: "DATE SOLD",
-          value: "date_sold",
-          align: "center"
-        },
-        {
-          text: "DAYS IN YARD",
-          value: "days_in_yard",
-          align: "center"
-        },
-        {
-          text: "HOLDING FEES",
-          value: "holding_fees",
-          align: "center"
-        },
+        }
       ]
     }
   },
