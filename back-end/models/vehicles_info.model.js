@@ -7,17 +7,8 @@ module.exports = (sequelize, DataTypes) => {
         model: DataTypes.STRING,
         year: DataTypes.STRING,
         color: DataTypes.STRING,
-        last_seen: DataTypes.STRING,
-    },
-    {
-        indexes: [
-            {
-                unique: true,
-                fields: ['last_seen']
-            }
-        ]
-    },
-    {
+        last_seen: DataTypes.STRING
+    },{
         charset: 'utf8',
         collate: 'utf8_unicode_ci'
     });
