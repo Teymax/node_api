@@ -11,3 +11,4 @@ npm-debug.log
 back-end/logs/error.log
 back-end/.nyc_output
 back-end/config/config.json
+*.pyc
