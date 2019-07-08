@@ -27,5 +27,11 @@ module.exports = (sequelize, DataTypes) => {
             as: 'vehicle_history'
         });
     };
+    Vehicle_info.associate = function (models) {
+        Vehicle_info.hasMany(models.vehicle_report, {
+            foreignKey: 'vehicle_id',
+            onDelete: 'CASCADE'
+        })
+    };
     return Vehicle_info
 };

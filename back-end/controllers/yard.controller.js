@@ -1,19 +1,29 @@
 const { to, error, success } = require('../utils/requestHelpers');
-import { vehicle_info as Vehicle_info } from '../models';
-import { vehicle_history as Vehicle_history } from '../models';
-import { vehicle_photos as Vehicle_photos } from '../models';
+import {user as User, vehicle_info as Vehicle_info} from '../models';
+import { report as Report } from '../models';
 const Op = require('sequelize').Op;
 
 
-const sold = async(req, res)=>{
-    res.setHeader('Content-Type', 'application/json');
-    let today = new Date(); // Today!
-    const response = vehicles.map(vehicle => {
-        vehicle.dataValues['history'] = histories.filter(history => history.vehicle_id === vehicle.id).map(history => {
-            history.dataValues['photos'] = photos.filter(photo => photo.vehicle_history_id === history.id);
-            return history
-        });
-        return vehicle;
-    });
-    return success(res, response);
+const report = async(req, res)=>{
+    let err, user, vehicle;
+    if(!req.report) return error(res, 'report doesn`t set', 400);
+    const {body} =req.report;
+    if(!body.user_email) return error(res, 'user email doesn`t set', 400);
+    if(!body.vehicle_id) return error(res, 'vehicle doesn`t set', 400);
+    if(!body.type) return error(res, 'type doesn`t set',400);
+    [err, user] = await to(User.findOne({where: {email: body.user_email} }));
+    if (err) return error(res, err.message, 400);
+    if(!user) return error(res, "no user found!", 400);
+    [err, vehicle] = await to(Vehicle_info.findOne({where: {email: body.vehicle_id} }));
+    if (err) return error(res, err.message, 400);
+    if(!vehicle) return error(res, "vehicle doesn`t exist!", 400);
+    let report = new Report();
+    report.user_id = user.id;
+    report.vehicle_id = vehicle.id;
+    report.type = body.type;
+    report.note = body.note;
+    report.save();
+    return success(res, report);
 };
+
+exports.report = report;

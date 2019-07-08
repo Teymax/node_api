@@ -7,8 +7,8 @@ module.exports = (sequelize, DataTypes) => {
         collate: 'utf8_unicode_ci'
     });
     Vehicle_Report.associate = function (models) {
-        Vehicle_Report.belongsTo(models.vehicle_history,{
-            foreignKey: 'vehicle_history_id',
+        Vehicle_Report.belongsTo(models.vehicle_info,{
+            foreignKey: 'vehicle_id',
             onDelete: 'CASCADE'
         })
     };
