@@ -24,5 +24,11 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: 'CASCADE'
         })
     };
+     Vehicle_history.associate = function (models) {
+         Vehicle_history.hasMany(models.vehicle_report, {
+             foreignKey: 'vehicle_history_id',
+             onDelete: 'CASCADE'
+         })
+     };
     return Vehicle_history;
 };
