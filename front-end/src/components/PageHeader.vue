@@ -59,7 +59,7 @@
         </v-list-item>
 
         <v-list-item class="navigation-item" :class="nav_item_is_active('inventory') ? 'active-nav-item' : ''">
-          <router-link to="/inventory-reports" class="nav-link">
+          <router-link to="/sold-in-yard" class="nav-link">
             <v-list-item-icon>
               <img src="../assets/home/inventory-icon.svg" class="tab-icon" alt="Car image" />
             </v-list-item-icon>

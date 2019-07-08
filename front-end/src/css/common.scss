@@ -26,12 +26,35 @@ input:hover {
   border: 1px solid $border-primary;
 }
 
-.default-button {
-  padding: 10px 5px;
-  background-color: #1C74BB;
-  color: $text-primary;
-  border-radius: 5px;
+.btn-default {
+  display: block;
+  padding: .9rem 0;
+  width: 11.5rem;
+  color: $text-third;
+  background-color: #fff;
+  border: 1px solid $border-primary;
+  font-weight: bold;
+  box-shadow: none;
+  // border-radius: 5px;
 }
+
+.btn-active {
+  background-color: $bg-fourth;
+  color: $text-primary;
+}
+
+.btn-left {
+  border-radius: 7px 0 0 7px;
+  border-left: none;
+  border-right: none;
+  // padding: 1rem 2rem;
+  // background-color: 
+}
+
+.btn-right {
+  border-radius: 0 7px 7px 0;
+}
+
 
 @media screen and (max-width: 768px) {
   html {
