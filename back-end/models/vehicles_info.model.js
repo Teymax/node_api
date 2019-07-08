@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     });
     Vehicle_info.associate = function (models) {
         Vehicle_info.hasMany(models.vehicle_history, {
-            foreignKey: 'lot_id',
+            foreignKey: 'lot_number',
             as: 'vehicle_history'
         });
     };

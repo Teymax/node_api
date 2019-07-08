@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
         latitude: DataTypes.DECIMAL(10,7),
         longitude: DataTypes.DECIMAL(10,7),
         website_site_id: DataTypes.INTEGER,
-        website_location_name: DataTypes.INTEGER,
+        website_location_name: DataTypes.STRING,
         date_sold: DataTypes.DATE,
         fees: DataTypes.DECIMAL(8,2),
         towing_company: DataTypes.STRING,
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     });
     Vehicle_history.associate = function (models) {
         Vehicle_history.belongsTo(models.vehicle_info,{
-            foreignKey: 'lot_id',
+            as: 'lot',
             onDelete: 'CASCADE'
         })
     };

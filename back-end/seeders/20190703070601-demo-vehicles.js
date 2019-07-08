@@ -11,7 +11,7 @@ module.exports = {
         model: 'Captur',
         year: '2012',
         license_plate: '9CAL185',
-        last_seen: '2019-06-18 11:03:38',
+        last_seen: '2019-06-12 11:03:38',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -23,7 +23,7 @@ module.exports = {
         model: 'Land Cruiser Prado',
         year: '2018',
         license_plate: '4ACL185',
-        last_seen: '2019-06-17 11:03:38',
+        last_seen: '2019-06-15 11:03:38',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -35,7 +35,7 @@ module.exports = {
         model: 'Focus',
         year: '2010',
         license_plate: '9CLA235',
-        last_seen: '2019-06-17 11:05:38',
+        last_seen: '2019-06-22 11:05:38',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -47,7 +47,7 @@ module.exports = {
         model: 'Range Rover II',
         year: '2015',
         license_plate: '8FAL183',
-        last_seen: '2019-06-17 11:05:38',
+        last_seen: '2019-06-22 11:05:38',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -59,7 +59,7 @@ module.exports = {
         model: 'Tahoe IV',
         year: '2018',
         license_plate: '5JKL345',
-        last_seen: '2019-06-20 11:07:38',
+        last_seen: '2019-06-30 11:07:38',
         createdAt: new Date(),
         updatedAt: new Date()
       },

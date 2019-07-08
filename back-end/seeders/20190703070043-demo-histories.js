@@ -1,0 +1,106 @@
+/*'use strict';*/
+
+module.exports = {
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.bulkInsert('vehicle_histories', [
+      {
+        date: '2019-06-12 11:03:38',
+        camera_type: 1,
+        customer_id: 020,
+        site_id: 001,
+        latitude: 100.10,
+        longitude: 100.10,
+        website_site_id: 1,
+        website_location_name: 'website_location',
+        fees: 0.15,
+        date_sold: '2019-07-01 12:00:00',
+        icon_photo: './data/vehicle_photos/020/001/190702/00000392/thumb.jpg',
+        photo1_filenames: '[{ "cam1_4k": "./data/vehicle_photos/020/001/190702/00000392/01_4k.jpg", "cam1_p": "./data/vehicle_photos/020/001/190702/00000392/01_p.jpg"}]',
+        location_name: 'GATE 1',
+        towing_company: 'California Towing',
+        lotId: '14170',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        date: '2019-06-15 11:03:38',
+        camera_type: 1,
+        customer_id: 020,
+        site_id: 001,
+        latitude: 100.10,
+        longitude: 100.10,
+        website_site_id: 1,
+        website_location_name: 'website_location',
+        fees: 0.15,
+        date_sold: '2019-07-01 12:00:00',
+        icon_photo: './data/vehicle_photos/020/001/190706/00000017/thumb.jpg',
+        photo1_filenames: '[{ "cam1_4k": "./data/vehicle_photos/020/001/190706/00000017/01_4k.jpg", "cam1_p": "./data/vehicle_photos/020/001/190706/00000017/01_p.jpg"}]',
+        location_name: 'LOT B, A14',
+        towing_company: 'Keiths\'sTowing',
+        lotId: '11987',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        date: '2019-06-22 11:05:38',
+        camera_type: 1,
+        customer_id: 020,
+        site_id: 001,
+        latitude: 100.10,
+        longitude: 100.10,
+        website_site_id: 1,
+        website_location_name: 'website_location',
+        fees: 0.15,
+        date_sold: '2019-07-01 12:00:00',
+        icon_photo: '',
+        photo1_filenames: '[{ "cam1_4k": "./data/vehicle_photos/020/001/190706/00000017/02_4k.jpg", "cam1_p": "./data/vehicle_photos/020/001/190706/00000017/02_p.jpg"}]',
+        location_name: 'Detail Center C',
+        towing_company: 'Seven Star Towing',
+        lotId: '10433',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        date: '2019-06-22 11:05:38',
+        camera_type: 1,
+        customer_id: 020,
+        site_id: 001,
+        latitude: 100.10,
+        longitude: 100.10,
+        website_site_id: 1,
+        website_location_name: 'website_location',
+        fees: 0.15,
+        date_sold: '2019-07-01 12:00:00',
+        icon_photo: '',
+        photo1_filenames: '[{ "cam1_4k": "./data/vehicle_photos/020/001/190702/00000392/02_4k.jpg", "cam1_p": "./data/vehicle_photos/020/001/190702/00000392/02_p.jpg"}]',
+        location_name: 'LOT A, G27',
+        towing_company: 'Keith\'s Towing',
+        lotId: '16555',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        date: '2019-06-30 11:07:38',
+        camera_type: 1,
+        customer_id: 020,
+        site_id: 001,
+        latitude: 100.10,
+        longitude: 100.10,
+        website_site_id: 1,
+        website_location_name: 'website_location',
+        fees: 0.15,
+        date_sold: '2019-07-01 12:00:00',
+        icon_photo: '',
+        photo1_filenames: '[{ "cam1_4k": "./data/vehicle_photos/020/001/190702/00000392/02_4k.jpg", "cam1_p": "./data/vehicle_photos/020/001/190702/00000392/02_p.jpg"}]',
+        location_name: 'GATE 1',
+        towing_company: 'Marvin\'s Towing',
+        lotId: '11008',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+    ], {});
+  },
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.bulkDelete('vehicle_histories', null, {});
+  }
+};
