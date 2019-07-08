@@ -331,22 +331,34 @@ export default {
 
       if (Object(response) === response && Object(response.data) === response.data) {
         let vehicles = response.data;
+<<<<<<< HEAD
+=======
         let vehicles_to_render = [];
 
+>>>>>>> c6a6c35cbbe5f58c649191b4ff4833c17b7390de
         console.table("vehicles\n", vehicles);
 
 
         vehicles.forEach(item => {
           const history = item.history[0];
+<<<<<<< HEAD
+          
+=======
 
+>>>>>>> c6a6c35cbbe5f58c649191b4ff4833c17b7390de
           if(history !== undefined) {
             // we get data from api not in US format, so we had to format it
             item.date = this.format_date(history.date.slice(0, history.date.indexOf("T")));
             item.location = history.location;
             item.towing_company = history.towing_company;
+<<<<<<< HEAD
+          }
+          
+=======
 
             vehicles_to_render.push(item);
           }
+>>>>>>> c6a6c35cbbe5f58c649191b4ff4833c17b7390de
         });
 
         this.activities = vehicles_to_render;
