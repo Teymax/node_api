@@ -4,6 +4,6 @@ const YardController = require('../controllers/yard.controller');
 const passport = require('passport');
 require('../middleware/passport')(passport);
 
-router.post('/list', passport.authenticate('jwt', {session:false}), YardController.report);
+router.post('/report', passport.authenticate('jwt', {session:false}), YardController.report);
 
 module.exports = router;

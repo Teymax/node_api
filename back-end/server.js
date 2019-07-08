@@ -15,7 +15,8 @@ const path = require('path');
 const userRoutes = require('./routes/user.routes');
 //import vehicle routes
 const vehicleRoutes = require('./routes/vehicle.routes');
-
+//import yard routes
+const yardRoutes = require('./routes/yard.routes');
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -25,6 +26,8 @@ app.use(passport.initialize());
 app.use('/user', userRoutes);
 //register vehicle routes
 app.use('/vehicle', vehicleRoutes);
+//register yard routes
+app.use('/yard', yardRoutes);
 
 const port = process.env.PORT || 9000;
 
