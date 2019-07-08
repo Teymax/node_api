@@ -98,7 +98,7 @@
         <template v-slot:item="{ item }">
           <tr>
             <td class="text-xs-center photo-cell">
-              <img alt="Car photo" @click="call_gallery(item.lot_number)" src="https://picsum.photos/80/45?random"></v-btn>
+              <img alt="Car photo" @click="call_gallery(item.lot_number, item.history)" :src="carPreview(item.history[0].icon_photo)"></v-btn>
             </td>
             <td class="text-xs-left">{{ item.date }}</td>
             <td class="text-xs-left">{{ item.time }}</td>
@@ -139,7 +139,7 @@
 
       </v-data-table>
     </v-card>
-    <gallery-card :show_gallery="show_gallery" :lot_id="lot_id" @close_gallery="show_gallery = !show_gallery"></gallery-card>
+    <gallery-card :show_gallery="show_gallery" :history="activeItemHistory" :lot_id="lot_id" @close_gallery="closeGalleryHandler"></gallery-card>
   </div>
 </template>
 
@@ -295,7 +295,8 @@ export default {
       activities: [],
       activities_computed: [],
       show_gallery: false,
-      lot_id: ""
+      lot_id: "",
+      activeItemHistory: {}
     };
   },
   methods: {
@@ -419,13 +420,20 @@ export default {
       this.search_field = "LOT#";
     },
 
-    call_gallery (id) {
+    call_gallery (id, history) {
       this.show_gallery = true
+      this.activeItemHistory = history.length ? history[0] : {}
       this.lot_id = id
     },
-
+    closeGalleryHandler () {
+      this.show_gallery = false
+      this.activeItemHistory = {}
+    },
     change_items_for_render() {
       this.activities_computed = this.activities.slice((this.active_page - 1) * this.rows_amount, this.active_page * this.rows_amount);
+    },
+    carPreview (url) {
+      return url ? this.serverUrl + url.substring(1) : 'https://dummyimage.com/80x45/d9daeb/ffffff.jpg&text=not+loaded'
     },
 
     change_active_page(value) {
@@ -451,6 +459,9 @@ export default {
       let active_page_computed = pages_amount === 0 ? 0 : this.active_page;
 
       return `${active_page_computed} of ${pages_amount}`;
+    },
+    serverUrl () {
+      return 'http://localhost:9000'
     }
   },
 

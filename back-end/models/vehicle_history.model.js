@@ -16,10 +16,10 @@ module.exports = (sequelize, DataTypes) => {
     photo1_filenames: {
       type: DataTypes.STRING,
       get: function () {
-        return JSON.parse(this.getDataValue('value'))
+        return JSON.parse(this.getDataValue('photo1_filenames'))
       },
       set: function (value) {
-        this.setDataValue('value', JSON.stringify(value))
+        this.setDataValue('photo1_filenames', JSON.stringify(value))
       }
     }
   },{

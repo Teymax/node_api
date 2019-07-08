@@ -46,6 +46,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 app.use('/media', express.static(path.join(__dirname, '/media')));
+app.use('/data', express.static(path.join(__dirname, '/data')));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
