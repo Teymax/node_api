@@ -13,14 +13,16 @@ module.exports = (sequelize, DataTypes) => {
         collate: 'utf8_unicode_ci'
     });
     Vehicle_info.associate = function (models) {
-        Vehicle_info.hasOne(models.vehicle_photos,{
-            foreignKey: 'vehicle_id',
-            as: 'vehicle_photos'
-        });
-        Vehicle_info.hasMany(models.vehicle_history,{
-            foreignKey: 'vehicle_id',
+        Vehicle_info.hasMany(models.vehicle_history, {
+            foreignKey: 'lot_id',
             as: 'vehicle_history'
+        });
+    };
+    Vehicle_info.associate = function (models) {
+        Vehicle_info.hasMany(models.vehicle_report, {
+            foreignKey: 'vehicle_id',
+            onDelete: 'CASCADE'
         })
     };
-    return Vehicle_info;
+    return Vehicle_info
 };
