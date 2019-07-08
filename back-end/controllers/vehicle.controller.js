@@ -9,7 +9,7 @@ exports.getVehicles = async (req, res) => {
     let err, vehicles, histories;
     let last_date = new Date(end_date);
     last_date.setDate(last_date.getDate() + 1);
-    if (search_field !== 'location' && search_field !== 'towing_company' && search_field !== '' && search_param !== '') {
+    if (search_field !== 'location_name' && search_field !== 'towing_company' && search_field !== '' && search_param !== '') {
         console.log(['not location or company']);
         [err, vehicles] = await to(Vehicle_info.findAll({
             where: {
@@ -28,7 +28,7 @@ exports.getVehicles = async (req, res) => {
         }));
         if (err) return error(res, err.message, 400);
     }
-    if (search_field === 'location' || search_field === 'towing_company') {
+    if (search_field === 'location_name' || search_field === 'towing_company') {
         console.log(['location or company']);
         [err, vehicles] = await to(Vehicle_info.findAll({
             where: {
