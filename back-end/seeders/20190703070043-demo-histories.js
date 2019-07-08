@@ -1,7 +1,11 @@
 /*'use strict';*/
 
 module.exports = {
-  up: (queryInterface, Sequelize) => {
+  up: async (queryInterface, Sequelize) => {
+    const vehicle_info = await queryInterface.sequelize.query(
+      `SELECT id from vehicle_infos;`
+    );
+    const vehicle_info_rows = vehicle_info[0];
     return queryInterface.bulkInsert('vehicle_histories', [
       {
         date: '2019-06-12 11:03:38',
@@ -15,10 +19,10 @@ module.exports = {
         fees: 0.15,
         date_sold: '2019-07-01 12:00:00',
         icon_photo: './data/vehicle_photos/020/001/190702/00000392/thumb.jpg',
-        photo1_filenames: '[{ "cam1_4k": "./data/vehicle_photos/020/001/190702/00000392/01_4k.jpg", "cam1_p": "./data/vehicle_photos/020/001/190702/00000392/01_p.jpg"}]',
+        photo1_filenames: '[{ "cam1_4k": "./data/vehicle_photos/020/001/190706/00000017/02_4k.jpg", "cam1_p": "./data/vehicle_photos/020/001/190706/00000017/02_p.jpg"}]',
         location_name: 'GATE 1',
         towing_company: 'California Towing',
-        lotId: '14170',
+        lotId: vehicle_info_rows[0].id,
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -37,7 +41,7 @@ module.exports = {
         photo1_filenames: '[{ "cam1_4k": "./data/vehicle_photos/020/001/190706/00000017/01_4k.jpg", "cam1_p": "./data/vehicle_photos/020/001/190706/00000017/01_p.jpg"}]',
         location_name: 'LOT B, A14',
         towing_company: 'Keiths\'sTowing',
-        lotId: '11987',
+        lotId: vehicle_info_rows[1].id,
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -56,7 +60,7 @@ module.exports = {
         photo1_filenames: '[{ "cam1_4k": "./data/vehicle_photos/020/001/190706/00000017/02_4k.jpg", "cam1_p": "./data/vehicle_photos/020/001/190706/00000017/02_p.jpg"}]',
         location_name: 'Detail Center C',
         towing_company: 'Seven Star Towing',
-        lotId: '10433',
+        lotId: vehicle_info_rows[2].id,
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -75,7 +79,7 @@ module.exports = {
         photo1_filenames: '[{ "cam1_4k": "./data/vehicle_photos/020/001/190702/00000392/02_4k.jpg", "cam1_p": "./data/vehicle_photos/020/001/190702/00000392/02_p.jpg"}]',
         location_name: 'LOT A, G27',
         towing_company: 'Keith\'s Towing',
-        lotId: '16555',
+        lotId: vehicle_info_rows[3].id,
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -94,7 +98,7 @@ module.exports = {
         photo1_filenames: '[{ "cam1_4k": "./data/vehicle_photos/020/001/190702/00000392/02_4k.jpg", "cam1_p": "./data/vehicle_photos/020/001/190702/00000392/02_p.jpg"}]',
         location_name: 'GATE 1',
         towing_company: 'Marvin\'s Towing',
-        lotId: '11008',
+        lotId: vehicle_info_rows[4].id,
         createdAt: new Date(),
         updatedAt: new Date()
       },
