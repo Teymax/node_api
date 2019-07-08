@@ -143,7 +143,6 @@ export default {
                   && Object(response.response.data) === response.response.data ) {
 
           this.server_message_login = response.response.data.error;
-          console.dir(this.server_message_login);
         }
       })
     },
@@ -158,7 +157,6 @@ export default {
           this.$router.push("/");
         } else if( Object(response) === response && !response.success ) {
           this.server_message_registration = response;
-          console.dir(response);
         }
       });
     },

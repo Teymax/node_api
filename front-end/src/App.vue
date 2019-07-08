@@ -8,7 +8,6 @@
 <script>
 import PageHeader from "./components/PageHeader";
 import { mapState } from "vuex";
-import { isIP } from 'net';
 
 export default {
   name: "App",

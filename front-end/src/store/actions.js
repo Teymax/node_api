@@ -45,7 +45,6 @@ export default {
   async [actionTypes.SAVE_USER_SETTINGS]({ commit }, params) {
     try {
       const { data } = await API.save_user_settings(params);
-      console.log(data)
       commit(actionTypes.UPDATE_USER_INFO, {email: data.user.email, user_image: data.user.user_image, username: data.user.username});
       return data;
     } catch (e) {

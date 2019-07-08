@@ -9,15 +9,15 @@
       <div class="tabs-container">
         <div class="tabs-row">
 
-          <router-link :to="'/vehicle-delivery'" class="tab-item">
+          <router-link to="/vehicle-delivery" class="tab-item">
             <img src="../assets/home/vehicle-icon.svg" class="tab-icon" alt="Car image">
             <h2  class="tab-title">Vehicle Delivery</h2>
           </router-link>
 
-          <div class="tab-item">
+          <router-link to="/inventory-reports" class="tab-item">
             <img src="../assets/home/inventory-icon.svg" class="tab-icon" alt="Car image">
             <h2 class="tab-title">Inventory Reports</h2>
-          </div>
+          </router-link>
 
           <div class="tab-item">
             <img src="../assets/home/locator-icon.svg" class="tab-icon" alt="Car image">

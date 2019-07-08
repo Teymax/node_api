@@ -65,17 +65,20 @@
           </v-date-picker>
         </v-menu>
 
-        <v-select
-          class="table-select"
-          :items="select_data"
-          max-height="1"
-          width="10"
-          label="Search field"
-          v-model="search_field"
-          @input="$refs.search_input.focus()"
-          @change="clear_search_phraze"
-        ></v-select>
-        <v-text-field v-model="search_phraze" ref="search_input" append-icon="search" class="table-search mr-4" label="Search..." @input="search_vehicles"></v-text-field>
+
+        <v-layout class="flex align-center">
+          <v-select
+            class="table-select"
+            :items="select_data"
+            max-height="1"
+            width="10"
+            label="Search field"
+            v-model="search_field"
+            @input="$refs.search_input.focus()"
+            @change="clear_search_phraze">
+          </v-select>
+          <v-text-field v-model="search_phraze" ref="search_input" append-icon="search" class="table-search mr-4" label="Search..." @input="search_vehicles"></v-text-field>
+        </v-layout>
 
         <v-btn small color="primary" class="mb-2" @click="get_default_data">Clear filters</v-btn>
       </v-card-title>
@@ -143,8 +146,6 @@
 <script>
 import { mapActions } from "vuex";
 import actionTypes from "../store/action-types";
-import { VDaterange } from "vuetify-daterange-picker"
-import "vuetify-daterange-picker/dist/vuetify-daterange-picker.css";
 import { setTimeout, clearTimeout } from "timers";
 import moment from 'moment'
 import Gallery from '../components/Gallery'
@@ -152,7 +153,6 @@ import Gallery from '../components/Gallery'
 export default {
   name: "VehicleDelivery",
   components: {
-    VDaterange,
     'gallery-card': Gallery
   },
   data() {
@@ -225,7 +225,7 @@ export default {
         },
         {
           text: "Year",
-          value: "year",
+          value: "YEAR",
           align: "center"
         },
         {
@@ -328,26 +328,40 @@ export default {
 
     get_vehicle_data_handler(response) {
       // validate response scheme
-      console.warn(response.data);
 
       if (Object(response) === response && Object(response.data) === response.data) {
         let vehicles = response.data;
+<<<<<<< HEAD
+=======
+        let vehicles_to_render = [];
+
+>>>>>>> c6a6c35cbbe5f58c649191b4ff4833c17b7390de
         console.table("vehicles\n", vehicles);
 
 
         vehicles.forEach(item => {
           const history = item.history[0];
+<<<<<<< HEAD
           
+=======
+
+>>>>>>> c6a6c35cbbe5f58c649191b4ff4833c17b7390de
           if(history !== undefined) {
             // we get data from api not in US format, so we had to format it
             item.date = this.format_date(history.date.slice(0, history.date.indexOf("T")));
             item.location = history.location;
             item.towing_company = history.towing_company;
+<<<<<<< HEAD
           }
           
+=======
+
+            vehicles_to_render.push(item);
+          }
+>>>>>>> c6a6c35cbbe5f58c649191b4ff4833c17b7390de
         });
 
-        this.activities = vehicles;
+        this.activities = vehicles_to_render;
       }
     },
 
