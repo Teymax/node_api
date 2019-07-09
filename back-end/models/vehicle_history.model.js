@@ -13,13 +13,13 @@ module.exports = (sequelize, DataTypes) => {
     fees: DataTypes.DECIMAL(8,2),
     towing_company: DataTypes.STRING,
     icon_photo: DataTypes.STRING,
-    photo1_filenames: {
+    photo_filenames: {
       type: DataTypes.STRING,
       get: function () {
-        return JSON.parse(this.getDataValue('photo1_filenames'))
+        return JSON.parse(this.getDataValue('photo_filenames'))
       },
       set: function (value) {
-        this.setDataValue('photo1_filenames', JSON.stringify(value))
+        this.setDataValue('photo_filenames', JSON.stringify(value))
       }
     }
   },{
@@ -32,5 +32,17 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE'
     })
   };
+  Vehicle_history.associate = function (models) {
+    Vehicle_history.hasOne(models.vehicle_report, {
+      foreignKey: 'vehicle_history_id',
+      onDelete: 'CASCADE'
+    })
+  };
+/*  Vehicle_history.associate = function (models) {
+    Vehicle_history.belongsTo(models.vehicle_report, {
+      as: 'vehicle_report_id',
+      onDelete: 'CASCADE'
+    })
+  };*/
   return Vehicle_history;
 };

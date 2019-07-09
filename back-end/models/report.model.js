@@ -8,7 +8,20 @@ module.exports = (sequelize, DataTypes) => {
     });
     Vehicle_Report.associate = function (models) {
         Vehicle_Report.belongsTo(models.vehicle_info,{
-            foreignKey: 'vehicle_id',
+            as: 'vehicle_id',
+            onDelete: 'CASCADE'
+        })
+    };
+
+/*    Vehicle_Report.associate = function (models) {
+        Vehicle_Report.belongsTo(models.vehicle_history, {
+            as: 'vehicle_report_id',
+            onDelete: 'CASCADE'
+        })
+    };*/
+    Vehicle_Report.associate = function (models) {
+        Vehicle_Report.hasOne(models.vehicle_history, {
+            foreignKey: 'vehicle_report_id',
             onDelete: 'CASCADE'
         })
     };

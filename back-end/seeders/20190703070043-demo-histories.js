@@ -19,7 +19,7 @@ module.exports = {
         fees: 0.15,
         date_sold: '2019-07-01 12:00:00',
         icon_photo: './data/vehicle_photos/020/001/190702/00000392/thumb.jpg',
-        photo1_filenames: JSON.stringify([
+        photo_filenames: JSON.stringify([
           {
             cam1_4k: './data/vehicle_photos/020/001/190706/00000017/02_4k.jpg',
             cam1_p: './data/vehicle_photos/020/001/190706/00000017/02_p.jpg'
@@ -43,7 +43,7 @@ module.exports = {
         fees: 0.15,
         date_sold: '2019-07-01 12:00:00',
         icon_photo: './data/vehicle_photos/020/001/190706/00000017/thumb.jpg',
-        photo1_filenames: JSON.stringify([
+        photo_filenames: JSON.stringify([
           {
             cam1_4k: './data/vehicle_photos/020/001/190706/00000017/01_4k.jpg',
             cam1_p: './data/vehicle_photos/020/001/190706/00000017/01_p.jpg'
@@ -67,7 +67,7 @@ module.exports = {
         fees: 0.15,
         date_sold: '2019-07-01 12:00:00',
         icon_photo: '',
-        photo1_filenames: JSON.stringify([
+        photo_filenames: JSON.stringify([
           {
             cam1_4k: './data/vehicle_photos/020/001/190706/00000017/02_4k.jpg',
             cam1_p: './data/vehicle_photos/020/001/190706/00000017/02_p.jpg'
@@ -91,7 +91,7 @@ module.exports = {
         fees: 0.15,
         date_sold: '2019-07-01 12:00:00',
         icon_photo: '',
-        photo1_filenames: JSON.stringify([
+        photo_filenames: JSON.stringify([
           {
             cam1_4k: './data/vehicle_photos/020/001/190702/00000392/02_4k.jpg',
             cam1_p: './data/vehicle_photos/020/001/190702/00000392/02_p.jpg'
@@ -115,7 +115,7 @@ module.exports = {
         fees: 0.15,
         date_sold: '2019-07-01 12:00:00',
         icon_photo: '',
-        photo1_filenames: JSON.stringify([
+        photo_filenames: JSON.stringify([
           {
             cam1_4k: './data/vehicle_photos/020/001/190702/00000392/02_4k.jpg',
             cam1_p: './data/vehicle_photos/020/001/190702/00000392/02_p.jpg'
