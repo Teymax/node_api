@@ -91,6 +91,7 @@
 import actionTypes from "../store/action-types";
 import SettingsForm from "./SettingsForm.vue";
 import { mapActions, mapState } from "vuex";
+import api from "../api/axiosInstance";
 
 export default {
   name: "PageHeader",
@@ -104,7 +105,9 @@ export default {
       user_image: state => state.user_data.user_image
     }),
     avatar () {
-      const databaseImage = this.user_image ? `http://localhost:9000/${this.user_image}` : ''
+      const server_url = api.defaults.baseURL;
+
+      const databaseImage = this.user_image ? `${server_url}/${this.user_image}` : ''
       return databaseImage || `https://ui-avatars.com/api/?name=${this.initial_username}`
     },
     // changes background color of header. It should blue on all pages instead of home page

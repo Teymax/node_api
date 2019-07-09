@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import api from "../api/axiosInstance";
+
 export default {
   name: "gallery",
   props: {
@@ -50,7 +52,7 @@ export default {
   },
   computed: {
     serverUrl () {
-      return 'http://localhost:9000'
+      return api.defaults.baseURL
     },
     photos () {
       const photosDimensionalArray = this.history.photo1_filenames ? this.history.photo1_filenames.map(item => {

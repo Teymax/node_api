@@ -3,94 +3,100 @@
     <h2 class="page-header-text">Vehicle Delivery</h2>
     <v-card>
       <v-card-title>
-        Activity
-        <v-spacer></v-spacer>
-        <v-menu
-          class="date-menu"
-          ref="start_date_menu"
-          v-model="start_menu"
-          :close-on-content-click="false"
-          :return-value.sync="start_date"
-          transition="scale-transition"
-          offset-y
-          full-width
-          min-width="190px"
-        >
-          <template class="date-slot" v-slot:activator="{ on }">
-            <v-text-field
-              class="date-text-field"
-              v-model="start_date"
-              label="From"
-              prepend-icon="event"
-              readonly
-              v-on="on"
-            ></v-text-field>
-          </template>
-          <v-date-picker
-            class="date-picker"
-            v-model="start_date"
-            @input="save_start_date"
-            :max="new Date().toISOString()">
-          </v-date-picker>
-        </v-menu>
+        <v-layout column>
+          <v-layout row>
+            Activity
+          </v-layout>  
 
-        <v-menu
-          class="date-menu"
-          ref="end_date_menu"
-          v-model="end_menu"
-          :close-on-content-click="false"
-          :return-value.sync="end_date"
-          transition="scale-transition"
-          offset-y
-          full-width
-          min-width="190px"
-        >
-          <template class="date-slot" v-slot:activator="{ on }">
-            <v-text-field
-              class="date-text-field"
-              v-model="end_date"
-              label="To"
-              prepend-icon="event"
-              readonly
-              v-on="on"
-            ></v-text-field>
-          </template>
+          <v-spacer></v-spacer>   
 
-          <v-date-picker
-            class="date-picker"
-            v-model="end_date"
-            :min="new Date(start_date).toISOString()"
-            @input="save_end_date"
-            :max="new Date().toISOString()">
-          </v-date-picker>
-        </v-menu>
+          <v-layout row align-center justify-end> 
+            <v-switch  v-model="enable_date_search" class="mr-4" label="Enable date search"></v-switch>
+
+            <v-menu
+              class="date-menu"
+              ref="start_date_menu"
+              v-model="start_menu"
+              :close-on-content-click="false"
+              :return-value.sync="start_date"
+              transition="scale-transition"
+              offset-y
+              full-width
+              min-width="190px"
+            >
+              <template class="date-slot" v-slot:activator="{ on }">
+                <v-text-field
+                  :disabled="!enable_date_search"
+                  class="date-text-field"
+                  v-model="start_date"
+                  label="From"
+                  prepend-icon="event"
+                  readonly
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                class="date-picker"
+                v-model="start_date"
+                @input="save_start_date"
+                :max="new Date().toISOString()">
+              </v-date-picker>
+            </v-menu>
+
+            <v-menu
+              class="date-menu"
+              ref="end_date_menu"
+              v-model="end_menu"
+              :close-on-content-click="false"
+              :return-value.sync="end_date"
+              transition="scale-transition"
+              offset-y
+              full-width
+              min-width="190px"
+            >
+              <template class="date-slot" v-slot:activator="{ on }">
+                <v-text-field
+                  :disabled="!enable_date_search"
+                  class="date-text-field"
+                  v-model="end_date"
+                  label="To"
+                  prepend-icon="event"
+                  readonly
+                  v-on="on"
+                ></v-text-field>
+              </template>
+
+              <v-date-picker
+                class="date-picker"
+                v-model="end_date"
+                :min="new Date(start_date).toISOString()"
+                @input="save_end_date"
+                :max="new Date().toISOString()">
+              </v-date-picker>
+            </v-menu>
 
 
-        <v-layout class="flex align-center">
-          <v-select
-            class="table-select"
-            :items="select_data"
-            max-height="1"
-            width="10"
-            label="Search field"
-            v-model="search_field"
-            @input="$refs.search_input.focus()"
-            @change="clear_search_phraze">
-          </v-select>
-          <v-text-field v-model="search_phraze" ref="search_input" append-icon="search" class="table-search mr-4" label="Search..." @input="search_vehicles"></v-text-field>
+            <v-layout class="search-container flex align-center">
+              <v-select
+                class="table-select"
+                :items="select_data"
+                max-height="1"
+                label="Search field"
+                v-model="search_field"
+                @input="$refs.search_input.focus()"
+                @change="clear_search_phraze">
+              </v-select>
+              <v-text-field v-model="search_phraze" ref="search_input" append-icon="search" class="table-search mr-4" label="Search..." @input="search_vehicles"></v-text-field>
+            </v-layout>
+            <v-btn small color="primary" class="mb-2" @click="get_default_data">Clear filters</v-btn>
+
+          </v-layout>
         </v-layout>
-
-        <v-btn small color="primary" class="mb-2" @click="get_default_data">Clear filters</v-btn>
       </v-card-title>
-
-<!-- :footer-props="{ 'rows-per-page-items': [50, 100, 150] }" -->
-<!-- :hide-default-footer="true" -->
-<!-- :items-per-page="50" -->
 
       <v-data-table
         :headers="headers_table"
         :items="activities_computed"
-        :search="search_on_front"
         :hide-default-footer="true"
         class="elevation-1"
         ref="table"
@@ -98,7 +104,7 @@
         <template v-slot:item="{ item }">
           <tr>
             <td class="text-xs-center photo-cell">
-              <img alt="Car photo" @click="call_gallery(item.lot_number, item.history)" :src="carPreview(item.history[0].icon_photo)"></v-btn>
+              <img v-if="carPreview(item)" alt="Car photo" @click="call_gallery(item.lot_number, item.history)" :src="carPreview(item)"></v-btn>
             </td>
             <td class="text-xs-left">{{ item.date }}</td>
             <td class="text-xs-left">{{ item.time }}</td>
@@ -121,7 +127,6 @@
             <div class="rows_select mr">
               <v-select v-model="rows_amount" :items="items_per_page"></v-select>
             </div>
-            <!-- <span class="mr rows-amount-label">{{ page_info }}</span> -->
 
             <v-btn @click="change_active_page(-1)" icon class="v-btn v-btn--fab v-btn--flat v-btn--icon v-btn--round v-btn--text theme--light v-size--default">
               <v-icon class="">chevron_left</v-icon>
@@ -147,8 +152,9 @@
 import { mapActions } from "vuex";
 import actionTypes from "../store/action-types";
 import { setTimeout, clearTimeout } from "timers";
-import moment from 'moment'
-import Gallery from '../components/Gallery'
+import moment from 'moment';
+import Gallery from '../components/Gallery';
+import api from "../api/axiosInstance";
 
 export default {
   name: "VehicleDelivery",
@@ -160,7 +166,7 @@ export default {
       date: "",
       start_menu: false,
       end_menu: false,
-      search_on_front: "",
+      enable_date_search: false,
       search_field: "LOT#",
       search_phraze: "",
       start_date: new Date().toISOString(),
@@ -175,120 +181,51 @@ export default {
       headers_table: [
         {
           text: "",
-          value: "img",
-          align: "center"
+          value: "img"
         },
         {
           text: "DATE",
-          value: "date",
-          align: "center"
+          value: "date"
         },
         {
           text: "TIME",
-          value: "time",
-          align: "center"
+          value: "time"
         },
         {
           text: "LOCATION",
-          value: "location",
-          align: "center"
+          value: "location"
         },
         {
           text: "LOT#",
-          value: "lot_number",
-          align: "center"
+          value: "lot_number"
         },
         {
           text: "LP",
-          value: "license_plate",
-          align: "center"
+          value: "license_plate"
         },
         {
           text: "TYPE",
-          value: "type",
-          align: "center"
+          value: "type"
         },
         {
           text: "COLOR",
-          value: "color",
-          align: "center"
+          value: "color"
         },
         {
           text: "MAKE",
-          value: "make",
-          align: "center"
+          value: "make"
         },
         {
           text: "MODEL",
-          value: "model",
-          align: "center"
+          value: "model"
         },
         {
-          text: "Year",
-          value: "YEAR",
-          align: "center"
-        },
-        {
-          text: "TOWING COMPANY",
-          value: "towing_company",
-          align: "center"
-        }
-      ],
-      headers: [
-        {
-          text: "LOT#",
-          value: "lot_number",
-          align: "center"
-        },
-        {
-          text: "TYPE",
-          value: "type",
-          align: "center"
-        },
-        {
-          text: "COLOR",
-          value: "color",
-          align: "center"
-        },
-        {
-          text: "MAKE",
-          value: "make",
-          align: "center"
-        },
-        {
-          text: "MODEL",
-          value: "model",
-          align: "center"
-        },
-        {
-          text: "Year",
-          value: "year",
-          align: "center"
-        },
-        {
-          text: "LP",
-          value: "license_plate",
-          align: "center"
-        },
-        {
-          text: "DATE",
-          value: "date",
-          align: "center"
-        },
-        {
-          text: "TIME",
-          value: "time",
-          align: "center"
-        },
-        {
-          text: "LOCATION",
-          value: "location",
-          align: "center"
+          text: "YEAR",
+          value: "year"
         },
         {
           text: "TOWING COMPANY",
-          value: "towing_company",
-          align: "center"
+          value: "towing_company"
         }
       ],
       api_timeout: null,
@@ -316,17 +253,6 @@ export default {
       return `${month}/${day}/${year.slice(2, 4)}`;
     },
 
-    format_date_for_api(date) {
-      return(
-        date.getFullYear() + "-" +
-        ("00" + (date.getMonth() + 1)).slice(-2) + "-" +
-        ("00" + date.getDate()).slice(-2) + " " +
-        ("00" + date.getHours()).slice(-2) + ":" +
-        ("00" + date.getMinutes()).slice(-2) + ":" +
-        ("00" + date.getSeconds()).slice(-2)
-      )
-    },
-
     get_vehicle_data_handler(response) {
       // validate response scheme
 
@@ -342,7 +268,8 @@ export default {
           if(history !== undefined) {
             // we get data from api not in US format, so we had to format it
             item.date = this.format_date(history.date.slice(0, history.date.indexOf("T")));
-            item.location = history.location;
+            item.time = moment(history.date).format("HH:MM:SS");
+            item.location = history.location_name;
             item.towing_company = history.towing_company;
 
             vehicles_to_render.push(item);
@@ -357,15 +284,15 @@ export default {
       let computed_search_field;
 
       // get correct field names for request from v-select UI
-      this.headers.forEach(item => {
+      this.headers_table.forEach(item => {
         if(item.text === this.search_field) {
           computed_search_field = item.value;
         }
       })
 
       let params = {
-        start_date: this.start_date,
-        end_date: this.end_date,
+        start_date: this.enable_date_search ? this.start_date : "",
+        end_date: this.enable_date_search ? this.enable_date : "",
         search_field: computed_search_field,
         search_param: this.search_phraze
       };
@@ -425,15 +352,25 @@ export default {
       this.activeItemHistory = history.length ? history[0] : {}
       this.lot_id = id
     },
+
     closeGalleryHandler () {
       this.show_gallery = false
       this.activeItemHistory = {}
     },
+
     change_items_for_render() {
       this.activities_computed = this.activities.slice((this.active_page - 1) * this.rows_amount, this.active_page * this.rows_amount);
     },
-    carPreview (url) {
-      return url ? this.serverUrl + url.substring(1) : 'https://dummyimage.com/80x45/d9daeb/ffffff.jpg&text=not+loaded'
+
+    carPreview(vehicle) {
+      if(Object(vehicle) === vehicle 
+          && Object(vehicle.history[0]) === vehicle.history[0] 
+          && vehicle.history[0].photo1_filenames.length) 
+      {
+        return vehicle.history[0].icon_photo ? this.serverUrl + vehicle.history[0].icon_photo.substring(1) : 'https://dummyimage.com/80x45/d9daeb/ffffff.jpg&text=not+loaded'
+      }
+
+      return false;
     },
 
     change_active_page(value) {
@@ -446,10 +383,11 @@ export default {
       }
     }
   },
+
   computed: {
     select_data() {
       // here we get field names for rendering in v-select component
-      return this.headers.map(item => item.text).filter(item => item.toLowerCase() !== "date");
+      return this.headers_table.map(item => item.text).filter(item => item.toLowerCase() !== "date" && item.toLowerCase() !== "");
     },
 
     page_info() {
@@ -461,7 +399,7 @@ export default {
       return `${active_page_computed} of ${pages_amount}`;
     },
     serverUrl () {
-      return 'http://localhost:9000'
+      return api.defaults.baseURL;
     }
   },
 
@@ -506,6 +444,11 @@ export default {
     text-align: left !important;
     font-weight: bold;
     color: #333 !important;
+    font-size: 0.9rem;
+  }
+
+  .v-data-table td {
+    font-size: 0.9rem;
   }
 
   .table-select {
@@ -522,10 +465,6 @@ export default {
     }
   }
 
-  .table-search {
-    flex: inherit;
-  }
-
   .table-footer {
     display: flex;
     justify-content: flex-end;
@@ -535,7 +474,13 @@ export default {
     width: 100px;
   }
 
+  .search-container {
+    max-width: 36rem;
+  }
+
   .table-search {
+    flex: inherit;
+
     .v-input__slot {
       padding: 2px 10px;
       border-radius: 0 5px 5px 0;
@@ -593,4 +538,5 @@ export default {
     }
   }
 }
+
 </style>
