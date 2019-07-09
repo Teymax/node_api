@@ -412,6 +412,10 @@ export default {
     rows_amount() {
       this.active_page = 1;
       this.change_items_for_render();
+    },
+
+    enable_date_search() {
+      this.search_vehicles();
     }
   },
 
