@@ -14,13 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     });
     Vehicle_info.associate = function (models) {
         Vehicle_info.hasMany(models.vehicle_history, {
-            foreignKey: 'lot_number',
-            as: 'vehicle_history'
-        });
-    };
-    Vehicle_info.associate = function (models) {
-        Vehicle_info.hasMany(models.vehicle_report, {
-            foreignKey: 'vehicle_id',
+            foreignKey: 'lotId',
             onDelete: 'CASCADE'
         })
     };

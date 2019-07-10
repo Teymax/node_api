@@ -26,23 +26,5 @@ module.exports = (sequelize, DataTypes) => {
     charset: 'utf8',
     collate: 'utf8_unicode_ci'
   });
-  Vehicle_history.associate = function (models) {
-    Vehicle_history.belongsTo(models.vehicle_info,{
-      as: 'lot',
-      onDelete: 'CASCADE'
-    })
-  };
-  Vehicle_history.associate = function (models) {
-    Vehicle_history.hasOne(models.vehicle_report, {
-      foreignKey: 'vehicle_history_id',
-      onDelete: 'CASCADE'
-    })
-  };
-/*  Vehicle_history.associate = function (models) {
-    Vehicle_history.belongsTo(models.vehicle_report, {
-      as: 'vehicle_report_id',
-      onDelete: 'CASCADE'
-    })
-  };*/
   return Vehicle_history;
 };

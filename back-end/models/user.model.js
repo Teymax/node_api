@@ -40,5 +40,11 @@ module.exports = (sequelize, DataTypes) => {
     return this;
   };
 
+  Model.associate = function (models) {
+    Model.hasMany(models.vehicle_report,{
+      foreignKey: 'user_id',
+      onDelete: 'CASCADE'
+    })
+  };
   return Model;
 };
