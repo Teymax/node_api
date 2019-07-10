@@ -10,8 +10,10 @@
 
           <v-spacer></v-spacer>   
 
-          <v-layout row align-center justify-end> 
+          <v-layout class="filters-line" row align-center justify-end wrap> 
             <v-switch  v-model="enable_date_search" class="mr-4" label="Enable date search"></v-switch>
+
+            <v-spacer></v-spacer>
 
             <v-menu
               class="date-menu"
@@ -166,7 +168,7 @@ export default {
       date: "",
       start_menu: false,
       end_menu: false,
-      enable_date_search: false,
+      enable_date_search: true,
       search_field: "LOT#",
       search_phraze: "",
       start_date: new Date().toISOString(),
@@ -292,7 +294,7 @@ export default {
 
       let params = {
         start_date: this.enable_date_search ? this.start_date : "",
-        end_date: this.enable_date_search ? this.enable_date : "",
+        end_date: this.enable_date_search ? this.end_date : "",
         search_field: computed_search_field,
         search_param: this.search_phraze
       };
@@ -341,6 +343,7 @@ export default {
     get_default_data () {
       this.start_date = this.end_date = moment().format('YYYY-MM-DD');
       this.search_phraze = "";
+      this.enable_date_search = false;
 
       this.search_vehicles();
 
@@ -365,7 +368,7 @@ export default {
     carPreview(vehicle) {
       if(Object(vehicle) === vehicle 
           && Object(vehicle.history[0]) === vehicle.history[0] 
-          && vehicle.history[0].photo1_filenames.length) 
+          && vehicle.history[0].photo_filenames.length) 
       {
         return vehicle.history[0].icon_photo ? this.serverUrl + vehicle.history[0].icon_photo.substring(1) : 'https://dummyimage.com/80x45/d9daeb/ffffff.jpg&text=not+loaded'
       }
@@ -539,6 +542,12 @@ export default {
 
     .rows_select {
       max-width: 50px;
+    }
+  }
+
+  @media screen and (max-width: 1300px) {
+    .filters-line {
+      justify-content: center !important;
     }
   }
 }

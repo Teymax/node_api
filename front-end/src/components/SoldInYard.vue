@@ -169,7 +169,6 @@ import actionTypes from "../store/action-types";
 import { setTimeout, clearTimeout } from "timers";
 import moment from 'moment'
 import Gallery from '../components/Gallery'
-
 export default {
   name: "InventoryReports",
   components: {
@@ -188,7 +187,6 @@ export default {
       rows_amount: 50,
       active_page: 1,
       dialog: {},
-
       fees: {
         group_1: {
           total_fees: 0,
@@ -202,7 +200,6 @@ export default {
           lot_sold: 11.2
         }
       },
-
       
       // unic data for separate tables
       // common data is stored data object
@@ -225,7 +222,6 @@ export default {
             activities_computed: {},
           }
         },
-
         location_discrepancy: {
           title: "Row Location Discrepancy",
           active: false,
@@ -244,7 +240,6 @@ export default {
             activities_computed: {}
           }
         },
-
         location_confirmed: {
           title: "Row Location Confirmed",
           active: false,
@@ -264,7 +259,6 @@ export default {
           }
         }
       },
-
       headers_table: [
         {
           text: "",
@@ -310,72 +304,54 @@ export default {
        * function get_vehicle_data
        * optional params { start_date, end_date, search_field, search_param }
       */
-
       get_vehicle_data: actionTypes.GET_VEHICLE_DATA
     }),
-
     format_date(date) {
       if (!date) return null;
-
       const [year, month, day] = date.split("-");
       return `${month}/${day}/${year.slice(2, 4)}`;
     },
-
-
     get_vehicle_data_handler(response, table) {
       /**
        * response - response from api
        * table - target table
        */ 
-
       // validate response scheme
-
       if (Object(response) === response && Object(response.data) === response.data) {
         let vehicles = response.data;
         let vehicles_to_render = [];
-
         console.table("vehicles\n", vehicles);
-
-
         vehicles.forEach(item => {
           const history = item.history[0];
-
           if(history !== undefined) {
             // we get data from api not in US format, so we had to format it
             item.date = this.format_date(history.date.slice(0, history.date.indexOf("T")));
             item.location = history.location;
             item.towing_company = history.towing_company;
-
             vehicles_to_render.push(item);
           }
         });
-
         table.activities = vehicles_to_render;
       }
     },
-
     search_vehicles() {
       let computed_search_field;
-
       // get correct field names for request from v-select UI
       this.headers.forEach(item => {
         if(item.text === this.search_field) {
           computed_search_field = item.value;
         }
       })
-
       let params = {
         start_date: this.start_date,
         end_date: this.end_date,
         search_field: computed_search_field,
         search_param: this.search_phraze
       };
-
       // debounce api call
       if(this.api_timeout) {
         clearTimeout(this.api_timeout);
       }
-
       this.api_timeout = setTimeout(() => {
         this.get_vehicle_data(params)
           .then(response => {
@@ -385,82 +361,61 @@ export default {
             console.error(err);
           });
       }, 500)
-
     },
-
     get_table_data() {
-
     },
-
-
-
     save_start_date() {
       // if (this.start_date > this.end_date) {
       //   this.start_date = this.end_date;
       // }
-
       this.$refs.start_date_menu.save(this.start_date);
       this.$refs.end_date_menu.save(this.end_date);
-
       this.end_date = this.start_date;
-
       this.search_vehicles();
       this.start_menu = false;
     },
-
     call_gallery (id) {
       this.show_gallery = true
       this.lot_id = id
     },
-
     change_items_for_render(target) {
       target.activities_computed = target.activities.slice((target.active_page - 1) * target.rows_amount, target.active_page * target.rows_amount);
     },
-
     change_active_page(value, target) {
       let new_page = target.active_page + value;
       let pages_amount = Math.ceil(target.activities.length / target.rows_amount);
-
       if(new_page >= 1 && new_page <= pages_amount) {
         target.active_page = new_page;
         this.change_items_for_render(target);
       }
     }
   },
-
   computed: {
     select_data() {
       // here we get field names for rendering in v-select component
       return this.headers.map(item => item.text).filter(item => item.toLowerCase() !== "date");
     },
-
     page_info() {
       // return pagination info
-
       let pages_amount = Math.ceil(this.activities.length / this.rows_amount);
       let active_page_computed = pages_amount === 0 ? 0 : this.active_page;
-
       return `${active_page_computed} of ${pages_amount}`;
     }
   },
-
   watch: {
     // if activities array is changed we run the following func
     activities() {
       this.change_items_for_render();
     },
-
     rows_amount() {
       this.active_page = 1;
       this.change_items_for_render();
     }
   },
-
   created() {
     // this.get_default_data();
   }
 };
-
 </script>
 
 

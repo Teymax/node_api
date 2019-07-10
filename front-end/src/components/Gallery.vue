@@ -31,7 +31,6 @@
 
 <script>
 import api from "../api/axiosInstance";
-
 export default {
   name: "gallery",
   props: {
@@ -55,7 +54,7 @@ export default {
       return api.defaults.baseURL
     },
     photos () {
-      const photosDimensionalArray = this.history.photo1_filenames ? this.history.photo1_filenames.map(item => {
+      const photosDimensionalArray = Object(this.history) === this.history && this.history.photo_filenames ? this.history.photo_filenames.map(item => {
         return Object.values(item)
       }) : []
       let photos = []
@@ -79,5 +78,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

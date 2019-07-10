@@ -92,7 +92,6 @@ import actionTypes from "../store/action-types";
 import SettingsForm from "./SettingsForm.vue";
 import { mapActions, mapState } from "vuex";
 import api from "../api/axiosInstance";
-
 export default {
   name: "PageHeader",
   data: () => ({
@@ -106,7 +105,6 @@ export default {
     }),
     avatar () {
       const server_url = api.defaults.baseURL;
-
       const databaseImage = this.user_image ? `${server_url}/${this.user_image}` : ''
       return databaseImage || `https://ui-avatars.com/api/?name=${this.initial_username}`
     },
@@ -141,53 +139,42 @@ export default {
 
 <style lang="scss">
 @import "../css/variables";
-
 .header-colorized {
   background-color: #051d3e;
 }
-
 .page-header {
   .company-name {
     display: inline-block;
     color: $text-primary;
   }
-
   .page-header {
     padding: 0 5px;
   }
-
   .container {
     display: flex;
   }
-
   .header-container {
     justify-content: space-between;
     padding: 15px 24px;
   }
-
   .nav-block {
     display: flex;
     align-items: center;
   }
-
   .v-icon {
     color: $text-primary;
   }
-
   .icon-nav {
     margin-right: 5px;
   }
-
   .user-block {
     display: flex;
     align-items: center;
   }
-
   .user-name {
     color: $text-primary;
     margin-right: 10px;
   }
-
   .user-photo {
     width: 30px;
     height: 30px;
@@ -195,47 +182,37 @@ export default {
     border-radius: 100%;
     margin-right: 10px;
   }
-
   .user-photo img {
     width: 100%;
     border-radius: 50%;
   }
-
   .icon-expand:hover {
     cursor: pointer;
   }
-
   .v-navigation-drawer__content {
     background-color: #182e4c;
   }
-
   .navigation-item:hover {
     background-color: #4c5b70;
   }
-
   .theme--light.v-btn:not(.v-btn--flat) {
     background-color: inherit !important;
   }
-
   .active-nav-item {
     background-color: #4c5b70;
   }
-
   .nav-drawer {
     .v-list-item__content .v-list-item__title {
       color: white;
       font-size: 0.85rem !important;
     }
-
     .tab-icon {
       width: 23px;
       margin-left: 10px;
     }
-
     .v-list-item__icon {
       margin-right: 25px !important;
     }
-
     .nav-link {
       width: 100%;
       display: flex;
@@ -243,7 +220,6 @@ export default {
     }
   }
 }
-
 .settings_bar {
   width: 200px;
   display: flex;
@@ -271,5 +247,4 @@ export default {
     padding-right: 10px;
   }
 }
-
 </style>
